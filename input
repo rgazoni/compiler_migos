@@ -1,7 +1,9 @@
-{
-            Trata Comentário e Consome espaços Pega Token
-            Coloca Token na Lista de Tokens
-        }
-    Fecha arquivo fonte
+Algoritmo Analisador Lexical (Nível 0) Inicio
+Abre arquivo fonte
+Enquanto não acabou o arquivo fonte Faça {
+Trata Comentário e Consome espaços Pega Token
+Coloca Token na Lista de Tokens
+}
+Fecha arquivo fonte
 Fim
 
