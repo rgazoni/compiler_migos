@@ -4,6 +4,7 @@
 
 void unnecessary_characters_dump(char *c, std::ifstream &file);
 void handle_reserved_words_and_identifiers(char *c, std::ifstream &file);
+void handle_digit(char *c, std::ifstream &file);
 
 int main(int argc, char *argv[]) {
 
@@ -21,9 +22,12 @@ int main(int argc, char *argv[]) {
     if (!file.eof()) {
       if (isalpha(*c)) {
         handle_reserved_words_and_identifiers(c, file);
-      } else {
+      } else if(isdigit(*c)){
+        handle_digit(c, file);
+      } 
+      else {
         file.get(*c);
-      }
+      } 
     }
   }
   file.close();
@@ -108,4 +112,21 @@ void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {
   insert_node(token);
   std::cout << token->lexem << " " << token->symbol << std::endl;
 }
+
+void handle_digit(char *c, std::ifstream &file) { 
+    std::string word;
+    word = *c;
+    file.get(*c);
+    while (isdigit(*c) && !file.eof()) {
+        word += c;
+        file.get(*c);
+    }
+    Node *token = new_node(word,"snumero");
+    insert_node(token);
+}
+
+
+
+
+
 
