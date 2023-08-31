@@ -108,3 +108,113 @@ void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {
   insert_node(token);
   std::cout << token->lexem << " " << token->symbol << std::endl;
 }
+
+
+trata atribuição
+...
+Senão Se char = “:”
+    Inicio
+        caracter <- char
+        ler(char)
+        Se char == '='{
+            tk.simbolo <- satribuicao
+            tk.lexema <- caracter.concat "="
+            ler(char)
+        } Senao{
+            tk.simbolo <- sdoispontos
+            tk.lexema <- caracter
+        }       
+    fim
+Senão Se caractere  {+,-,*} 
+...
+
+
+
+trata operador aritmetico
+...
+Senão Se caractere existir {+,-,*}
+    Inicio
+        char <- caractere
+        ler(char)
+        Se caractere == '+'
+            tk.simbolo <- smais
+            tk.lexema <- char
+        Senao se caractere == '-'
+            tk.simbolo <- smenos
+            tk.lexema <- char
+        Senao se caractere == '*'
+            tk.simbolo <- smult
+            tk.lexema <- char
+    Fim
+Senão Se caractere  {!,<,>,=}
+...
+
+
+
+Trata Operador Relacional
+... 
+Senão Se caractere  {!,<,>,=}
+    Inicio
+        char <- caractere
+        ler(char)
+        Se caractere == '>'
+            Se char == '='
+                tk.simbolo <- smaiorig
+                tk.lexema <- caractere.concat(char)
+                ler(char)
+            Senão
+                tk.simbolo <- smaior
+                tk.lexema <- char
+        Se caractere == '<'
+           Se char == '='
+                tk.simbolo <- smenorig
+                tk.lexema <- caractere.concat(char)
+                ler(char)
+            Senão
+                tk.simbolo <- smenor
+                tk.lexema <- char
+        Se caractere == '!'
+            Se char == '='
+                tk.simbolo <- sdif
+                tk.lexema <- caractere.concat(char)
+                ler(char)
+            Senão
+                ERRO
+        Se caractere == '='
+            tk.simbolo <- sig
+            tk.lexema <- char
+    Fim
+Senão Se caractere  {; , ( ) .}
+...
+
+
+
+Trata Pontuação
+...
+Senão Se caractere  {; , ( ) .}
+    Inicio
+        char <- caractere
+        ler(char)
+        Se caractere == ';'
+            tk.simbolo <- sponto_virgula
+            tk.lexema <- char
+        Senao se caractere == ','
+            tk.simbolo <- svírgula
+            tk.lexema <- char
+        Senao se caractere == '('
+            tk.simbolo <- sabre_parenteses
+            tk.lexema <- char
+        Senao se caractere == ')'
+            tk.simbolo <- sfecha_parenteses
+            tk.lexema <- char
+        Senao se caractere == '.'
+            tk.simbolo <- sponto
+            tk.lexema <- char
+        Senao
+            ERRO
+    Fim
+
+
+
+
+exceçao
