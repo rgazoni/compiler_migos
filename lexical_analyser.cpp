@@ -1,38 +1,9 @@
+#include "linked_list.h"
 #include <fstream>
 #include <iostream>
 
-//--------- Dealing with Linked List ---------
-class Node {
-public:
-  std::string lexem;
-  std::string symbol;
-  Node *next;
-};
-Node *head = NULL;
-
-void insert_node(Node *node) {
-  if (head == NULL) {
-    head = node;
-  } else {
-    Node *temp = head;
-    while (temp->next != NULL) {
-      temp = temp->next;
-    }
-    temp->next = node;
-  }
-}
-
-void print_linked_list() {
-  Node *temp = head;
-  while (temp != NULL) {
-    std::cout << temp->lexem << " " << temp->symbol << std::endl;
-    temp = temp->next;
-  }
-}
-// -------------------------------------------
-
-void unnecessary_characters_dump(char c, std::ifstream &file);
-void handle_reserved_words_and_identifiers(char c, std::ifstream &file);
+void unnecessary_characters_dump(char *c, std::ifstream &file);
+void handle_reserved_words_and_identifiers(char *c, std::ifstream &file);
 
 int main(int argc, char *argv[]) {
 
@@ -42,15 +13,17 @@ int main(int argc, char *argv[]) {
     std::cout << "Error opening file" << std::endl;
     return 1;
   }
-  char c;
-  file.get(c);
+  char *c = new char;
+  file.get(*c);
   while (!file.eof()) {
     unnecessary_characters_dump(c, file);
+    std::cout << "NEXT WORD: " << c << std::endl;
     if (!file.eof()) {
-      if (isalpha(c)) {
+      if (isalpha(*c)) {
         handle_reserved_words_and_identifiers(c, file);
+      } else {
+        file.get(*c);
       }
-      file.get(c);
     }
   }
   file.close();
@@ -59,33 +32,32 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-void unnecessary_characters_dump(char c, std::ifstream &file) {
-  while ((c == '{' || c == ' ') && !file.eof()) {
-    if (c == '{') {
-      while (c != '}' && !file.eof()) {
-        file.get(c);
+void unnecessary_characters_dump(char *c, std::ifstream &file) {
+  while ((*c == '{' || *c == ' ') && !file.eof()) {
+    if (*c == '{') {
+      while (*c != '}' && !file.eof()) {
+        file.get(*c);
       }
-      file.get(c);
-      while (c == ' ' && !file.eof()) {
-        file.get(c);
-      }
+      file.get(*c);
+    }
+    while (*c == ' ' && !file.eof()) {
+      file.get(*c);
     }
   }
 }
 
 // Receive a alphanumeric character
-void handle_reserved_words_and_identifiers(char c, std::ifstream &file) {
+void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {
   std::string word;
   // Add the first character to the word string
   word += c;
-  file.get(c);
+  file.get(*c);
   // Form lexem
-  while (isalpha(c) || isdigit(c) || c == '_' && !file.eof()) {
-    word += c;
-    file.get(c);
+  while (isalpha(*c) || isdigit(*c) || *c == '_' && !file.eof()) {
+    word += *c;
+    file.get(*c);
   }
-  Node *token = new Node();
-  token->lexem = word;
+  Node *token = new_node(word, "");
 
   if (word == "programa") {
     token->symbol = "sprograma";
@@ -134,4 +106,5 @@ void handle_reserved_words_and_identifiers(char c, std::ifstream &file) {
   }
 
   insert_node(token);
+  std::cout << token->lexem << " " << token->symbol << std::endl;
 }
