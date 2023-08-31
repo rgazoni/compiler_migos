@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 
-// Creating a node
+//--------- Dealing with Linked List ---------
 class Node {
 public:
   std::string lexem;
@@ -22,7 +22,17 @@ void insert_node(Node *node) {
   }
 }
 
+void print_linked_list() {
+  Node *temp = head;
+  while (temp != NULL) {
+    std::cout << temp->lexem << " " << temp->symbol << std::endl;
+    temp = temp->next;
+  }
+}
+// -------------------------------------------
+
 void unnecessary_characters_dump(char c, std::ifstream &file);
+void handle_reserved_words_and_identifiers(char c, std::ifstream &file);
 
 int main(int argc, char *argv[]) {
 
@@ -36,8 +46,16 @@ int main(int argc, char *argv[]) {
   file.get(c);
   while (!file.eof()) {
     unnecessary_characters_dump(c, file);
+    if (!file.eof()) {
+      if (isalpha(c)) {
+        handle_reserved_words_and_identifiers(c, file);
+      }
+      file.get(c);
+    }
   }
   file.close();
+  printf("\n");
+  print_linked_list();
   return 0;
 }
 
@@ -48,13 +66,10 @@ void unnecessary_characters_dump(char c, std::ifstream &file) {
         file.get(c);
       }
       file.get(c);
+      while (c == ' ' && !file.eof()) {
+        file.get(c);
+      }
     }
-    while (c == ' ' && !file.eof()) {
-      file.get(c);
-    }
-  }
-  if (!file.eof()) {
-    std::cout << c;
   }
 }
 
