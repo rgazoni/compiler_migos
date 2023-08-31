@@ -1,0 +1,99 @@
+trata atribuição
+...
+Senão Se char = “:”
+    Inicio
+        caracter <- char
+        ler(char)
+        Se char == '='{
+            tk.simbolo <- satribuicao
+            tk.lexema <- caracter.concat "="
+            ler(char)
+        } Senao{
+            tk.simbolo <- sdoispontos
+            tk.lexema <- caracter
+        }       
+    fim
+Senão Se caractere  {+,-,*} 
+...
+
+
+
+trata operador aritmetico
+...
+Senão Se caractere existir {+,-,*}
+    Inicio
+        char <- caractere
+        tk.lexema <- char
+        ler(caractere)
+        Se char == '+'
+            tk.simbolo <- smais
+        Senao se char == '-'
+            tk.simbolo <- smenos
+        Senao se char == '*'
+            tk.simbolo <- smult
+    Fim
+Senão Se caractere  {!,<,>,=}
+...
+
+
+
+Trata Operador Relacional
+... 
+Senão Se caractere  {!,<,>,=}
+    Inicio
+        char <- caractere
+        ler(char)
+        Se caractere == '>'
+            Se char == '='
+                tk.simbolo <- smaiorig
+                tk.lexema <- caractere.concat(char)
+                ler(caractere)
+            Senão
+                tk.simbolo <- smaior
+                tk.lexema <- char
+        Se caractere == '<'
+           Se char == '='
+                tk.simbolo <- smenorig
+                tk.lexema <- caractere.concat(char)
+                ler(caractere)
+            Senão
+                tk.simbolo <- smenor
+                tk.lexema <- char
+        Se caractere == '!'
+            Se char == '='
+                tk.simbolo <- sdif
+                tk.lexema <- caractere.concat(char)
+                ler(caractere)
+            Senão
+                ERRO**
+        Se caractere == '='
+            tk.simbolo <- sig
+            tk.lexema <- char
+    Fim
+Senão Se caractere  {; , ( ) .}
+...
+
+
+
+Trata Pontuação
+...
+Senão Se caractere  {; , ( ) .}
+    Inicio
+        char <- caractere
+        ler(char)
+        Se caractere == ';'
+            tk.simbolo <- sponto_virgula
+            tk.lexema <- caractere
+        Senao se caractere == ','
+            tk.simbolo <- svírgula
+            tk.lexema <- caractere
+        Senao se caractere == '('
+            tk.simbolo <- sabre_parenteses
+            tk.lexema <- caractere
+        Senao se caractere == ')'
+            tk.simbolo <- sfecha_parenteses
+            tk.lexema <- caractere
+        Senao se caractere == '.'
+            tk.simbolo <- sponto
+            tk.lexema <- caractere
+    Fim
