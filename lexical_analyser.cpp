@@ -6,6 +6,7 @@ void unnecessary_characters_dump(char *c, std::ifstream &file);
 void handle_reserved_words_and_identifiers(char *c, std::ifstream &file);
 void handle_digit(char *c, std::ifstream &file);
 void handle_aritmethic_operator(char *c, std::ifstream &file);
+void handle_relational_operator(char *c, std::ifstream &file);
 
 int main(int argc, char *argv[]) {
 
@@ -27,6 +28,8 @@ int main(int argc, char *argv[]) {
         handle_digit(c, file);
       } else if (*c == '+' || *c == '-' || *c == '*') {
         handle_aritmethic_operator(c, file);
+      } else if(*c == '!' || *c == '<' || *c == '>' || *c == '='){
+        handle_relational_operator(c, file);
       } else {
         file.get(*c);
       }
@@ -131,7 +134,6 @@ void handle_aritmethic_operator(char *c, std::ifstream &file) {
   std::string word;
   word = *c;
   file.get(*c);
-
   Node *token = new_node(word, "");
 
   if (token->lexem == "+") {
@@ -144,4 +146,43 @@ void handle_aritmethic_operator(char *c, std::ifstream &file) {
 
   insert_node(token);
   std::cout << token->lexem << " " << token->symbol << std::endl;
+}
+
+void handle_relational_operator(char *c, std::ifstream &file){
+    std::string word;
+    word = *c;
+    file.get(*c);
+    Node *token = new_node(word, "");
+
+    if(word == ">"){
+        if(*c == '=')
+            token->lexem = "smaiorig";
+        else
+            token->lexem = "smaior";
+        
+    } else if(word == "<"){
+          if(*c == '=')
+              token->lexem = "smenorig";
+          else
+              token->lexem = "smenor";
+          
+    } else if(word == "!"){
+          if(*c == '=')
+              token->lexem = "sdif";
+           else
+              exit(1);
+          
+    } else if(word == "="){
+            token->lexem =  "sig";
+    }
+
+    if(*c == '='){
+      word += c; 
+      token->symbol = word;
+      file.get(*c);
+    }
+
+    insert_node(token);
+    std::cout << token->lexem << " " << token->symbol << std::endl;
+
 }
