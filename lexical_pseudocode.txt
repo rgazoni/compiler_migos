@@ -1,3 +1,4 @@
+JAPA
 trata atribuição
 ...
 Senão Se char = “:”
@@ -17,7 +18,7 @@ Senão Se caractere  {+,-,*}
 ...
 
 
-
+RAMON
 trata operador aritmetico
 ...
 Senão Se caractere existir {+,-,*}
@@ -36,7 +37,7 @@ Senão Se caractere  {!,<,>,=}
 ...
 
 
-
+VICTOR
 Trata Operador Relacional
 ... 
 Senão Se caractere  {!,<,>,=}
@@ -74,7 +75,7 @@ Senão Se caractere  {; , ( ) .}
 ...
 
 
-
+PEDRO
 Trata Pontuação
 ...
 Senão Se caractere  {; , ( ) .}

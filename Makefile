@@ -2,8 +2,8 @@ CFLAGS = -O
 
 CC = g++
 
-LA_EXECUTABLE: lexical_analyser.o linked_list.o
-	$(CC) $(CFLAGS) -o LA_EXECUTABLE lexical_analyser.o linked_list.o
+output: lexical_analyser.o linked_list.o
+	$(CC) $(CFLAGS) -o output lexical_analyser.o linked_list.o
 
 lexical_analyser.o: lexical_analyser.cpp
 	$(CC) $(CFLAGS) -c lexical_analyser.cpp

@@ -5,6 +5,7 @@
 void unnecessary_characters_dump(char *c, std::ifstream &file);
 void handle_reserved_words_and_identifiers(char *c, std::ifstream &file);
 void handle_digit(char *c, std::ifstream &file);
+void handle_aritmethic_operator(char *c, std::ifstream &file);
 
 int main(int argc, char *argv[]) {
 
@@ -22,12 +23,13 @@ int main(int argc, char *argv[]) {
     if (!file.eof()) {
       if (isalpha(*c)) {
         handle_reserved_words_and_identifiers(c, file);
-      } else if(isdigit(*c)){
+      } else if (isdigit(*c)) {
         handle_digit(c, file);
-      } 
-      else {
+      } else if (*c == '+' || *c == '-' || *c == '*') {
+        handle_aritmethic_operator(c, file);
+      } else {
         file.get(*c);
-      } 
+      }
     }
   }
   file.close();
@@ -113,20 +115,33 @@ void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {
   std::cout << token->lexem << " " << token->symbol << std::endl;
 }
 
-void handle_digit(char *c, std::ifstream &file) { 
-    std::string word;
-    word = *c;
+void handle_digit(char *c, std::ifstream &file) {
+  std::string word;
+  word = *c;
+  file.get(*c);
+  while (isdigit(*c) && !file.eof()) {
+    word += c;
     file.get(*c);
-    while (isdigit(*c) && !file.eof()) {
-        word += c;
-        file.get(*c);
-    }
-    Node *token = new_node(word,"snumero");
-    insert_node(token);
+  }
+  Node *token = new_node(word, "snumero");
+  insert_node(token);
 }
 
+void handle_aritmethic_operator(char *c, std::ifstream &file) {
+  std::string word;
+  word = *c;
+  file.get(*c);
 
+  Node *token = new_node(word, "");
 
+  if (token->lexem == "+") {
+    token->lexem = "smais";
+  } else if (token->lexem == "-") {
+    token->lexem = "smenos";
+  } else if (token->lexem == "*") {
+    token->lexem = "smult";
+  }
 
-
-
+  insert_node(token);
+  std::cout << token->lexem << " " << token->symbol << std::endl;
+}
