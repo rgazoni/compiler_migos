@@ -6,6 +6,7 @@ void unnecessary_characters_dump(char *c, std::ifstream &file);
 void handle_reserved_words_and_identifiers(char *c, std::ifstream &file);
 void handle_digit(char *c, std::ifstream &file);
 void handle_aritmethic_operator(char *c, std::ifstream &file);
+void handle_assignment(char *c, std::ifstream &file);
 void handle_relational_operator(char *c, std::ifstream &file);
 void handle_ponctuation(char *c, std::ifstream &file);
 
@@ -26,13 +27,13 @@ int main(int argc, char *argv[]) {
                 handle_digit(c, file);
             } else if (isalpha(*c)) {
                 handle_reserved_words_and_identifiers(c, file);
-                // Trata atribuicao
+            } else if(*c == ':'){
+                handle_assignment(c, file);
             } else if (*c == '+' || *c == '-' || *c == '*') {
                 handle_aritmethic_operator(c, file);
             } else if (*c == '!' || *c == '<' || *c == '>' || *c == '=') {
                 handle_relational_operator(c, file);
-            } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' ||
-                 *c == '.') {
+            } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
                 handle_ponctuation(c, file);
             } else {
                 file.get(*c);
@@ -209,4 +210,19 @@ void handle_ponctuation(char *c, std::ifstream &file) {
     }
 
     insert_node(token);
+}
+
+void handle_assignment(char *c, std::ifstream &file) {
+    std::string word;
+    word = *c;
+    file.get(*c);
+    if (*c == '=') { 
+        word += *c;
+        Node *token = new_node(word, "satribuicao");
+        insert_node(token);
+        file.get(*c);
+    } else {
+        Node *token = new_node(word, "sdoispontos");
+        insert_node(token);
+    }   
 }

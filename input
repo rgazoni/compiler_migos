@@ -9,3 +9,5 @@ funcao div e ou nao bode
 > >= < <= = !=
 
 ; . , ( ) 
+
+: :=
