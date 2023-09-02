@@ -26,8 +26,10 @@ void insert_node(Node *node) {
 
 void print_linked_list() {
   Node *temp = head;
+  std::cout << "------------------ PRINT LINKED LIST ---------------------" << std::endl;
+  std::cout << "\tLexem  \t\t\t\t  Symbol" << std::endl;
   while (temp != NULL) {
-    std::cout << temp->lexem << " " << temp->symbol << std::endl;
+    std::cout << "\t" << temp->lexem << "\t\t\t\t" << temp->symbol << std::endl;
     temp = temp->next;
   }
 }
