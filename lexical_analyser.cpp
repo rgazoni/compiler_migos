@@ -145,3 +145,26 @@ void handle_aritmethic_operator(char *c, std::ifstream &file) {
   insert_node(token);
   std::cout << token->lexem << " " << token->symbol << std::endl;
 }
+
+
+void handle_ponctuation(char * c, std::ifstream & file){
+  std::string word;
+  word = *c;
+  file.get(*c);
+  Node *token = new_node(word, "");
+ 
+  if (word == ";") {
+    token->lexem = "sponto_virgula";
+  }else if(word == ","){
+    token->lexem = "svirgula";
+  }else if(word == "("){
+    token->lexem = "sabre_parenteses";
+  }else if(word == ")"){
+    token->lexem = "sfecha_parenteses";
+  }else if(word == "."){
+    token->lexem = "sponto";
+  }
+
+  insert_node(token);
+  std::cout << token->lexem << " " << token->symbol << std::endl;
+}
