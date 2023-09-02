@@ -6,6 +6,7 @@ void unnecessary_characters_dump(char *c, std::ifstream &file);
 void handle_reserved_words_and_identifiers(char *c, std::ifstream &file);
 void handle_digit(char *c, std::ifstream &file);
 void handle_aritmethic_operator(char *c, std::ifstream &file);
+void handle_ponctuation(char *c, std::ifstream &file);
 
 int main(int argc, char *argv[]) {
 
@@ -27,7 +28,9 @@ int main(int argc, char *argv[]) {
         handle_digit(c, file);
       } else if (*c == '+' || *c == '-' || *c == '*') {
         handle_aritmethic_operator(c, file);
-      } else {
+      } else if(*c == ';' || *c == ',' || *c =='(' || *c == ')' || *c == '.'){
+        handle_ponctuation(c, file);
+      }else{
         file.get(*c);
       }
     }
@@ -140,6 +143,29 @@ void handle_aritmethic_operator(char *c, std::ifstream &file) {
     token->lexem = "smenos";
   } else if (token->lexem == "*") {
     token->lexem = "smult";
+  }
+
+  insert_node(token);
+  std::cout << token->lexem << " " << token->symbol << std::endl;
+}
+
+
+void handle_ponctuation(char * c, std::ifstream & file){
+  std::string word;
+  word = *c;
+  file.get(*c);
+  Node *token = new_node(word, "");
+ 
+  if (word == ";") {
+    token->lexem = "sponto_virgula";
+  }else if(word == ","){
+    token->lexem = "svirgula";
+  }else if(word == "("){
+    token->lexem = "sabre_parenteses";
+  }else if(word == ")"){
+    token->lexem = "sfecha_parenteses";
+  }else if(word == "."){
+    token->lexem = "sponto";
   }
 
   insert_node(token);
