@@ -3,3 +3,5 @@
 *.out
 *.exe
 *.o
+
+lex_anal_exec
