@@ -1,3 +1,4 @@
-se contador > 10 { exemplo 45 de comentário } 
-entao escreva50 6969 (contador)
-senao escreva (x);
+se contador:= > 10 { exemplo 45 de comentário } 
+entao escreva50 6969 (contador): pp= ll== =:
+senao escreva (x); := := =:
+
