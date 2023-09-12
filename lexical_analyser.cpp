@@ -181,8 +181,7 @@ void handle_relational_operator(char *c, std::ifstream &file) {
             token->lexem = word;
             file.get(*c);
         } else{
-            //FALAR COM FREITAS
-            //exit(1);
+            token->symbol = "serro";
         }
     } else if (word == "=") {
         token->symbol = "sig";
