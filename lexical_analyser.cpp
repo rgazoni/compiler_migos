@@ -36,6 +36,8 @@ int main(int argc, char *argv[]) {
             } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
                 handle_ponctuation(c, file);
             } else {
+                Node *token = new_node(c, "serro");
+                insert_node(token);
                 file.get(*c);
             }
         }
