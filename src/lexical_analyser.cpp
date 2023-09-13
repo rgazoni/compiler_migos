@@ -10,8 +10,7 @@ void handle_assignment(char *c, std::ifstream &file);
 void handle_relational_operator(char *c, std::ifstream &file);
 void handle_ponctuation(char *c, std::ifstream &file);
 
-int main(int argc, char *argv[]) {
-
+int main(int argc, char *argv[]) { 
     std::ifstream file;
     file.open(argv[1]);
     if (!file.is_open()) {
@@ -64,7 +63,7 @@ void unnecessary_characters_dump(char *c, std::ifstream &file) {
 }
 
 // Receive a alphanumeric character
-void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {
+void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    //
     std::string word;
     // Add the first character to the word string
     word += c;
@@ -121,8 +120,7 @@ void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {
     } else {
         token->symbol = "sidentificador";
     }
-
-    insert_node(token);
+    insert_node(token); 
   }
 
 void handle_digit(char *c, std::ifstream &file) {
