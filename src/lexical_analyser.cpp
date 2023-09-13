@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
             } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
                 handle_ponctuation(c, file);
             } else {
-                Node *token = new_node(c, "serro");
+                Node* token = new_node(c, "serro");
                 insert_node(token);
                 file.get(*c);
             }
@@ -49,14 +49,16 @@ int main(int argc, char *argv[]) {
 }
 
 void unnecessary_characters_dump(char *c, std::ifstream &file) {
-    while ((*c == '{' || *c == ' ') && !file.eof()) {
+    while ((*c == '{' || *c == ' ' || (int)*c == 13 || (int)*c == 10 || (int)*c == 9)
+            && !file.eof()) {
         if (*c == '{') {
             while (*c != '}' && !file.eof()) {
                 file.get(*c);
             }
             file.get(*c);
         }
-        while (*c == ' ' && !file.eof()) {
+        while ((*c == ' ' || (int)*c == 13 || (int)*c == 10 || (int)*c == 9)
+            && !file.eof()) {
             file.get(*c);
         }
     }
