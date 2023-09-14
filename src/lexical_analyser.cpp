@@ -1,5 +1,6 @@
 #include "linked_list.h"
 #include "symbols.h"
+#include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
 
@@ -15,8 +16,7 @@ int main(int argc, char *argv[]) {
     std::ifstream file;
     file.open(argv[1]);
     if (!file.is_open()) {
-        std::cout << "Error opening file" << std::endl;
-        return 1;
+        raiseError(Error::COULD_NOT_OPEN_FILE);
     }
     char *c = new char;
     file.get(*c);
