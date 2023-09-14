@@ -1,0 +1,28 @@
+
+------------------ PRINT LINKED LIST ---------------------
+	Lexem  				  Symbol
+	Teste2				sidentificador
+	;				sponto_virgula
+	:=				satribuicao
+	9				snumero
+	+				smais
+	999999				snumero
+	-				smenos
+	*				smult
+	if				sidentificador
+	var				svar
+	>				smaior
+	program				sidentificador
+	entao				sentao
+	se				sse
+	enquanto				senquanto
+	!=				sdif
+	/				serro
+	faca				sfaca
+	x				sidentificador
+	:				sdoispontos
+	booleano				sbooleano
+	;				sponto_virgula
+	;				sponto_virgula
+	;				sponto_virgula
+	;				sponto_virgula
