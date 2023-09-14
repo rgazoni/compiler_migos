@@ -1,4 +1,5 @@
 #include "linked_list.h"
+#include "symbols.h"
 #include <fstream>
 #include <iostream>
 
@@ -35,7 +36,7 @@ int main(int argc, char *argv[]) {
             } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
                 handle_ponctuation(c, file);
             } else {
-                Node* token = new_node(c, "serro");
+                Node* token = new_node(c, Symbols::SERRO);
                 insert_node(token);
                 file.get(*c);
             }
@@ -75,52 +76,52 @@ void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    //
         word += *c;
         file.get(*c);
     }
-    Node *token = new_node(word, "");
+    Node *token = new_node(word, Symbols::EMPTY);
 
     if (word == "programa") {
-        token->symbol = "sprograma";
+        token->symbol = Symbols::SPROGRAMA;
     } else if (word == "se") {
-        token->symbol = "sse";
+        token->symbol = Symbols::SSE;
     } else if (word == "entao") {
-        token->symbol = "sentao";
+        token->symbol = Symbols::SENTAO;
     } else if (word == "senao") {
-        token->symbol = "ssenao";
+        token->symbol = Symbols::SSENAO;
     } else if (word == "enquanto") {
-        token->symbol = "senquanto";
+        token->symbol = Symbols::SENQUANTO;
     } else if (word == "faca") {
-        token->symbol = "sfaca";
+        token->symbol = Symbols::SFACA;
     } else if (word == "inicio") {
-        token->symbol = "sinicio";
+        token->symbol = Symbols::SINICIO;
     } else if (word == "fim") {
-        token->symbol = "sfim";
+        token->symbol = Symbols::SFIM;
     } else if (word == "escreva") {
-        token->symbol = "sescreva";
+        token->symbol = Symbols::SESCREVA;
     } else if (word == "leia") {
-        token->symbol = "sleia";
+        token->symbol = Symbols::SLEIA;
     } else if (word == "var") {
-        token->symbol = "svar";
+        token->symbol = Symbols::SVAR;
     } else if (word == "inteiro") {
-        token->symbol = "sinteiro";
+        token->symbol = Symbols::SINTEIRO;
     } else if (word == "booleano") {
-        token->symbol = "sbooleano";
+        token->symbol = Symbols::SBOOLEANO;
     } else if (word == "verdadeiro") {
-        token->symbol = "sverdadeiro";
+        token->symbol = Symbols::SVERDADEIRO;
     } else if (word == "falso") {
-        token->symbol = "sfalso";
+        token->symbol = Symbols::SFALSO;
     } else if (word == "procedimento") {
-        token->symbol = "sprocedimento";
+        token->symbol = Symbols::SPROCEDIMENTO;
     } else if (word == "funcao") {
-        token->symbol = "sfuncao";
+        token->symbol = Symbols::SFUNCAO;
     } else if (word == "div") {
-        token->symbol = "sdiv";
+        token->symbol = Symbols::SDIV;
     } else if (word == "e") {
-        token->symbol = "se";
+        token->symbol = Symbols::SE;
     } else if (word == "ou") {
-        token->symbol = "sou";
+        token->symbol = Symbols::SOU;
     } else if (word == "nao") {
-        token->symbol = "snao";
+        token->symbol = Symbols::SNAO;
     } else {
-        token->symbol = "sidentificador";
+        token->symbol = Symbols::SIDENTIFICADOR;
     }
     insert_node(token); 
   }
@@ -133,7 +134,7 @@ void handle_digit(char *c, std::ifstream &file) {
         word += c;
         file.get(*c);
     }
-    Node *token = new_node(word, "snumero");
+    Node *token = new_node(word, Symbols::SNUMERO);
     insert_node(token);
 }
 
@@ -141,14 +142,14 @@ void handle_aritmethic_operator(char *c, std::ifstream &file) {
     std::string word;
     word = *c;
     file.get(*c);
-    Node *token = new_node(word, "");
+    Node *token = new_node(word, Symbols::EMPTY);
 
     if (token->lexem == "+") {
-        token->symbol = "smais";
+        token->symbol = Symbols::SMAIOR;
     } else if (token->lexem == "-") {
-        token->symbol = "smenos";
+        token->symbol = Symbols::SMENOS;
     } else if (token->lexem == "*") {
-        token->symbol = "smult";
+        token->symbol = Symbols::SMULT;
     }
 
     insert_node(token);
@@ -157,36 +158,36 @@ void handle_aritmethic_operator(char *c, std::ifstream &file) {
 void handle_relational_operator(char *c, std::ifstream &file) {
     std::string word;
     word = *c;
-    Node *token = new_node(word, "");
+    Node *token = new_node(word, Symbols::EMPTY);
     file.get(*c);
 
     if (word == ">") {
         if (*c == '=') {
-            token->symbol = "smaiorig";
+            token->symbol = Symbols::SMAIORIG;
             word += c;
             token->lexem = word;
             file.get(*c);
         } else
-            token->symbol = "smaior";
+            token->symbol = Symbols::SMAIOR;
     } else if (word == "<") {
         if (*c == '=') {
-            token->symbol = "smenorig";
+            token->symbol = Symbols::SMENORIG;
             word += c;
             token->lexem = word;
             file.get(*c);
         } else
-            token->symbol = "smenor";
+            token->symbol = Symbols::SMENOR;
     } else if (word == "!") {
         if (*c == '=') {
-            token->symbol = "sdif";
+            token->symbol = Symbols::SDIF;
             word += c;
             token->lexem = word;
             file.get(*c);
         } else{
-            token->symbol = "serro";
+            token->symbol = Symbols::SERRO;
         }
     } else if (word == "=") {
-        token->symbol = "sig";
+        token->symbol = Symbols::SIG;
     }
 
     insert_node(token);
@@ -196,18 +197,18 @@ void handle_ponctuation(char *c, std::ifstream &file) {
     std::string word;
     word = *c;
     file.get(*c);
-    Node *token = new_node(word, "");
+    Node *token = new_node(word, Symbols::EMPTY);
 
     if (word == ";") {
-        token->symbol = "sponto_virgula";
+        token->symbol = Symbols::SPONTO_VIRGULA;
     } else if (word == ",") {
-        token->symbol = "svirgula";
+        token->symbol = Symbols::SVIRGULA;
     } else if (word == "(") {
-        token->symbol = "sabre_parenteses";
+        token->symbol = Symbols::SABRE_PARENTESES;
     } else if (word == ")") {
-        token->symbol = "sfecha_parenteses";
+        token->symbol = Symbols::SFECHA_PARENTESES;
     } else if (word == ".") {
-        token->symbol = "sponto";
+        token->symbol = Symbols::SPONTO;
     }
 
     insert_node(token);
@@ -219,11 +220,11 @@ void handle_assignment(char *c, std::ifstream &file) {
     file.get(*c);
     if (*c == '=') { 
         word += *c;
-        Node *token = new_node(word, "satribuicao");
+        Node *token = new_node(word, Symbols::SATRIBUICAO);
         insert_node(token);
         file.get(*c);
     } else {
-        Node *token = new_node(word, "sdoispontos");
+        Node *token = new_node(word, Symbols::SDOISPONTOS);
         insert_node(token);
     }   
 }

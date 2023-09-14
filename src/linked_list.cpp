@@ -1,10 +1,11 @@
 #include "linked_list.h"
+#include "symbols.h"
 #include <fstream>
 #include <iostream>
 
 Node *head = NULL;
 
-Node *new_node(std::string lexem, std::string symbol) {
+Node *new_node(std::string lexem, Symbols symbol) {
   Node *node = new Node();
   node->lexem = lexem;
   node->symbol = symbol;
@@ -24,6 +25,7 @@ void insert_node(Node *node) {
   }
 }
 
+//https://cplusplus.com/forum/general/263696/
 void print_linked_list() {
   Node *temp = head;
   std::cout << "------------------ PRINT LINKED LIST ---------------------" << std::endl;

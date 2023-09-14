@@ -1,3 +1,4 @@
+#include "symbols.h"
 #include <fstream>
 #include <iostream>
 
@@ -7,14 +8,14 @@
 
 class Node {
 public:
-  std::string symbol;
+  Symbols symbol;
   std::string lexem;
   Node *next;
 };
 
 extern Node *head;
 
-Node *new_node(std::string lexem, std::string symbol);
+Node *new_node(std::string lexem, Symbols symbol);
 void insert_node(Node *node);
 void print_linked_list();
 
