@@ -10,8 +10,7 @@ void handle_assignment(char *c, std::ifstream &file);
 void handle_relational_operator(char *c, std::ifstream &file);
 void handle_ponctuation(char *c, std::ifstream &file);
 
-int main(int argc, char *argv[]) {
-
+int main(int argc, char *argv[]) { 
     std::ifstream file;
     file.open(argv[1]);
     if (!file.is_open()) {
@@ -36,7 +35,7 @@ int main(int argc, char *argv[]) {
             } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
                 handle_ponctuation(c, file);
             } else {
-                Node *token = new_node(c, "serro");
+                Node* token = new_node(c, "serro");
                 insert_node(token);
                 file.get(*c);
             }
@@ -50,21 +49,23 @@ int main(int argc, char *argv[]) {
 }
 
 void unnecessary_characters_dump(char *c, std::ifstream &file) {
-    while ((*c == '{' || *c == ' ') && !file.eof()) {
+    while ((*c == '{' || *c == ' ' || (int)*c == 13 || (int)*c == 10 || (int)*c == 9)
+            && !file.eof()) {
         if (*c == '{') {
             while (*c != '}' && !file.eof()) {
                 file.get(*c);
             }
             file.get(*c);
         }
-        while (*c == ' ' && !file.eof()) {
+        while ((*c == ' ' || (int)*c == 13 || (int)*c == 10 || (int)*c == 9)
+            && !file.eof()) {
             file.get(*c);
         }
     }
 }
 
 // Receive a alphanumeric character
-void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {
+void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    //
     std::string word;
     // Add the first character to the word string
     word += c;
@@ -121,8 +122,7 @@ void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {
     } else {
         token->symbol = "sidentificador";
     }
-
-    insert_node(token);
+    insert_node(token); 
   }
 
 void handle_digit(char *c, std::ifstream &file) {
