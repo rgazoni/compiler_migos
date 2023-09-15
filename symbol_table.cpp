@@ -22,16 +22,15 @@ bool Symbol_table::search_table(const std::string& lexem){
 }
 
 void Symbol_table::print_table() {
-    std::stack<Record> auxStack = stack;
-    while (!auxStack.empty()) {
-        Record record = auxStack.top();
+    while (!stack.empty()) {
+        Record record = stack.top();
         std::cout << "Lexema: " << record.getLexem() << std::endl;
         std::cout << "Scope: " << (record.getScope() ? "Global" : "Local") << std::endl;
         std::cout << "Type: " << record.getType() << std::endl;
         std::cout << "Address: " << record.getAddress() << std::endl;
         std::cout << "---------------" << std::endl;
         
-        auxStack.pop();
+        stack.pop();
     }
 }
 

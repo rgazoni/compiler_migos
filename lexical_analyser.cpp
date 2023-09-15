@@ -1,4 +1,5 @@
 #include "linked_list.h"
+#include "symbol_table.h"
 #include <fstream>
 #include <iostream>
 
@@ -9,6 +10,8 @@ void handle_aritmethic_operator(char *c, std::ifstream &file);
 void handle_assignment(char *c, std::ifstream &file);
 void handle_relational_operator(char *c, std::ifstream &file);
 void handle_ponctuation(char *c, std::ifstream &file);
+Symbol_table symbol_table;
+Record record = Record();
 
 int main(int argc, char *argv[]) { 
     std::ifstream file;
@@ -117,6 +120,9 @@ void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    //
         token->symbol = "snao";
     } else {
         token->symbol = "sidentificador";
+        record.setLexem(word);
+        record.setType(token->symbol);
+        symbol_table.insert_record(&record);
     }
     insert_node(token); 
   }
