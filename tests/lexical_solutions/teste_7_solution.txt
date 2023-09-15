@@ -1,0 +1,27 @@
+
+------------------ PRINT LINKED LIST ---------------------
+	Lexem  				  Symbol
+	Teste				sidentificador
+	3				snumero
+	;				sponto_virgula
+	programa				sprograma
+	:				sdoispontos
+	inteiro				sinteiro
+	se				sse
+	x				sidentificador
+	>				smaior
+	<				smenor
+	ou				sou
+	=				sig
+	a				sidentificador
+	y				sidentificador
+	entao				sentao
+	faca				sfaca
+	x				sidentificador
+	:=				satribuicao
+	y				sidentificador
+	!=				sdif
+	z				sidentificador
+	;				sponto_virgula
+	fim				sfim
+	.				sponto

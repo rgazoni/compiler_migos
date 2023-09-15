@@ -1,0 +1,16 @@
+
+------------------ PRINT LINKED LIST ---------------------
+	Lexem  				  Symbol
+	Este				sidentificador
+	teste				sidentificador
+	apenas				sidentificador
+	verifica				sidentificador
+	pontuacao				sidentificador
+	(				sabre_parenteses
+	)				sfecha_parenteses
+	.				sponto
+	,				svirgula
+	:				sdoispontos
+	;				sponto_virgula
+	[				serro
+	]				serro

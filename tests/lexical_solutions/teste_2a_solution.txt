@@ -1,0 +1,18 @@
+
+------------------ PRINT LINKED LIST ---------------------
+	Lexem  				  Symbol
+	programa				sprograma
+	teste2				sidentificador
+	;				sponto_virgula
+	var				svar
+	x				sidentificador
+	:				sdoispontos
+	inteiro				sinteiro
+	;				sponto_virgula
+	inicio				sinicio
+	x				sidentificador
+	=				sig
+	1				snumero
+	;				sponto_virgula
+	fim				sfim
+	.				sponto
