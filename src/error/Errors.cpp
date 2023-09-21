@@ -5,8 +5,9 @@ void raiseError(Error error)
 {
     switch(error)
     {
-        case Error::ERROR1:
-            std::cout << "Error 1" << std::endl;
+        case Error::TOKEN_NOT_VALID:
+            std::cout << "ERROR CODE: " << (int) Error::TOKEN_NOT_VALID << std::endl;
+            std::cout << "MESSAGE: Symbol received not valid" << std::endl;
             break;
         case Error::ERROR2:
             std::cout << "Error 2" << std::endl;
