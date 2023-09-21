@@ -1,52 +1,52 @@
-#include "linked_list.h"
+#include "Token.h"
+#include "lexical_analyser.h"
 #include "symbols.h"
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
 
-void unnecessary_characters_dump(char *c, std::ifstream &file);
-void handle_reserved_words_and_identifiers(char *c, std::ifstream &file);
-void handle_digit(char *c, std::ifstream &file);
-void handle_aritmethic_operator(char *c, std::ifstream &file);
-void handle_assignment(char *c, std::ifstream &file);
-void handle_relational_operator(char *c, std::ifstream &file);
-void handle_ponctuation(char *c, std::ifstream &file);
-
-int main(int argc, char *argv[]) { 
+namespace {
     std::ifstream file;
-    file.open(argv[1]);
-    if (!file.is_open()) {
-        raiseError(Error::COULD_NOT_OPEN_FILE);
-    }
     char *c = new char;
-    file.get(*c);
-    while (!file.eof()) {
-        unnecessary_characters_dump(c, file);
+}
+
+namespace Lexical {
+
+    void open_file(char *argv[]) {
+        file.open(argv[1]);
+        if (!file.is_open()) {
+            raiseError(Error::COULD_NOT_OPEN_FILE);
+        }
+        file.get(*c);
+    }
+    
+    void close_file() {
+        file.close();
+    }
+
+    Token* get_token() { 
         if (!file.eof()) {
-            if (isdigit(*c)) {
-                handle_digit(c, file);
-            } else if (isalpha(*c)) {
-                handle_reserved_words_and_identifiers(c, file);
-            } else if(*c == ':'){
-                handle_assignment(c, file);
-            } else if (*c == '+' || *c == '-' || *c == '*') {
-                handle_aritmethic_operator(c, file);
-            } else if (*c == '!' || *c == '<' || *c == '>' || *c == '=') {
-                handle_relational_operator(c, file);
-            } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
-                handle_ponctuation(c, file);
-            } else {
-                Node* token = new_node(c, Symbols::SERRO);
-                insert_node(token);
-                file.get(*c);
+            unnecessary_characters_dump(c, file);
+            if (!file.eof()) {
+                if (isdigit(*c)) {
+                    return handle_digit(c, file);
+                } else if (isalpha(*c)) {
+                    return handle_reserved_words_and_identifiers(c, file);
+                } else if(*c == ':'){
+                    return handle_assignment(c, file);
+                } else if (*c == '+' || *c == '-' || *c == '*') {
+                    return handle_aritmethic_operator(c, file);
+                } else if (*c == '!' || *c == '<' || *c == '>' || *c == '=') {
+                    return handle_relational_operator(c, file);
+                } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
+                    return handle_ponctuation(c, file);
+                } else {
+                    raiseError(Error::TOKEN_NOT_VALID);
+                }
             }
         }
+        return NULL;
     }
-
-    file.close();
-    printf("\n");
-    print_linked_list();
-    return 0;
 }
 
 void unnecessary_characters_dump(char *c, std::ifstream &file) {
@@ -66,7 +66,7 @@ void unnecessary_characters_dump(char *c, std::ifstream &file) {
 }
 
 // Receive a alphanumeric character
-void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    //
+Token* handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    //
     std::string word;
     // Add the first character to the word string
     word += c;
@@ -76,7 +76,7 @@ void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    //
         word += *c;
         file.get(*c);
     }
-    Node *token = new_node(word, Symbols::EMPTY);
+    Token *token = new_node(word, Symbols::EMPTY);
 
     if (word == "programa") {
         token->symbol = Symbols::SPROGRAMA;
@@ -123,10 +123,10 @@ void handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    //
     } else {
         token->symbol = Symbols::SIDENTIFICADOR;
     }
-    insert_node(token); 
+    return token;
   }
 
-void handle_digit(char *c, std::ifstream &file) {
+Token* handle_digit(char *c, std::ifstream &file) {
     std::string word;
     word = *c;
     file.get(*c);
@@ -134,15 +134,15 @@ void handle_digit(char *c, std::ifstream &file) {
         word += c;
         file.get(*c);
     }
-    Node *token = new_node(word, Symbols::SNUMERO);
-    insert_node(token);
+    Token *token = new_node(word, Symbols::SNUMERO);
+    return token;
 }
 
-void handle_aritmethic_operator(char *c, std::ifstream &file) {
+Token* handle_aritmethic_operator(char *c, std::ifstream &file) {
     std::string word;
     word = *c;
     file.get(*c);
-    Node *token = new_node(word, Symbols::EMPTY);
+    Token *token = new_node(word, Symbols::EMPTY);
 
     if (token->lexem == "+") {
         token->symbol = Symbols::SMAIOR;
@@ -151,14 +151,13 @@ void handle_aritmethic_operator(char *c, std::ifstream &file) {
     } else if (token->lexem == "*") {
         token->symbol = Symbols::SMULT;
     }
-
-    insert_node(token);
+    return token;
 }
 
-void handle_relational_operator(char *c, std::ifstream &file) {
+Token* handle_relational_operator(char *c, std::ifstream &file) {
     std::string word;
     word = *c;
-    Node *token = new_node(word, Symbols::EMPTY);
+    Token *token = new_node(word, Symbols::EMPTY);
     file.get(*c);
 
     if (word == ">") {
@@ -190,14 +189,14 @@ void handle_relational_operator(char *c, std::ifstream &file) {
         token->symbol = Symbols::SIG;
     }
 
-    insert_node(token);
+    return token;
 }
 
-void handle_ponctuation(char *c, std::ifstream &file) {
+Token* handle_ponctuation(char *c, std::ifstream &file) {
     std::string word;
     word = *c;
     file.get(*c);
-    Node *token = new_node(word, Symbols::EMPTY);
+    Token *token = new_node(word, Symbols::EMPTY);
 
     if (word == ";") {
         token->symbol = Symbols::SPONTO_VIRGULA;
@@ -211,20 +210,20 @@ void handle_ponctuation(char *c, std::ifstream &file) {
         token->symbol = Symbols::SPONTO;
     }
 
-    insert_node(token);
+    return token;
 }
 
-void handle_assignment(char *c, std::ifstream &file) {
+Token* handle_assignment(char *c, std::ifstream &file) {
     std::string word;
     word = *c;
     file.get(*c);
     if (*c == '=') { 
         word += *c;
-        Node *token = new_node(word, Symbols::SATRIBUICAO);
-        insert_node(token);
+        Token *token = new_node(word, Symbols::SATRIBUICAO);
         file.get(*c);
+        return token;
     } else {
-        Node *token = new_node(word, Symbols::SDOISPONTOS);
-        insert_node(token);
+        Token *token = new_node(word, Symbols::SDOISPONTOS);
+        return token;
     }   
 }
