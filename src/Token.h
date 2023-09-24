@@ -10,7 +10,6 @@ class Token {
 public:
   Symbols symbol;
   std::string lexem;
-  Token *next;
 };
 
 Token *new_node(std::string lexem, Symbols symbol);
