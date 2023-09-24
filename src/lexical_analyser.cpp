@@ -8,6 +8,8 @@
 namespace {
     std::ifstream file;
     char *c = new char;
+    int execution_line = 1;
+    int execution_column = 1;
 }
 
 namespace Lexical {
@@ -17,29 +19,37 @@ namespace Lexical {
         if (!file.is_open()) {
             raiseError(Error::COULD_NOT_OPEN_FILE);
         }
-        file.get(*c);
+        get_character_from_file();
     }
     
     void close_file() {
         file.close();
     }
 
+    int get_execution_line() {
+        return execution_line;
+    }
+
+    int get_execution_column() {
+        return execution_column - 1;
+    }
+
     Token* get_token() { 
         if (!file.eof()) {
-            unnecessary_characters_dump(c, file);
+            unnecessary_characters_dump();
             if (!file.eof()) {
                 if (isdigit(*c)) {
-                    return handle_digit(c, file);
+                    return handle_digit();
                 } else if (isalpha(*c)) {
-                    return handle_reserved_words_and_identifiers(c, file);
+                    return handle_reserved_words_and_identifiers();
                 } else if(*c == ':'){
-                    return handle_assignment(c, file);
+                    return handle_assignment();
                 } else if (*c == '+' || *c == '-' || *c == '*') {
-                    return handle_aritmethic_operator(c, file);
+                    return handle_aritmethic_operator();
                 } else if (*c == '!' || *c == '<' || *c == '>' || *c == '=') {
-                    return handle_relational_operator(c, file);
+                    return handle_relational_operator();
                 } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
-                    return handle_ponctuation(c, file);
+                    return handle_punctuation();
                 } else {
                     raiseError(Error::TOKEN_NOT_VALID);
                 }
@@ -49,32 +59,44 @@ namespace Lexical {
     }
 }
 
-void unnecessary_characters_dump(char *c, std::ifstream &file) {
+void get_character_from_file() {
+    file.get(*c);
+    execution_column++;
+}
+
+void unnecessary_characters_dump() {
+
     while ((*c == '{' || *c == ' ' || (int)*c == 13 || (int)*c == 10 || (int)*c == 9)
             && !file.eof()) {
         if (*c == '{') {
             while (*c != '}' && !file.eof()) {
-                file.get(*c);
+                get_character_from_file();
             }
-            file.get(*c);
+            get_character_from_file();
         }
         while ((*c == ' ' || (int)*c == 13 || (int)*c == 10 || (int)*c == 9)
             && !file.eof()) {
-            file.get(*c);
+
+            if ((int)*c == 10) {
+                execution_line++;
+                execution_column = 1;
+            }
+
+            get_character_from_file();
         }
     }
 }
 
 // Receive a alphanumeric character
-Token* handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    //
+Token* handle_reserved_words_and_identifiers() {
     std::string word;
     // Add the first character to the word string
     word += c;
-    file.get(*c);
+    get_character_from_file();
     // Form lexem
     while (isalpha(*c) || isdigit(*c) || *c == '_' && !file.eof()) {
         word += *c;
-        file.get(*c);
+        get_character_from_file();
     }
     Token *token = new_node(word, Symbols::EMPTY);
 
@@ -126,22 +148,22 @@ Token* handle_reserved_words_and_identifiers(char *c, std::ifstream &file) {    
     return token;
   }
 
-Token* handle_digit(char *c, std::ifstream &file) {
+Token* handle_digit() {
     std::string word;
     word = *c;
-    file.get(*c);
+    get_character_from_file();
     while (isdigit(*c) && !file.eof()) {
         word += c;
-        file.get(*c);
+        get_character_from_file();
     }
     Token *token = new_node(word, Symbols::SNUMERO);
     return token;
 }
 
-Token* handle_aritmethic_operator(char *c, std::ifstream &file) {
+Token* handle_aritmethic_operator() {
     std::string word;
     word = *c;
-    file.get(*c);
+    get_character_from_file();
     Token *token = new_node(word, Symbols::EMPTY);
 
     if (token->lexem == "+") {
@@ -154,18 +176,18 @@ Token* handle_aritmethic_operator(char *c, std::ifstream &file) {
     return token;
 }
 
-Token* handle_relational_operator(char *c, std::ifstream &file) {
+Token* handle_relational_operator() {
     std::string word;
     word = *c;
     Token *token = new_node(word, Symbols::EMPTY);
-    file.get(*c);
+    get_character_from_file();
 
     if (word == ">") {
         if (*c == '=') {
             token->symbol = Symbols::SMAIORIG;
             word += c;
             token->lexem = word;
-            file.get(*c);
+            get_character_from_file();
         } else
             token->symbol = Symbols::SMAIOR;
     } else if (word == "<") {
@@ -173,7 +195,7 @@ Token* handle_relational_operator(char *c, std::ifstream &file) {
             token->symbol = Symbols::SMENORIG;
             word += c;
             token->lexem = word;
-            file.get(*c);
+            get_character_from_file();
         } else
             token->symbol = Symbols::SMENOR;
     } else if (word == "!") {
@@ -181,7 +203,7 @@ Token* handle_relational_operator(char *c, std::ifstream &file) {
             token->symbol = Symbols::SDIF;
             word += c;
             token->lexem = word;
-            file.get(*c);
+            get_character_from_file();
         } else{
             token->symbol = Symbols::SERRO;
         }
@@ -192,10 +214,10 @@ Token* handle_relational_operator(char *c, std::ifstream &file) {
     return token;
 }
 
-Token* handle_ponctuation(char *c, std::ifstream &file) {
+Token* handle_punctuation() {
     std::string word;
     word = *c;
-    file.get(*c);
+    get_character_from_file();
     Token *token = new_node(word, Symbols::EMPTY);
 
     if (word == ";") {
@@ -213,17 +235,18 @@ Token* handle_ponctuation(char *c, std::ifstream &file) {
     return token;
 }
 
-Token* handle_assignment(char *c, std::ifstream &file) {
+Token* handle_assignment() {
     std::string word;
     word = *c;
-    file.get(*c);
+    get_character_from_file();
     if (*c == '=') { 
         word += *c;
         Token *token = new_node(word, Symbols::SATRIBUICAO);
-        file.get(*c);
+        get_character_from_file();
         return token;
     } else {
         Token *token = new_node(word, Symbols::SDOISPONTOS);
         return token;
     }   
 }
+
