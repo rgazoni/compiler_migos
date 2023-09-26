@@ -2,12 +2,16 @@
 #include "lexical_analyser.h"
 #include "symbols.h"
 #include <iostream>
+#include "general_parser.h"
 
-int snippet_analyser(){
-    Token* token; 
+namespace Parser {
+    void snippet_analyser(){
+        Token* token; 
 
-    token = Lexical::get_token();
-    et_variable_analyser();
-    
+        token = Lexical::get_token();
+        Parser::et_variable_analyser(token);
+        //subroutine_analyser
+        //commands_analyser
 
+    }
 }

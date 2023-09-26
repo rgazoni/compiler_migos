@@ -3,23 +3,26 @@
 #include <fstream>
 #include <iostream>
 #include "lexical_analyser.h"
+#include "general_parser.h"
 
 
 namespace Parser {
-    int et_variable_analyser(){
-        Token* token;
-        token = Lexical::get_token();
+    void et_variable_analyser(Token* token){
         
         if(token->symbol == Symbols::SVAR){
-            //lexic(token);
+            token = Lexical::get_token();
+
             if(token->symbol == Symbols::SIDENTIFICADOR){
                 while(token->symbol == Symbols::SIDENTIFICADOR){
                     //variable_analyser
+                    Parser::variables_analyser(token);
+                    // token = Lexical::get_token();
                     if(token->symbol == Symbols::SPONTO_VIRGULA){
-                        //lexic(token);
-                    }else{
-                        raiseError(Error::EXPECTED_SEMICOLON);
+                        token = Lexical::get_token();
 
+                    }else{
+
+                        raiseError(Error::EXPECTED_SEMICOLON);
                     }
                 }
             }else{

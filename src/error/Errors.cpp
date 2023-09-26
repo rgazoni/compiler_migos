@@ -40,26 +40,26 @@ void raiseError(Error error)
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_RESERVED_WORD_PROGRAMA << std::endl;
             std::cout << "MESSAGE: Expected reserved word 'programa'" << std::endl;
             break;
-        // case Error::SYMBOL_EQUALS_COLON:
-        //     std::cout << "ERROR CODE: " << (int) Error::SYMBOL_EQUALS_COLON << std::endl;
-        //     std::cout << "MESSAGE: Symbol equals colon" << std::endl;
-        //     break;
-        // case Error::IS_NOT_COMMA_OR_COLON:
-        //     std::cout << "ERROR CODE: " << (int) Error::IS_NOT_COMMA_OR_COLON << std::endl;
-        //     std::cout << "MESSAGE: Is not comma or colon" << std::endl;
-        //     break;
-        // case Error::IS_NOT_IDENTIFIER:
-        //     std::cout << "ERROR CODE: " << (int) Error::IS_NOT_IDENTIFIER << std::endl;
-        //     std::cout << "MESSAGE: Is not an identifier" << std::endl;
-        //     break;
-        // case Error::IS_NOT_BOOLEAN_OR_INT:
-        //     std::cout << "ERROR CODE: " << (int) Error::IS_NOT_BOOLEAN_OR_INT << std::endl;
-        //     std::cout << "MESSAGE: Variable type is not boolean or int" << std::endl;
-        //     break;
-        // case Error::IS_NOT_SEMICOLON:
-        //     std::cout << "ERROR CODE: " << (int) Error::IS_NOT_SEMICOLON << std::endl;
-        //     std::cout << "MESSAGE: Is not a semicolon" << std::endl;
-        //     break;
+        case Error::NOT_EXPECTED_COLON:
+            std::cout << "ERROR CODE: " << (int) Error::NOT_EXPECTED_COLON << std::endl;
+            std::cout << "MESSAGE: Symbol equals colon" << std::endl;
+            break;
+        case Error::EXPECTED_COMMA_OR_COLON:
+            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_COMMA_OR_COLON << std::endl;
+            std::cout << "MESSAGE: Is not comma or colon" << std::endl;
+            break;
+        case Error::EXPECTED_BOOLEAN_OR_INT:
+            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_BOOLEAN_OR_INT << std::endl;
+            std::cout << "MESSAGE: Expected boolean or int type" << std::endl;
+            break;
+        case Error::EXPECTED_CLOSE_PARENTHESIS:
+            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_CLOSE_PARENTHESIS << std::endl;
+            std::cout << "MESSAGE: Parenthesis should be closed" << std::endl;
+            break;
+        case Error::EXPECTED_LEXEM:
+            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_LEXEM << std::endl;
+            std::cout << "MESSAGE: Expected boolean lexem" << std::endl;
+            break;
         // case Error::PARENTHESIS_DOES_NOT_CLOSE:
         //     std::cout << "ERROR CODE: " << (int) Error::PARENTHESIS_DOES_NOT_CLOSE << std::endl;
         //     std::cout << "MESSAGE: Parenthesis were not closed" << std::endl;

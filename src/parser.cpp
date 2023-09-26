@@ -2,6 +2,7 @@
 #include "lexical_analyser.h"
 #include "symbols.h"
 #include <iostream>
+#include "general_parser.h"
 
 //int main(int argc, char *argv[]) { 
 //    Lexical::open_file(argv);
@@ -34,7 +35,8 @@ int main(int argc, char *argv[]) {
             if (token->symbol == Symbols::SPONTO_VIRGULA) {
 
                 //analisa_bloco
-                token = Lexical::get_token();
+                Parser::snippet_analyser();
+                // token = Lexical::get_token();
 
                 if (token->symbol == Symbols::SPONTO) {
                     token = Lexical::get_token();

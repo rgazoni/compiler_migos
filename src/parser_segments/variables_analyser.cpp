@@ -2,33 +2,40 @@
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
+#include "lexical_analyser.h"
+#include "general_parser.h"
 
-int variables_analyser(){
-    do{
-        if(token->symbol == Symbols::SIDENTIFICADOR){
-            //pesquisa_duplicvar_tabela(token.lexema)
-            //se não encontrou duplicidade
-            //então inicio
-                //insere_tabela(token.lexema, "variavel", ",")
-                //lexic(token)
-                if(token->symbol == Symbols::SVIRGULA || token->symbol == Symbols::SDOISPONTOS){
-                    if(token->symbol == Symbols::SVIRGULA){
-                        //lexic(token)
-                        if(token->symbol == Symbols::SDOISPONTOS){
-                            raiseError(Error::SYMBOL_EQUALS_COLON);
+namespace Parser{
+    void variables_analyser(Token *token){
+
+        do{
+            if(token->symbol == Symbols::SIDENTIFICADOR){
+                //pesquisa_duplicvar_tabela(token.lexema)
+                //se não encontrou duplicidade
+                //então inicio
+                    //insere_tabela(token.lexema, "variavel", ",")
+                    token = Lexical::get_token();
+                    if(token->symbol == Symbols::SVIRGULA || token->symbol == Symbols::SDOISPONTOS){
+                        if(token->symbol == Symbols::SVIRGULA){
+                            token = Lexical::get_token();
+
+                            if(token->symbol == Symbols::SDOISPONTOS){
+                                raiseError(Error::NOT_EXPECTED_COLON);
+                            }
                         }
+                    }else{
+                        raiseError(Error::EXPECTED_COMMA_OR_COLON);
                     }
-                }else{
-                    raiseError(Error::IS_NOT_COMMA_OR_COLON);
+            }else{
+                raiseError(Error::EXPECTED_IDENTIFIER);
+            }
 
-                }
-        }else{
-            raiseError(Error::IS_NOT_IDENTIFIER);
-        }
+        }while(token->symbol != Symbols::SDOISPONTOS);
 
-    }while(token->symbol != Symbols::SDOISPONTOS);
+        token = Lexical::get_token();
+        Parser::type_analyser(token);
+        //lexic(token)
+        //type_analyser
+    }
 
-    //lexic(token)
-    //type_analyser
-    return 0;
 }
