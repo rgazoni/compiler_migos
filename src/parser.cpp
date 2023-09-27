@@ -2,45 +2,38 @@
 #include "lexical_analyser.h"
 #include "symbols.h"
 #include <iostream>
-#include "general_parser.h"
 
-//int main(int argc, char *argv[]) { 
-//    Lexical::open_file(argv);
-//    
-//    Token* token = Lexical::get_token();
-//    while (token != NULL) {
-//        std::cout << token->lexem << std::endl;
-//        token = Lexical::get_token();
-//    }
-//    Lexical::close_file();
-//    return 0;
-//}
 
 int main(int argc, char *argv[]) {
+    Lexical lexical = Lexical();
 
-    Lexical::open_file(argv);
-    Token* token;
+    lexical.open_file(argv);
+    // Token* token;
 
+    std::cout << lexical.current_token->symbol << std::endl;
+    std::cout << lexical.current_token->lexem << std::endl;
     //rotulo := 1
-    token = Lexical::get_token();
+    lexical.next_token();
 
-    if (token->symbol == Symbols::SPROGRAMA) {
+    std::cout << lexical.current_token->symbol << std::endl;
+    std::cout << lexical.current_token->lexem << std::endl;
+    if (lexical.current_token->symbol == Symbols::SPROGRAMA) {
 
-        token = Lexical::get_token();
-        if (token->symbol == Symbols::SIDENTIFICADOR) {
+        lexical.next_token();
+        if (lexical.current_token->symbol == Symbols::SIDENTIFICADOR) {
 
             //insere_tabela(token.lexema,"nomedeprograma", "", "")
             
-            token = Lexical::get_token();
-            if (token->symbol == Symbols::SPONTO_VIRGULA) {
+            lexical.next_token();
+            if (lexical.current_token->symbol == Symbols::SPONTO_VIRGULA) {
 
                 //analisa_bloco
-                Parser::snippet_analyser();
-                // token = Lexical::get_token();
+                // snippet_analyser();
+                lexical.next_token();
 
-                if (token->symbol == Symbols::SPONTO) {
-                    token = Lexical::get_token();
-                    if (token != NULL) raiseError(Error::EXPECTED_EOF);
+                if (lexical.current_token->symbol == Symbols::SPONTO) {
+                    lexical.next_token();
+                    if (lexical.current_token->symbol != Symbols::END_OF_FILE) raiseError(Error::EXPECTED_EOF);
                 } else {
                     raiseError(Error::EXPECTED_DOT);
                 }
@@ -54,7 +47,88 @@ int main(int argc, char *argv[]) {
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
 
-    Lexical::close_file();
+    lexical.close_file();
     
     return 0;
 }
+
+// void snippet_analyser(){
+//     Lexical::next_token();
+//     et_variable_analyser();
+
+//     //subroutine_analyser
+//     //commands_analyser
+    
+// }
+
+// void et_variable_analyser(){
+    
+//     if(Lexical::current_token->symbol == Symbols::SVAR){
+//         Lexical::next_token();
+
+//         if(Lexical::current_token->symbol == Symbols::SIDENTIFICADOR){
+//             while(Lexical::current_token->symbol == Symbols::SIDENTIFICADOR){
+//                 //variable_analyser
+
+//                 std::cout << "aaa: " + Lexical::current_token->lexem << std::endl;
+//                 variables_analyser();
+//                 std::cout << "bbb: " + Lexical::current_token->lexem << std::endl;
+
+//                 // Lexical::next_token();
+//                 if(Lexical::current_token->symbol == Symbols::SPONTO_VIRGULA){
+//                     Lexical::next_token();
+
+//                 }else{
+
+//                     raiseError(Error::EXPECTED_SEMICOLON);
+//                 }
+//             }
+//         }else{
+//             raiseError(Error::EXPECTED_IDENTIFIER);
+//         }
+//     }
+// }
+
+// void variables_analyser(){
+//     do{
+//         if(Lexical::current_token->symbol == Symbols::SIDENTIFICADOR){
+//             //pesquisa_duplicvar_tabela(token.lexema)
+//             //se não encontrou duplicidade
+//             //então inicio
+//                 //insere_tabela(token.lexema, "variavel", ",")
+//                 Lexical::next_token();
+//                 if(Lexical::current_token->symbol == Symbols::SVIRGULA || Lexical::current_token->symbol == Symbols::SDOISPONTOS){
+//                     if(Lexical::current_token->symbol == Symbols::SVIRGULA){
+//                         Lexical::next_token();
+
+//                         if(Lexical::current_token->symbol == Symbols::SDOISPONTOS){
+//                             raiseError(Error::NOT_EXPECTED_COLON);
+//                         }
+//                     }
+//                 }else{
+//                     raiseError(Error::EXPECTED_COMMA_OR_COLON);
+//                 }
+//         }else{
+//             raiseError(Error::EXPECTED_IDENTIFIER);
+//         }
+
+//     }while(Lexical::current_token->symbol != Symbols::SDOISPONTOS);
+
+//     Lexical::next_token();
+//     type_analyser();
+//     //lexic(token)
+//     //type_analyser
+// }
+
+// void type_analyser(){
+//     if(Lexical::current_token->symbol != Symbols::SINTEIRO && Lexical::current_token->symbol != Symbols::SBOOLEANO){
+//         raiseError(Error::EXPECTED_BOOLEAN_OR_INT);
+//     }else{
+//         //coloca_tipo_tabela(Lexical::current_token->lexem);
+//         //lexic(token);
+        
+//         Lexical::next_token();
+//         std::cout << "ccc: " + Lexical::current_token->lexem << std::endl;
+
+//     }
+// }

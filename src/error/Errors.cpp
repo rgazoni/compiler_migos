@@ -2,10 +2,11 @@
 #include "../lexical_analyser.h"
 #include <iostream>
 
-void raiseError(Error error)
-{
-    std::cout << "ERROR LINE: " << Lexical::get_execution_line() << std::endl;
-    std::cout << "ERROR COLUMN: " << Lexical::get_execution_column() << std::endl;
+void raiseError(Error error) {
+    Lexical lexical;
+
+    std::cout << "ERROR LINE: " << lexical.get_execution_line() << std::endl;
+    std::cout << "ERROR COLUMN: " << lexical.get_execution_column() << std::endl;
     switch(error)
     {
         case Error::TOKEN_NOT_VALID:

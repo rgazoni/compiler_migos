@@ -56,7 +56,8 @@ enum class Symbols
     // Error Symbols
     SERRO,
 
-    EMPTY
+    EMPTY,
+    END_OF_FILE
 };
 
 std::ostream& operator<<(std::ostream& os, const Symbols Token);

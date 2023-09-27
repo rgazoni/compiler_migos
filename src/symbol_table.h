@@ -1,9 +1,9 @@
+#ifndef symbol_table_h
+#define symbol_table_h
+
 #include <fstream>
 #include <iostream>
 #include <stack>
-
-#ifndef symbol_table_h
-#define symbol_table_h
 
 class Record{
     private:

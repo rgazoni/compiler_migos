@@ -1,10 +1,10 @@
+#ifndef Token_h
+#define Token_h
+
 #include "symbols.h"
 #include <fstream>
 #include <iostream>
 #include <string>
-
-#ifndef Token_h
-#define Token_h
 
 class Token {
 public:
