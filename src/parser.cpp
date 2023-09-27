@@ -5,33 +5,31 @@
 
 
 int main(int argc, char *argv[]) {
-    Lexical* lexical = new Lexical();
+    Lexical lexical = Lexical();
 
-    lexical->open_file(argv);
+    lexical.open_file(argv);
     // Token* token;
 
     //rotulo := 1
-    lexical->next_token();
+    lexical.next_token();
 
-    std::cout << lexical->get_current_token().lexem << std::endl;
+    if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
 
-    if (lexical->get_current_token().symbol == Symbols::SPROGRAMA) {
-
-        lexical->next_token();
-        if (lexical->get_current_token().symbol == Symbols::SIDENTIFICADOR) {
+        lexical.next_token();
+        if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {
 
             //insere_tabela(token->lexema,"nomedeprograma", "", "")
             
-            lexical->next_token();
-            if (lexical->get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
+            lexical.next_token();
+            if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
 
                 //analisa_bloco
                 // snippet_analyser();
-                lexical->next_token();
+                lexical.next_token();
 
-                if (lexical->get_current_token().symbol == Symbols::SPONTO) {
-                    lexical->next_token();
-                    if (lexical->get_current_token().symbol != Symbols::END_OF_FILE) raiseError(Error::EXPECTED_EOF);
+                if (lexical.get_current_token().symbol == Symbols::SPONTO) {
+                    lexical.next_token();
+                    if (lexical.get_current_token().symbol != Symbols::END_OF_FILE) raiseError(Error::EXPECTED_EOF);
                 } else {
                     raiseError(Error::EXPECTED_DOT);
                 }
@@ -45,7 +43,7 @@ int main(int argc, char *argv[]) {
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
 
-    lexical->close_file();
+    lexical.close_file();
     
     return 0;
 }
