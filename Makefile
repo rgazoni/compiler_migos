@@ -41,7 +41,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 .PHONY: clean
 clean:
-	rm -r $(TARGET_DIR) $(BUILD_DIR) 
+	rm -r $(TARGET_DIR) $(BUILD_DIR) 2>/dev/null || true
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
