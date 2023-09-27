@@ -5,66 +5,71 @@
 #include <fstream>
 #include <iostream>
 
-namespace {
-    std::ifstream file;
-    char *c = new char;
-    int execution_line = 1;
-    int execution_column = 1;
+//Defining static variables
+Token* Lexical::current_token = new Token();
+int Lexical::execution_line = 1;
+int Lexical::execution_column = 0;
+char* Lexical::c = new char;
+std::ifstream Lexical::file;
+
+void Lexical::open_file(char *argv[]) {
+    file.open(argv[1]);
+    if (!file.is_open()) {
+        raiseError(Error::COULD_NOT_OPEN_FILE);
+    }
+    get_character_from_file();
 }
 
-namespace Lexical {
+void Lexical::close_file() {
+    file.close();
+}
 
-    void open_file(char *argv[]) {
-        file.open(argv[1]);
-        if (!file.is_open()) {
-            raiseError(Error::COULD_NOT_OPEN_FILE);
-        }
-        get_character_from_file();
-    }
-    
-    void close_file() {
-        file.close();
-    }
+int Lexical::get_execution_line() {
+    return execution_line;
+}
 
-    int get_execution_line() {
-        return execution_line;
-    }
+int Lexical::get_execution_column() {
+    return execution_column;
+}
 
-    int get_execution_column() {
-        return execution_column - 1;
-    }
+Token Lexical::get_current_token() {
+    return *current_token;
+}
 
-    Token* get_token() { 
+void Lexical::next_token() { 
+    if (!file.eof()) {
+        unnecessary_characters_dump();
         if (!file.eof()) {
-            unnecessary_characters_dump();
-            if (!file.eof()) {
-                if (isdigit(*c)) {
-                    return handle_digit();
-                } else if (isalpha(*c)) {
-                    return handle_reserved_words_and_identifiers();
-                } else if(*c == ':'){
-                    return handle_assignment();
-                } else if (*c == '+' || *c == '-' || *c == '*') {
-                    return handle_aritmethic_operator();
-                } else if (*c == '!' || *c == '<' || *c == '>' || *c == '=') {
-                    return handle_relational_operator();
-                } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
-                    return handle_punctuation();
-                } else {
-                    raiseError(Error::TOKEN_NOT_VALID);
-                }
+            if (isdigit(*c)) {
+                handle_digit();
+            } else if (isalpha(*c)) {
+                handle_reserved_words_and_identifiers();
+            } else if(*c == ':'){
+                handle_assignment();
+            } else if (*c == '+' || *c == '-' || *c == '*') {
+                handle_aritmethic_operator();
+            } else if (*c == '!' || *c == '<' || *c == '>' || *c == '=') {
+                handle_relational_operator();
+            } else if (*c == ';' || *c == ',' || *c == '(' || *c == ')' || *c == '.') {
+                handle_punctuation();
+            } else {
+                raiseError(Error::TOKEN_NOT_VALID);
             }
         }
-        return NULL;
+    } 
+
+    if (file.eof()) {
+        current_token->symbol = Symbols::END_OF_FILE;
+        current_token->lexem = "";
     }
 }
 
-void get_character_from_file() {
+void Lexical::get_character_from_file() {
     file.get(*c);
     execution_column++;
 }
 
-void unnecessary_characters_dump() {
+void Lexical::unnecessary_characters_dump() {
 
     while ((*c == '{' || *c == ' ' || (int)*c == 13 || (int)*c == 10 || (int)*c == 9)
             && !file.eof()) {
@@ -87,8 +92,7 @@ void unnecessary_characters_dump() {
     }
 }
 
-// Receive a alphanumeric character
-Token* handle_reserved_words_and_identifiers() {
+void Lexical::handle_reserved_words_and_identifiers() {
     std::string word;
     // Add the first character to the word string
     word += c;
@@ -98,57 +102,57 @@ Token* handle_reserved_words_and_identifiers() {
         word += *c;
         get_character_from_file();
     }
-    Token *token = new_node(word, Symbols::EMPTY);
+
+    current_token->lexem = word;
 
     if (word == "programa") {
-        token->symbol = Symbols::SPROGRAMA;
+        current_token->symbol = Symbols::SPROGRAMA;
     } else if (word == "se") {
-        token->symbol = Symbols::SSE;
+        current_token->symbol = Symbols::SSE;
     } else if (word == "entao") {
-        token->symbol = Symbols::SENTAO;
+        current_token->symbol = Symbols::SENTAO;
     } else if (word == "senao") {
-        token->symbol = Symbols::SSENAO;
+        current_token->symbol = Symbols::SSENAO;
     } else if (word == "enquanto") {
-        token->symbol = Symbols::SENQUANTO;
+        current_token->symbol = Symbols::SENQUANTO;
     } else if (word == "faca") {
-        token->symbol = Symbols::SFACA;
+        current_token->symbol = Symbols::SFACA;
     } else if (word == "inicio") {
-        token->symbol = Symbols::SINICIO;
+        current_token->symbol = Symbols::SINICIO;
     } else if (word == "fim") {
-        token->symbol = Symbols::SFIM;
+        current_token->symbol = Symbols::SFIM;
     } else if (word == "escreva") {
-        token->symbol = Symbols::SESCREVA;
+        current_token->symbol = Symbols::SESCREVA;
     } else if (word == "leia") {
-        token->symbol = Symbols::SLEIA;
+        current_token->symbol = Symbols::SLEIA;
     } else if (word == "var") {
-        token->symbol = Symbols::SVAR;
+        current_token->symbol = Symbols::SVAR;
     } else if (word == "inteiro") {
-        token->symbol = Symbols::SINTEIRO;
+        current_token->symbol = Symbols::SINTEIRO;
     } else if (word == "booleano") {
-        token->symbol = Symbols::SBOOLEANO;
+        current_token->symbol = Symbols::SBOOLEANO;
     } else if (word == "verdadeiro") {
-        token->symbol = Symbols::SVERDADEIRO;
+        current_token->symbol = Symbols::SVERDADEIRO;
     } else if (word == "falso") {
-        token->symbol = Symbols::SFALSO;
+        current_token->symbol = Symbols::SFALSO;
     } else if (word == "procedimento") {
-        token->symbol = Symbols::SPROCEDIMENTO;
+        current_token->symbol = Symbols::SPROCEDIMENTO;
     } else if (word == "funcao") {
-        token->symbol = Symbols::SFUNCAO;
+        current_token->symbol = Symbols::SFUNCAO;
     } else if (word == "div") {
-        token->symbol = Symbols::SDIV;
+        current_token->symbol = Symbols::SDIV;
     } else if (word == "e") {
-        token->symbol = Symbols::SE;
+        current_token->symbol = Symbols::SE;
     } else if (word == "ou") {
-        token->symbol = Symbols::SOU;
+        current_token->symbol = Symbols::SOU;
     } else if (word == "nao") {
-        token->symbol = Symbols::SNAO;
+        current_token->symbol = Symbols::SNAO;
     } else {
-        token->symbol = Symbols::SIDENTIFICADOR;
+        current_token->symbol = Symbols::SIDENTIFICADOR;
     }
-    return token;
-  }
+}
 
-Token* handle_digit() {
+void Lexical::handle_digit() {
     std::string word;
     word = *c;
     get_character_from_file();
@@ -156,97 +160,98 @@ Token* handle_digit() {
         word += c;
         get_character_from_file();
     }
-    Token *token = new_node(word, Symbols::SNUMERO);
-    return token;
+
+    current_token->symbol = Symbols::SNUMERO;
+    current_token->lexem = word;
+
 }
 
-Token* handle_aritmethic_operator() {
+void Lexical::handle_aritmethic_operator() {
     std::string word;
     word = *c;
     get_character_from_file();
-    Token *token = new_node(word, Symbols::EMPTY);
 
-    if (token->lexem == "+") {
-        token->symbol = Symbols::SMAIOR;
-    } else if (token->lexem == "-") {
-        token->symbol = Symbols::SMENOS;
-    } else if (token->lexem == "*") {
-        token->symbol = Symbols::SMULT;
+    current_token->lexem = word;
+
+    if (word == "+") {
+        current_token->symbol = Symbols::SMAIOR;
+    } else if (word == "-") {
+        current_token->symbol = Symbols::SMENOS;
+    } else if (word == "*") {
+        current_token->symbol = Symbols::SMULT;
     }
-    return token;
 }
 
-Token* handle_relational_operator() {
+void Lexical::handle_relational_operator() {
     std::string word;
     word = *c;
-    Token *token = new_node(word, Symbols::EMPTY);
+    current_token->lexem = word;
     get_character_from_file();
 
     if (word == ">") {
         if (*c == '=') {
-            token->symbol = Symbols::SMAIORIG;
+            current_token->symbol = Symbols::SMAIORIG;
             word += c;
-            token->lexem = word;
+            current_token->lexem = word;
             get_character_from_file();
         } else
-            token->symbol = Symbols::SMAIOR;
+            current_token->symbol = Symbols::SMAIOR;
     } else if (word == "<") {
         if (*c == '=') {
-            token->symbol = Symbols::SMENORIG;
+            current_token->symbol = Symbols::SMENORIG;
             word += c;
-            token->lexem = word;
+            current_token->lexem = word;
             get_character_from_file();
         } else
-            token->symbol = Symbols::SMENOR;
+            current_token->symbol = Symbols::SMENOR;
     } else if (word == "!") {
         if (*c == '=') {
-            token->symbol = Symbols::SDIF;
+            current_token->symbol = Symbols::SDIF;
             word += c;
-            token->lexem = word;
+            current_token->lexem = word;
             get_character_from_file();
         } else{
-            token->symbol = Symbols::SERRO;
+            current_token->symbol = Symbols::SERRO;
         }
     } else if (word == "=") {
-        token->symbol = Symbols::SIG;
+        current_token->symbol = Symbols::SIG;
     }
 
-    return token;
 }
 
-Token* handle_punctuation() {
+void Lexical::handle_punctuation() {
     std::string word;
     word = *c;
     get_character_from_file();
-    Token *token = new_node(word, Symbols::EMPTY);
+    current_token->lexem = word;
 
     if (word == ";") {
-        token->symbol = Symbols::SPONTO_VIRGULA;
+        current_token->symbol = Symbols::SPONTO_VIRGULA;
     } else if (word == ",") {
-        token->symbol = Symbols::SVIRGULA;
+        current_token->symbol = Symbols::SVIRGULA;
     } else if (word == "(") {
-        token->symbol = Symbols::SABRE_PARENTESES;
+        current_token->symbol = Symbols::SABRE_PARENTESES;
     } else if (word == ")") {
-        token->symbol = Symbols::SFECHA_PARENTESES;
+        current_token->symbol = Symbols::SFECHA_PARENTESES;
     } else if (word == ".") {
-        token->symbol = Symbols::SPONTO;
+        current_token->symbol = Symbols::SPONTO;
     }
 
-    return token;
 }
 
-Token* handle_assignment() {
+void Lexical::handle_assignment() {
     std::string word;
     word = *c;
     get_character_from_file();
     if (*c == '=') { 
         word += *c;
-        Token *token = new_node(word, Symbols::SATRIBUICAO);
+
+        current_token->symbol = Symbols::SATRIBUICAO;
+        current_token->lexem = word;
+
         get_character_from_file();
-        return token;
     } else {
-        Token *token = new_node(word, Symbols::SDOISPONTOS);
-        return token;
+        current_token->symbol = Symbols::SDOISPONTOS;
+        current_token->lexem = word;
     }   
 }
-

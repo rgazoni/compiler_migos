@@ -122,6 +122,9 @@ std::ostream& operator<<(std::ostream& os, const Symbols Token)
    case Symbols::SERRO:
         os << "SERRO";
         break;
+   case Symbols::END_OF_FILE:
+        os << "END_OF_FILE";
+        break;
     default: 
         os << "EMPTY";
         break;
