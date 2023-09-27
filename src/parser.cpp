@@ -5,35 +5,33 @@
 
 
 int main(int argc, char *argv[]) {
-    Lexical lexical = Lexical();
+    Lexical* lexical = new Lexical();
 
-    lexical.open_file(argv);
+    lexical->open_file(argv);
     // Token* token;
 
-    std::cout << lexical.current_token->symbol << std::endl;
-    std::cout << lexical.current_token->lexem << std::endl;
     //rotulo := 1
-    lexical.next_token();
+    lexical->next_token();
 
-    std::cout << lexical.current_token->symbol << std::endl;
-    std::cout << lexical.current_token->lexem << std::endl;
-    if (lexical.current_token->symbol == Symbols::SPROGRAMA) {
+    std::cout << lexical->get_current_token().lexem << std::endl;
 
-        lexical.next_token();
-        if (lexical.current_token->symbol == Symbols::SIDENTIFICADOR) {
+    if (lexical->get_current_token().symbol == Symbols::SPROGRAMA) {
 
-            //insere_tabela(token.lexema,"nomedeprograma", "", "")
+        lexical->next_token();
+        if (lexical->get_current_token().symbol == Symbols::SIDENTIFICADOR) {
+
+            //insere_tabela(token->lexema,"nomedeprograma", "", "")
             
-            lexical.next_token();
-            if (lexical.current_token->symbol == Symbols::SPONTO_VIRGULA) {
+            lexical->next_token();
+            if (lexical->get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
 
                 //analisa_bloco
                 // snippet_analyser();
-                lexical.next_token();
+                lexical->next_token();
 
-                if (lexical.current_token->symbol == Symbols::SPONTO) {
-                    lexical.next_token();
-                    if (lexical.current_token->symbol != Symbols::END_OF_FILE) raiseError(Error::EXPECTED_EOF);
+                if (lexical->get_current_token().symbol == Symbols::SPONTO) {
+                    lexical->next_token();
+                    if (lexical->get_current_token().symbol != Symbols::END_OF_FILE) raiseError(Error::EXPECTED_EOF);
                 } else {
                     raiseError(Error::EXPECTED_DOT);
                 }
@@ -47,7 +45,7 @@ int main(int argc, char *argv[]) {
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
 
-    lexical.close_file();
+    lexical->close_file();
     
     return 0;
 }
@@ -63,19 +61,19 @@ int main(int argc, char *argv[]) {
 
 // void et_variable_analyser(){
     
-//     if(Lexical::current_token->symbol == Symbols::SVAR){
+//     if(Lexical::get_current_token().symbol == Symbols::SVAR){
 //         Lexical::next_token();
 
-//         if(Lexical::current_token->symbol == Symbols::SIDENTIFICADOR){
-//             while(Lexical::current_token->symbol == Symbols::SIDENTIFICADOR){
+//         if(Lexical::get_current_token().symbol == Symbols::SIDENTIFICADOR){
+//             while(Lexical::get_current_token().symbol == Symbols::SIDENTIFICADOR){
 //                 //variable_analyser
 
-//                 std::cout << "aaa: " + Lexical::current_token->lexem << std::endl;
+//                 std::cout << "aaa: " + Lexical::get_current_token().lexem << std::endl;
 //                 variables_analyser();
-//                 std::cout << "bbb: " + Lexical::current_token->lexem << std::endl;
+//                 std::cout << "bbb: " + Lexical::get_current_token().lexem << std::endl;
 
 //                 // Lexical::next_token();
-//                 if(Lexical::current_token->symbol == Symbols::SPONTO_VIRGULA){
+//                 if(Lexical::get_current_token().symbol == Symbols::SPONTO_VIRGULA){
 //                     Lexical::next_token();
 
 //                 }else{
@@ -91,17 +89,17 @@ int main(int argc, char *argv[]) {
 
 // void variables_analyser(){
 //     do{
-//         if(Lexical::current_token->symbol == Symbols::SIDENTIFICADOR){
-//             //pesquisa_duplicvar_tabela(token.lexema)
+//         if(Lexical::get_current_token().symbol == Symbols::SIDENTIFICADOR){
+//             //pesquisa_duplicvar_tabela(token->lexema)
 //             //se não encontrou duplicidade
 //             //então inicio
-//                 //insere_tabela(token.lexema, "variavel", ",")
+//                 //insere_tabela(token->lexema, "variavel", ",")
 //                 Lexical::next_token();
-//                 if(Lexical::current_token->symbol == Symbols::SVIRGULA || Lexical::current_token->symbol == Symbols::SDOISPONTOS){
-//                     if(Lexical::current_token->symbol == Symbols::SVIRGULA){
+//                 if(Lexical::get_current_token().symbol == Symbols::SVIRGULA || Lexical::current_token->symbol == Symbols::SDOISPONTOS){
+//                     if(Lexical::get_current_token().symbol == Symbols::SVIRGULA){
 //                         Lexical::next_token();
 
-//                         if(Lexical::current_token->symbol == Symbols::SDOISPONTOS){
+//                         if(Lexical::get_current_token().symbol == Symbols::SDOISPONTOS){
 //                             raiseError(Error::NOT_EXPECTED_COLON);
 //                         }
 //                     }
@@ -112,7 +110,7 @@ int main(int argc, char *argv[]) {
 //             raiseError(Error::EXPECTED_IDENTIFIER);
 //         }
 
-//     }while(Lexical::current_token->symbol != Symbols::SDOISPONTOS);
+//     }while(Lexical::get_current_token().symbol != Symbols::SDOISPONTOS);
 
 //     Lexical::next_token();
 //     type_analyser();
@@ -121,14 +119,14 @@ int main(int argc, char *argv[]) {
 // }
 
 // void type_analyser(){
-//     if(Lexical::current_token->symbol != Symbols::SINTEIRO && Lexical::current_token->symbol != Symbols::SBOOLEANO){
+//     if(Lexical::get_current_token().symbol != Symbols::SINTEIRO && Lexical::current_token->symbol != Symbols::SBOOLEANO){
 //         raiseError(Error::EXPECTED_BOOLEAN_OR_INT);
 //     }else{
-//         //coloca_tipo_tabela(Lexical::current_token->lexem);
+//         //coloca_tipo_tabela(Lexical::get_current_token().lexem);
 //         //lexic(token);
         
 //         Lexical::next_token();
-//         std::cout << "ccc: " + Lexical::current_token->lexem << std::endl;
+//         std::cout << "ccc: " + Lexical::get_current_token().lexem << std::endl;
 
 //     }
 // }

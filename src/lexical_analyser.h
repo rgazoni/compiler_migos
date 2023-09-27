@@ -6,8 +6,6 @@
 
 class Lexical {
 public:
-    static Token* current_token;
-
     void open_file(char *argv[]);
     void close_file();
     int get_execution_line();
@@ -16,6 +14,7 @@ public:
     void next_token();
 
 private:
+    static Token* current_token;
     static std::ifstream file;
     static char *c;
     static int execution_line;

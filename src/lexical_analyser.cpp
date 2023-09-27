@@ -6,9 +6,9 @@
 #include <iostream>
 
 //Defining static variables
-Token* Lexical::current_token = new_node("", Symbols::EMPTY);
+Token* Lexical::current_token = new Token();
 int Lexical::execution_line = 1;
-int Lexical::execution_column = 1;
+int Lexical::execution_column = 0;
 char* Lexical::c = new char;
 std::ifstream Lexical::file;
 
@@ -29,7 +29,11 @@ int Lexical::get_execution_line() {
 }
 
 int Lexical::get_execution_column() {
-    return execution_column - 1;
+    return execution_column;
+}
+
+Token Lexical::get_current_token() {
+    return *current_token;
 }
 
 void Lexical::next_token() { 
@@ -52,10 +56,12 @@ void Lexical::next_token() {
                 raiseError(Error::TOKEN_NOT_VALID);
             }
         }
-    }
+    } 
 
-    current_token->symbol = Symbols::END_OF_FILE;
-    current_token->lexem = "";
+    if (file.eof()) {
+        current_token->symbol = Symbols::END_OF_FILE;
+        current_token->lexem = "";
+    }
 }
 
 void Lexical::get_character_from_file() {
