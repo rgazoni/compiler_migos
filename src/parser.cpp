@@ -27,7 +27,6 @@ int main(int argc, char *argv[]) {
                 //analisa_bloco
                 Parser::snippet_analyser();
 
-
                 // lexical.next_token();
 
                 if (lexical.get_current_token().symbol == Symbols::SPONTO) {

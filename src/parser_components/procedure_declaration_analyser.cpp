@@ -1,7 +1,7 @@
-#include "../src/lexical_analyser.h"
-#include "../src/parser_components/general_parser.h"
-#include "../src/symbols.h"
-#include "./src/error/Errors.h"
+#include "lexical_analyser.h"
+#include "general_parser.h"
+#include "symbols.h"
+#include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
 

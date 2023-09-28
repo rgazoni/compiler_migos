@@ -10,7 +10,6 @@ namespace Parser {
     void et_variable_analyser(){
         Lexical lexical = Lexical();
 
-        
         if(lexical.get_current_token().symbol == Symbols::SVAR){
             lexical.next_token();
 

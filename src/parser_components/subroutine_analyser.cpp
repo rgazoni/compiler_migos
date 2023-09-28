@@ -1,6 +1,6 @@
-#include "../src/lexical_analyser.h"
-#include "../src/parser_components/general_parser.h"
-#include "../src/symbols.h"
+#include "lexical_analyser.h"
+#include "general_parser.h"
+#include "symbols.h"
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
@@ -19,7 +19,8 @@ namespace Parser{
         //         rotulo:= rotulo + 1
         //         flag = 1
         //     fim
-        while (lexical.get_current_token().symbol == Symbols::SPROCEDIMENTO || lexical.get_current_token().symbol == Symbols::SFUNCAO) {
+        while (lexical.get_current_token().symbol == Symbols::SPROCEDIMENTO || 
+            lexical.get_current_token().symbol == Symbols::SFUNCAO) {
             if(lexical.get_current_token().symbol == Symbols::SPROCEDIMENTO){
                 //procedure_declaration_analyser
                 Parser::procedure_declaration_analyser();
