@@ -1,46 +1,43 @@
-// #include "symbols.h"
-// #include "./error/Errors.h"
-// #include <fstream>
-// #include <iostream>
-// #include "lexical_analyser.h"
-// #include "general_parser.h"
+#include "symbols.h"
+#include "./error/Errors.h"
+#include <fstream>
+#include <iostream>
+#include "lexical_analyser.h"
+#include "general_parser.h"
 
-// namespace Parser {
-//     void factor_analyser(){
-//         Token* token;
-//         if(token->symbol == Symbols::SIDENTIFICADOR){
-//             //if(pesquisa_tabela(token->lexem, nivel, ind)){
-//             //     if(TabSimb[ind].->tipo == "funcao inteiro" || TabSimb[ind].->tipo == "funcao booleano")
-//             //         Analisa_chamada_funcao
-//             //     else{
-//             //         Lexic(token);
-//             //      }
-//             //} else{
-//             //    error
-//             //}
-//         }else if(token->symbol == Symbols::SNUMERO){
-//                 Lexical::get_token(token);
-//                 //lexic(token)
-//         }else if(token->symbol == Symbols::SNAO){
-//             //lexic(token)
-//             Lexical::get_token(token);
-//             factor_analyser();
-//         }else if(token->symbol == Symbols::SABRE_PARENTESES){
-//             //lexic(token);
-//             Lexical::get_token(token);
+namespace Parser {
+    void factor_analyser(){
+        Lexical lexical = Lexical();
 
-//             //expression_analyser
-//             if(token->symbol == Symbols::SFECHA_PARENTESES){
-//                 Lexical::get_token(token);
-//                 //lexic(token);
-//             }else{
-//                 raiseError(Error::EXPECTED_CLOSE_PARENTHESIS);
-//             }
-//         } else if(token->lexem == "true" || token->lexem == "false"){
-//             //lexic(token);
-//             Lexical::get_token(token);
-//         }else{
-//             raiseError(Error::EXPECTED_LEXEM);
-//         }
-//     }
-// }
+        if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
+            // Se pesquisa_tabela(token.lexema,nível,ind)
+            // Então Se (TabSimb[ind].tipo = “função inteiro”) ou 
+            //     (TabSimb[ind].tipo = “função booleano”)
+            // Então Analisa_chamada_função 
+            //     Senão Léxico(token)
+            // Senão ERRO
+        }else if(lexical.get_current_token().symbol == Symbols::SNUMERO){
+            lexical.next_token();
+
+        }else if(lexical.get_current_token().symbol == Symbols::SNAO){
+            lexical.next_token();
+            Parser::factor_analyser();
+
+        }else if(lexical.get_current_token().symbol == Symbols::SABRE_PARENTESES){
+            lexical.next_token();
+            // Parser::expression_analyser();
+            if(lexical.get_current_token().symbol == Symbols::SFECHA_PARENTESES){
+                lexical.next_token();
+
+            }else{
+                raiseError(Error::EXPECTED_CLOSE_PARENTHESIS);
+            }
+        } else if(lexical.get_current_token().lexem == "true" || lexical.get_current_token().lexem == "false"){
+            //lexic(token);
+            lexical.next_token();
+            
+        }else{
+            raiseError(Error::EXPECTED_LEXEM);
+        }
+    }
+}

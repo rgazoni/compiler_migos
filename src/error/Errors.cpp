@@ -55,7 +55,7 @@ void raiseError(Error error) {
             break;
         case Error::EXPECTED_CLOSE_PARENTHESIS:
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_CLOSE_PARENTHESIS << std::endl;
-            std::cout << "MESSAGE: Parenthesis should be closed" << std::endl;
+            std::cout << "MESSAGE: Expected close parenthesis" << std::endl;
             break;
         case Error::EXPECTED_LEXEM:
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_LEXEM << std::endl;
@@ -64,6 +64,10 @@ void raiseError(Error error) {
         case Error::EXPECTED_COLON:
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_COLON << std::endl;
             std::cout << "MESSAGE: Expected colon" << std::endl;
+            break;
+        case Error::EXPECTED_OPEN_PARENTHESIS:
+            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_OPEN_PARENTHESIS << std::endl;
+            std::cout << "MESSAGE: Expected open parenthesis" << std::endl;
             break;
         // case Error::INCORRECT_LEXEM:
         //     std::cout << "ERROR CODE: " << (int) Error::INCORRECT_LEXEM << std::endl;
