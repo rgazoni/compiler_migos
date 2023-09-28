@@ -2,6 +2,10 @@
 #include "Symbols.h"
 #include "./error/Error.h"
 
+namespace Parser {
+    void write_analyser();
+}
+
 void write_analyser () {
     Lexical lexical = Lexical();
    
@@ -24,3 +28,4 @@ void write_analyser () {
         raiseError(Error::EXPECTED_OPEN_PARENTHESIS);
     }
 }
+
