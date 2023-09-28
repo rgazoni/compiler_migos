@@ -61,10 +61,10 @@ void raiseError(Error error) {
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_LEXEM << std::endl;
             std::cout << "MESSAGE: Expected boolean lexem" << std::endl;
             break;
-        // case Error::PARENTHESIS_DOES_NOT_CLOSE:
-        //     std::cout << "ERROR CODE: " << (int) Error::PARENTHESIS_DOES_NOT_CLOSE << std::endl;
-        //     std::cout << "MESSAGE: Parenthesis were not closed" << std::endl;
-        //     break;
+        case Error::EXPECTED_COLON:
+            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_COLON << std::endl;
+            std::cout << "MESSAGE: Expected colon" << std::endl;
+            break;
         // case Error::INCORRECT_LEXEM:
         //     std::cout << "ERROR CODE: " << (int) Error::INCORRECT_LEXEM << std::endl;
         //     std::cout << "MESSAGE: Lexem is incorrect" << std::endl;

@@ -56,12 +56,13 @@ void Lexical::next_token() {
                 raiseError(Error::TOKEN_NOT_VALID);
             }
         }
-    } 
+    }
 
     if (file.eof()) {
         current_token->symbol = Symbols::END_OF_FILE;
         current_token->lexem = "";
     }
+
 }
 
 void Lexical::get_character_from_file() {
