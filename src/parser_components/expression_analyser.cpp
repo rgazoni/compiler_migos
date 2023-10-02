@@ -13,7 +13,7 @@ namespace Parser{
             lexical.get_current_token().symbol == Symbols::SIG || lexical.get_current_token().symbol == Symbols::SMENOR || 
             lexical.get_current_token().symbol == Symbols::SMENORIG || lexical.get_current_token().symbol == Symbols::SDIF) {
             lexical.next_token();
-            Parser::simple_expression_analyser();
+            Parser::simple_expression_analyser();        
         }
     }
 }
