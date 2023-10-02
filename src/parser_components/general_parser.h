@@ -11,7 +11,9 @@ namespace Parser {
     void subroutine_analyser();
     void procedure_declaration_analyser();
     void function_declaration_analyser();
-
+    void term_analyser();
+    void expression_analyser();
+    void simple_expression_analyser();
 }
 
 #endif

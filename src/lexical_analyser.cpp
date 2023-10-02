@@ -175,7 +175,7 @@ void Lexical::handle_aritmethic_operator() {
     current_token->lexem = word;
 
     if (word == "+") {
-        current_token->symbol = Symbols::SMAIOR;
+        current_token->symbol = Symbols::SMAIS;
     } else if (word == "-") {
         current_token->symbol = Symbols::SMENOS;
     } else if (word == "*") {

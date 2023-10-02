@@ -4,48 +4,62 @@
 #include <iostream>
 #include "../parser_components/general_parser.h"
 
-
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     Lexical lexical = Lexical();
 
     lexical.open_file(argv);
     // Token* token;
 
-    //rotulo := 1
+    // rotulo := 1
     lexical.next_token();
 
-    if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
+    if (lexical.get_current_token().symbol == Symbols::SPROGRAMA)
+    {
 
         lexical.next_token();
-        if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {
+        if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR)
+        {
 
-            //insere_tabela(token->lexema,"nomedeprograma", "", "")
-            
+            // insere_tabela(token->lexema,"nomedeprograma", "", "")
+
             lexical.next_token();
-            if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
+            if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA)
+            {
 
-                //analisa_bloco
+                // analisa_bloco
                 Parser::snippet_analyser();
 
                 // lexical.next_token();
 
-                if (lexical.get_current_token().symbol == Symbols::SPONTO) {
+                if (lexical.get_current_token().symbol == Symbols::SPONTO)
+                {
                     lexical.next_token();
-                    if (lexical.get_current_token().symbol != Symbols::END_OF_FILE) raiseError(Error::EXPECTED_EOF);
-                } else {
+                    std::cout << lexical.get_current_token().lexem << std::endl;
+                    if (lexical.get_current_token().symbol != Symbols::END_OF_FILE)
+                        raiseError(Error::EXPECTED_EOF);
+                }
+                else
+                {
                     raiseError(Error::EXPECTED_DOT);
                 }
-            } else {
+            }
+            else
+            {
                 raiseError(Error::EXPECTED_SEMICOLON);
             }
-        } else {
+        }
+        else
+        {
             raiseError(Error::EXPECTED_IDENTIFIER);
         }
-    } else {
+    }
+    else
+    {
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
 
     lexical.close_file();
-    
+
     return 0;
 }

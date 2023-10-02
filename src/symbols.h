@@ -32,7 +32,8 @@ enum class Symbols
     // Digit Symbol
     SNUMERO,
 
-    // Arithmetic Symbols SMAIS,
+    // Arithmetic Symbols 
+    SMAIS,
     SMENOS,
     SMULT,
 

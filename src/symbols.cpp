@@ -74,6 +74,9 @@ std::ostream& operator<<(std::ostream& os, const Symbols Token)
    case Symbols::SNUMERO:
         os << "SNUMERO";
         break;
+   case Symbols::SMAIS:
+        os << "SMAIS";
+        break;
    case Symbols::SMENOS:
         os << "SMENOS";
         break;

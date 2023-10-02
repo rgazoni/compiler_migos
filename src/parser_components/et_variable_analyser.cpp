@@ -20,8 +20,7 @@ namespace Parser {
                     if(lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA){
                         lexical.next_token();
 
-                    }else{
-
+                    } else {
                         raiseError(Error::EXPECTED_SEMICOLON);
                     }
                 }
