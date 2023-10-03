@@ -6,17 +6,17 @@
  #include "general_parser.h"
 
 namespace Parser{
-    void conditional_analyser(){
+    void conditional_analyzer() {
         Lexical lexical = Lexical();
         lexical.next_token();
         Parser::expression_analyser();
-        if(lexical.get_current_token().symbol == Symbols::SENTAO){
+        if (lexical.get_current_token().symbol == Symbols::SENTAO) {
             lexical.next_token();
             //Parser::simple_command_analyzer();
-            if(lexical.get_current_token().symbol == Symbols::SSENAO){
+            if (lexical.get_current_token().symbol == Symbols::SSENAO) {
                 lexical.next_token();
                 //Parser::simple_command_analyzer();
-            }else{
+            } else {
                 //erro
             }
         }

@@ -1,2 +1,3 @@
 programa teste2;
-200 ou 14 + 50 * 40 + 5 - 522 div 4 = 500.  
+    faca 
+.    

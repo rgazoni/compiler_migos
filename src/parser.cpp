@@ -1,11 +1,11 @@
+#include <iostream>
+
+#include "../parser_components/general_parser.h"
 #include "error/Errors.h"
 #include "lexical_analyser.h"
 #include "symbols.h"
-#include <iostream>
-#include "../parser_components/general_parser.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     Lexical lexical = Lexical();
 
     lexical.open_file(argv);
@@ -14,48 +14,34 @@ int main(int argc, char *argv[])
     // rotulo := 1
     lexical.next_token();
 
-    if (lexical.get_current_token().symbol == Symbols::SPROGRAMA)
-    {
-
+    if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
         lexical.next_token();
-        if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR)
-        {
-
+        if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {
             // insere_tabela(token->lexema,"nomedeprograma", "", "")
 
             lexical.next_token();
-            if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA)
-            {
-
+            if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
                 // analisa_bloco
-                Parser::snippet_analyser();
-
+                //Parser::snippet_analyser();
+                Parser::while_analyzer();
                 // lexical.next_token();
 
-                if (lexical.get_current_token().symbol == Symbols::SPONTO)
-                {
+                if (lexical.get_current_token().symbol == Symbols::SPONTO) {
                     lexical.next_token();
                     std::cout << lexical.get_current_token().lexem << std::endl;
-                    if (lexical.get_current_token().symbol != Symbols::END_OF_FILE)
+                    if (lexical.get_current_token().symbol !=
+                        Symbols::END_OF_FILE)
                         raiseError(Error::EXPECTED_EOF);
-                }
-                else
-                {
+                } else {
                     raiseError(Error::EXPECTED_DOT);
                 }
-            }
-            else
-            {
+            } else {
                 raiseError(Error::EXPECTED_SEMICOLON);
             }
-        }
-        else
-        {
+        } else {
             raiseError(Error::EXPECTED_IDENTIFIER);
         }
-    }
-    else
-    {
+    } else {
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
 

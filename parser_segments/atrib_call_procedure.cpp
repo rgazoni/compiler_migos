@@ -11,9 +11,9 @@ namespace Parser {
         lexical.next_token();
 
         if (lexical.get_current_token().symbol == Symbols::SATRIBUICAO) {
-            Analisa_atribuicao();
+            //Analisa_atribuicao();
         } else {
-            Chamada_procedimento();
+           //Chamada_procedimento();
         }
     }
 }

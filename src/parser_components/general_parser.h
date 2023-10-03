@@ -20,7 +20,7 @@ namespace Parser {
     void atribution_and_call_procedure();
     void write_analyzer();
     void read_analyzer();
-    void conditional_analzyer();
+    void conditional_analyzer();
 }  
 #endif
 
