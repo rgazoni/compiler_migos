@@ -14,7 +14,13 @@ namespace Parser {
     void term_analyser();
     void expression_analyser();
     void simple_expression_analyser();
-}
-
+    void command_analyzer();
+    void simple_command_analyzer();
+    void while_analyzer();
+    void atribution_and_call_procedure();
+    void write_analyzer();
+    void read_analyzer();
+    void conditional_analzyer();
+}  
 #endif
 
