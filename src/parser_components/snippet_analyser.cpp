@@ -12,9 +12,8 @@ namespace Parser
                 // std::cout << lexical.get_current_token().lexem << std::endl;
                 Parser::et_variable_analyser();
                 // std::cout << lexical.get_current_token().lexem << std::endl;
-                Parser::expression_analyser();
-                //Parser::subroutine_analyser();
+                Parser::subroutine_analyser();
                 // commands_analyser
-                // Parser::command_analyser();
+                Parser::command_analyzer();
         }
 }

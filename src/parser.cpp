@@ -22,8 +22,7 @@ int main(int argc, char *argv[]) {
             lexical.next_token();
             if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
                 // analisa_bloco
-                //Parser::snippet_analyser();
-                Parser::while_analyzer();
+                Parser::snippet_analyser();
                 // lexical.next_token();
 
                 if (lexical.get_current_token().symbol == Symbols::SPONTO) {

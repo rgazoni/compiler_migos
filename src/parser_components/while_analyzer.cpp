@@ -17,10 +17,7 @@ namespace Parser {
         // rotulo := rotulo + 1
 
         lexical.next_token();
-        std::cout << lexical.get_current_token().lexem << std::endl;
-        std::cout << lexical.get_current_token().symbol << std::endl;
-
-        // Parser::expression_analyser();
+        Parser::expression_analyser();
 
         if (lexical.get_current_token().symbol == Symbols::SFACA) {
             // auxrot2 := rotulo
@@ -28,8 +25,7 @@ namespace Parser {
             // rotulo := rotulo + 1
 
             lexical.next_token();
-            std::cout << lexical.get_current_token().symbol << std::endl;
-            // Parser::simple_command_analyzer();
+            Parser::simple_command_analyzer();
             // Gera(´ ´, JMP, auxrot1, ´ ´) {retorna incio do loop}
             // Gera(auxrot2, NULL, ´ ´. ´ ´) {fim do while}
         } else {

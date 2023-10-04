@@ -12,8 +12,10 @@ namespace Parser {
 
         if (lexical.get_current_token().symbol == Symbols::SATRIBUICAO) {
             //Analisa_atribuicao();
+            Parser::assignment_analyzer();
         } else {
            //Chamada_procedimento();
+           Parser::procedure_caller_analyzer();
         }
     }
 }

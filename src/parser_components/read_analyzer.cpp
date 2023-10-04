@@ -6,9 +6,10 @@
 #include "general_parser.h"
 
 namespace Parser{
-    void read_analyser(){
+    void read_analyzer(){
         Lexical lexical = Lexical();
 
+        lexical.next_token();
         if(lexical.get_current_token().symbol == Symbols::SABRE_PARENTESES){
             lexical.next_token();
             if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
@@ -25,6 +26,7 @@ namespace Parser{
                 raiseError(Error::EXPECTED_IDENTIFIER);
             }
         } else{
+
             raiseError(Error::EXPECTED_OPEN_PARENTHESIS);
         }   
     }

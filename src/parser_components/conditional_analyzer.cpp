@@ -8,17 +8,18 @@
 namespace Parser{
     void conditional_analyzer() {
         Lexical lexical = Lexical();
+
         lexical.next_token();
         Parser::expression_analyser();
         if (lexical.get_current_token().symbol == Symbols::SENTAO) {
             lexical.next_token();
-            //Parser::simple_command_analyzer();
+            Parser::simple_command_analyzer();
             if (lexical.get_current_token().symbol == Symbols::SSENAO) {
                 lexical.next_token();
-                //Parser::simple_command_analyzer();
-            } else {
-                //erro
-            }
+                Parser::simple_command_analyzer();
+            } 
+        }else {
+            raiseError(Error::EXPECTED_SENTAO);
         }
     }
 }

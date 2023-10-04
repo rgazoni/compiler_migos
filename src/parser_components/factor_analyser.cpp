@@ -16,7 +16,7 @@ namespace Parser {
             // Então Analisa_chamada_função 
             //     Senão Léxico(token)
             // Senão ERRO
-            lexical.next_token();
+            Parser::function_caller_analyzer();
         }else if(lexical.get_current_token().symbol == Symbols::SNUMERO){
             lexical.next_token();
         }else if(lexical.get_current_token().symbol == Symbols::SNAO){

@@ -73,6 +73,10 @@ void raiseError(Error error) {
         //     std::cout << "ERROR CODE: " << (int) Error::INCORRECT_LEXEM << std::endl;
         //     std::cout << "MESSAGE: Lexem is incorrect" << std::endl;
         //     break;
+        case Error::EXPECTED_SENTAO:
+            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_SENTAO << std::endl;
+            std::cout << "MESSAGE: Expected entao" << std::endl;
+            break;
         default:
             std::cout << "Unknown error" << std::endl;
             break;

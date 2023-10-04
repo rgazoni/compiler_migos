@@ -11,7 +11,9 @@ namespace Parser {
 
         if (lexical.get_current_token().symbol == Symbols::SINICIO) {                        
             lexical.next_token();
-            //Parser::simple_command_analyzer(); 
+            
+            Parser::simple_command_analyzer(); 
+            
 
             while (lexical.get_current_token().symbol != Symbols::SFIM) {
 
@@ -19,7 +21,7 @@ namespace Parser {
                     lexical.next_token();
                     
                     if (lexical.get_current_token().symbol != Symbols::SFIM) {
-                        //Parser::simple_command_analyzer();
+                        Parser::simple_command_analyzer();
                     }
                 } else {
                     raiseError(Error::EXPECTED_SEMICOLON);
@@ -27,6 +29,8 @@ namespace Parser {
             }
             lexical.next_token();
         } else {
+            std::cout << lexical.get_current_token().symbol << std::endl;
+            std::cout << lexical.get_current_token().lexem << std::endl;
            raiseError(Error::EXPECTED_IDENTIFIER);
         } 
     }

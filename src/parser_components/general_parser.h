@@ -21,6 +21,9 @@ namespace Parser {
     void write_analyzer();
     void read_analyzer();
     void conditional_analyzer();
+    void assignment_analyzer();
+    void procedure_caller_analyzer();
+    void function_caller_analyzer();
 }  
 #endif
 
