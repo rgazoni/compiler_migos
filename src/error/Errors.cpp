@@ -43,7 +43,7 @@ void raiseError(Error error) {
             break;
         case Error::NOT_EXPECTED_COLON:
             std::cout << "ERROR CODE: " << (int) Error::NOT_EXPECTED_COLON << std::endl;
-            std::cout << "MESSAGE: Symbol equals colon" << std::endl;
+            std::cout << "MESSAGE: Colon not expected" << std::endl;
             break;
         case Error::EXPECTED_COMMA_OR_COLON:
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_COMMA_OR_COLON << std::endl;
@@ -57,9 +57,9 @@ void raiseError(Error error) {
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_CLOSE_PARENTHESIS << std::endl;
             std::cout << "MESSAGE: Expected close parenthesis" << std::endl;
             break;
-        case Error::EXPECTED_LEXEM:
-            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_LEXEM << std::endl;
-            std::cout << "MESSAGE: Expected boolean lexem" << std::endl;
+        case Error::EXPECTED_ELEMENT:
+            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_ELEMENT << std::endl;
+            std::cout << "MESSAGE: Expected element" << std::endl;
             break;
         case Error::EXPECTED_COLON:
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_COLON << std::endl;

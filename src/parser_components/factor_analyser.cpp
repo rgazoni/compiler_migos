@@ -37,7 +37,7 @@ namespace Parser {
             lexical.next_token();
             
         }else{
-            raiseError(Error::EXPECTED_LEXEM);
+            raiseError(Error::EXPECTED_ELEMENT);
         }
     }
 }
