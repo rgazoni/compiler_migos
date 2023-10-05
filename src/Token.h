@@ -14,4 +14,5 @@ public:
 
 Token *new_node(std::string lexem, Symbols symbol);
 
+
 #endif
