@@ -2,10 +2,10 @@
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
-#include "lexical_analyser.h"
+#include "lexical_analyzer.h"
 
 namespace Parser{
-    void type_analyser(){
+    void type_analyzer(){
         Lexical lexical = Lexical();
 
         if(lexical.get_current_token().symbol != Symbols::SINTEIRO && lexical.get_current_token().symbol != Symbols::SBOOLEANO){

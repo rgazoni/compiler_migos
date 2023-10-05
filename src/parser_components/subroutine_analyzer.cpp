@@ -1,12 +1,12 @@
-#include "lexical_analyser.h"
-#include "general_parser.h"
+#include "lexical_analyzer.h"
+#include "parser_components.h"
 #include "symbols.h"
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
 
 namespace Parser{
-    void subroutine_analyser(){
+    void subroutine_analyzer(){
         Lexical lexical = Lexical();
         // Def. auxrot, flag inteiro
         // Início
@@ -22,11 +22,11 @@ namespace Parser{
         while (lexical.get_current_token().symbol == Symbols::SPROCEDIMENTO || 
             lexical.get_current_token().symbol == Symbols::SFUNCAO) {
             if(lexical.get_current_token().symbol == Symbols::SPROCEDIMENTO){
-                //procedure_declaration_analyser
-                Parser::procedure_declaration_analyser();
+                //procedure_declaration_analyzer
+                Parser::procedure_declaration_analyzer();
             }else{
-                // fucntion_declaration_analyser
-                Parser::function_declaration_analyser();
+                // fucntion_declaration_analyzer
+                Parser::function_declaration_analyzer();
             }
 
             if(lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA){

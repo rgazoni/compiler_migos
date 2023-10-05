@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "../parser_components/general_parser.h"
+#include "../parser_components/parser_components.h"
 #include "error/Errors.h"
-#include "lexical_analyser.h"
+#include "lexical/lexical_analyzer.h"
 #include "symbols.h"
 
 int main(int argc, char *argv[]) {
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
             lexical.next_token();
             if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
                 // analisa_bloco
-                Parser::snippet_analyser();
+                Parser::snippet_analyzer();
                 // lexical.next_token();
 
                 if (lexical.get_current_token().symbol == Symbols::SPONTO) {

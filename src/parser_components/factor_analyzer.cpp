@@ -2,11 +2,11 @@
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
-#include "lexical_analyser.h"
-#include "general_parser.h"
+#include "lexical_analyzer.h"
+#include "parser_components.h"
 
 namespace Parser {
-    void factor_analyser(){
+    void factor_analyzer(){
         Lexical lexical = Lexical();
 
         if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
@@ -21,11 +21,11 @@ namespace Parser {
             lexical.next_token();
         }else if(lexical.get_current_token().symbol == Symbols::SNAO){
             lexical.next_token();
-            Parser::factor_analyser();
+            Parser::factor_analyzer();
 
         }else if(lexical.get_current_token().symbol == Symbols::SABRE_PARENTESES){
             lexical.next_token();
-            Parser::expression_analyser();
+            Parser::expression_analyzer();
             if(lexical.get_current_token().symbol == Symbols::SFECHA_PARENTESES){
                 lexical.next_token();
 

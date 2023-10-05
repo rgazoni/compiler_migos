@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-enum class Error
+enum class Error : u_int8_t
 {
     //Lexical errors
     TOKEN_NOT_VALID,

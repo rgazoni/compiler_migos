@@ -1,0 +1,4 @@
+ERROR LINE: 26
+ERROR COLUMN: 13
+ERROR CODE: 5
+MESSAGE: Expected semicolon

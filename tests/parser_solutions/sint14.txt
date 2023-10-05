@@ -1,0 +1,6 @@
+SSENAO
+senao
+ERROR LINE: 34
+ERROR COLUMN: 11
+ERROR CODE: 6
+MESSAGE: Expected identifier

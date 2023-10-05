@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-enum class Symbols
+enum class Symbols : u_int8_t
 {
     //Reserved symbols
     SPROGRAMA,

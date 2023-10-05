@@ -1,0 +1,4 @@
+ERROR LINE: 21
+ERROR COLUMN: 24
+ERROR CODE: 6
+MESSAGE: Expected identifier

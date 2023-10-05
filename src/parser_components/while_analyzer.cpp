@@ -1,10 +1,10 @@
 #include <fstream>
 #include <iostream>
 
-#include "../parser_components/general_parser.h"
-#include "../symbols.h"
+#include "../parser_components/parser_components.h"
+#include "../token/symbols.h"
 #include "./error/Errors.h"
-#include "lexical_analyser.h"
+#include "lexical_analyzer.h"
 
 namespace Parser {
     void while_analyzer() {
@@ -17,7 +17,7 @@ namespace Parser {
         // rotulo := rotulo + 1
 
         lexical.next_token();
-        Parser::expression_analyser();
+        Parser::expression_analyzer();
 
         if (lexical.get_current_token().symbol == Symbols::SFACA) {
             // auxrot2 := rotulo

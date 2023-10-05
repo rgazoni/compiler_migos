@@ -1,5 +1,5 @@
-#ifndef lexical_analyser_h
-#define lexical_analyser_h
+#ifndef lexical_analyzer_h
+#define lexical_analyzer_h
 
 #include "Token.h"
 #include <iostream>
@@ -30,4 +30,4 @@ private:
     void handle_punctuation();
 };
 
-#endif /* lexical_analyser_h */
+#endif /* lexical_analyzer_h */

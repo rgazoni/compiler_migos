@@ -2,8 +2,8 @@
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
-#include "lexical_analyser.h"
-#include "general_parser.h"
+#include "lexical_analyzer.h"
+#include "parser_components.h"
 
 namespace Parser{
     void read_analyzer(){

@@ -1,5 +1,5 @@
 #include "Token.h"
-#include "lexical_analyser.h"
+#include "lexical_analyzer.h"
 #include "symbols.h"
 #include "./error/Errors.h"
 #include <fstream>

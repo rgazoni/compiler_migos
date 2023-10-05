@@ -27,7 +27,7 @@ fim;
 inicio
     analisa1;
     analisa2;
-    se b > (c+ a*a)
+    se b > (c+ (-a)*a)
     entao escreva(b)
     senao escreva(c)
 fim.

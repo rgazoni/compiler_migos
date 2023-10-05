@@ -2,11 +2,11 @@
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
-#include "lexical_analyser.h"
-#include "general_parser.h"
+#include "lexical_analyzer.h"
+#include "parser_components.h"
 
 namespace Parser{
-    void variables_analyser(){
+    void variables_analyzer(){
         Lexical lexical = Lexical();
 
         do{
@@ -34,7 +34,7 @@ namespace Parser{
         }while(lexical.get_current_token().symbol != Symbols::SDOISPONTOS);
 
         lexical.next_token();
-        Parser::type_analyser();
+        Parser::type_analyzer();
     }
 
 }

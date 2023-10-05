@@ -1,4 +1,4 @@
-#include "lexical_analyser.h"
+#include "lexical_analyzer.h"
 #include "Symbols.h"
 #include "./error/Errors.h"
 

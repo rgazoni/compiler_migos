@@ -2,18 +2,18 @@
 #define general_parser_h
 
 namespace Parser {
-    void et_variable_analyser();
-    void factor_analyser();
-    void snippet_analyser();
-    void type_analyser();
-    void variables_analyser();
-    void procedure_declaration_analyser();
-    void subroutine_analyser();
-    void procedure_declaration_analyser();
-    void function_declaration_analyser();
-    void term_analyser();
-    void expression_analyser();
-    void simple_expression_analyser();
+    void et_variable_analyzer();
+    void factor_analyzer();
+    void snippet_analyzer();
+    void type_analyzer();
+    void variables_analyzer();
+    void procedure_declaration_analyzer();
+    void subroutine_analyzer();
+    void procedure_declaration_analyzer();
+    void function_declaration_analyzer();
+    void term_analyzer();
+    void expression_analyzer();
+    void simple_expression_analyzer();
     void command_analyzer();
     void simple_command_analyzer();
     void while_analyzer();

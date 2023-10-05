@@ -1,12 +1,12 @@
-#include "lexical_analyser.h"
-#include "general_parser.h"
+#include "lexical_analyzer.h"
+#include "parser_components.h"
 #include "symbols.h"
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
 
 namespace Parser{
-    void function_declaration_analyser(){
+    void function_declaration_analyzer(){
         Lexical lexical = Lexical();
         lexical.next_token();
         // nível := “L” (marca ou novo galho)
@@ -27,7 +27,7 @@ namespace Parser{
                         //     “função booleana”
                         lexical.next_token();
                         if(lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA){
-                            Parser::snippet_analyser();
+                            Parser::snippet_analyzer();
                         }
 
                     } else{

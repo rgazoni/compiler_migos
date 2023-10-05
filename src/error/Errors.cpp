@@ -1,5 +1,5 @@
 #include "Errors.h"
-#include "../lexical_analyser.h"
+#include "../lexical/lexical_analyzer.h"
 #include <iostream>
 
 void raiseError(Error error) {
