@@ -4,21 +4,22 @@
 #include "error/Errors.h"
 #include "lexical/lexical_analyzer.h"
 #include "symbols.h"
+#include "symbol_table.h"
 
 int main(int argc, char *argv[]) {
     Lexical lexical = Lexical();
-
+    Record record;
+    Symbol_table symbol_table = Symbol_table();
     lexical.open_file(argv);
-    // Token* token;
-
+    //Token* token;
     // rotulo := 1
     lexical.next_token();
-
+    
     if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
         lexical.next_token();
-        if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {
+        
+        if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {            
             // insere_tabela(token->lexema,"nomedeprograma", "", "")
-
             lexical.next_token();
             if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
                 // analisa_bloco

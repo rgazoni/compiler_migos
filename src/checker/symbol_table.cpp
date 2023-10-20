@@ -3,9 +3,15 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include "symbols.h"
+#include "lexical/lexical_analyzer.h"
 
 void Symbol_table::insert_record(Record *record){ //ajustar a fução que deve receber os parametros node e identificador
-   stack.push(*record);
+   if (!search_table(record->getLexem()) && record->getSymbol() == Symbols::SIDENTIFICADOR) {
+        stack.push(*record);
+    }else{
+        std::cout << "já esta contido na tabela de simbolos" << std:: endl;
+    }
 }
 
 bool Symbol_table::search_table(const std::string& lexem){
@@ -43,6 +49,15 @@ std::string Record::getLexem(){
     return lexem;
 }
 
+void Record::setSymbol(Symbols sy){
+    symbol = sy;
+}
+
+ Symbols Record::getSymbol(){
+    return symbol;
+}
+
+
 void Record:: setScope(bool s){
     scope = s;
 }
@@ -67,3 +82,21 @@ int Record::getAddress(){
     return address;
 }
 
+////////////////////////////TRECHO PARA TESTES DA TABELA DE SIMBOLO////////////////////////////
+//inserir elas entre as linhas 18 e 32 do arquivo parser
+// lexical.next_token();
+//     lexical.next_token();
+//     std::cout << lexical.get_current_token().symbol << std::endl;
+//     std::cout << lexical.get_current_token().lexem << std::endl;
+
+//     while(lexical.get_current_token().symbol != Symbols::SPONTO){
+//         record.setLexem(lexical.get_current_token().lexem);
+//         record.setSymbol(lexical.get_current_token().symbol);
+//         record.setScope(true);
+//         record.setType("asdad");
+//         record.setAddress(0);
+//         symbol_table.insert_record(&record);
+//         lexical.next_token();
+//     }
+//     symbol_table.print_table();
+/////////////////////////////////////////
