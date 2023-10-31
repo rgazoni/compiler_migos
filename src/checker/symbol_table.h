@@ -4,10 +4,12 @@
 #include <fstream>
 #include <iostream>
 #include <stack>
+#include "symbols.h"
 
 class Record{
     private:
     std::string lexem;
+    Symbols symbol;
     bool scope;
     std::string type; 
     int address;
@@ -15,6 +17,8 @@ class Record{
     public:
     void setLexem(std::string l);
     std::string getLexem();
+    void setSymbol(Symbols sy);
+    Symbols getSymbol();
     void setScope(bool s);
     bool getScope();
     void setType(std::string t);

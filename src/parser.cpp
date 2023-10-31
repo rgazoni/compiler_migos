@@ -20,7 +20,8 @@ std::string enum_to_string(Type token){
 int main(int argc, char *argv[]) {
     Lexical lexical = Lexical();
     Expr_builder expr_builder = Expr_builder();
-
+    Record record;
+    Symbol_table symbol_table = Symbol_table();
     lexical.open_file(argv);
 
     std::vector<Expr_token> array;
@@ -133,12 +134,12 @@ int main(int argc, char *argv[]) {
 
     // rotulo := 1
     lexical.next_token();
-
+    
     if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
         lexical.next_token();
-        if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {
+        
+        if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {            
             // insere_tabela(token->lexema,"nomedeprograma", "", "")
-
             lexical.next_token();
             if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
                 // analisa_bloco
