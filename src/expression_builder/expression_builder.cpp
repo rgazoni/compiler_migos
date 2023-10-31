@@ -1,0 +1,132 @@
+#include <iostream>
+#include <algorithm>
+#include <locale>
+#include <functional>
+#include <string>
+#include <algorithm> 
+#include <stack>
+
+#include "expression_builder.h"
+
+using namespace std;
+
+enum Precedence {
+    UNARY = 6,
+    MULTIPLICATIVE = 5,
+    ADDITIVE = 4,
+    RELATIONAL = 3,
+    NOT = 2,
+    AND = 1,
+    OR = 0,
+    DEFAULT_PRECEDENCE = -1  // Valor padrão para tratamento de erros
+};
+
+
+void Expr_builder::add_to_array(Expr_token token){
+    Expr_builder::expr_array.push_back(token);
+}
+
+bool isOperator(string token) {
+    std::vector<std::string> operators = {
+        "+", "-", "*", "div",  // Arithmetic operators
+        "=", "!=", "<", ">", "<=", ">=",  // Comparison operators
+        "e", "ou", "nao"  // Logical operators
+        // ":=" // Assignment operators
+        // "verdadeiro", "falso", // Boolean operators
+    };
+
+    // Check if the token is in the list of operators
+    for (std::string op : operators) {
+        if (token == op) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool isOperand (string lexem) {
+    if(lexem == "div" || lexem == "e" || lexem == "ou" || lexem == "nao"){
+        return false;
+    }
+
+    if ((isalpha(lexem[0]) || isdigit(lexem[0]))) {
+        return true;
+    }   
+
+    return false;
+}
+
+bool Expr_builder::isUnary(int i){
+    if(i == 0 || isOperator(expr_array[i-1].lexem) || expr_array[i-1].lexem == "("){
+        // expr_array[i].lexem = expr_array[i].lexem + "_un";
+        return true;
+    }
+
+    return false;
+}
+
+int Expr_builder::precedence(string lexem, int position) {
+    if (lexem == "*" || lexem == "div") {
+        return Precedence::MULTIPLICATIVE;
+    } else if (lexem == "+" || lexem == "-") {
+        if(isUnary(position)){
+            expr_array[position].type = Type::Arit_unary;
+            return Precedence::UNARY;
+        }
+        return Precedence::ADDITIVE;
+    } else if (lexem == "=" || lexem == "<=" || lexem == ">=" || lexem == "<" || lexem == ">" || lexem == "!=") {
+        return Precedence::RELATIONAL;
+    } else if (lexem == "nao") {
+        if(isUnary(position)){
+            expr_array[position].type = Type::Logical_unary;
+            return Precedence::UNARY;
+        }
+        return Precedence::NOT;
+    } else if (lexem == "e") {
+        return Precedence::AND;
+    } else if (lexem == "ou") {
+        return Precedence::OR;
+    }
+
+    return Precedence::DEFAULT_PRECEDENCE;
+}
+
+std::vector<Expr_token> Expr_builder::infix_to_postfix() {
+    std::stack<Expr_token> stack;
+    std::vector<Expr_token> postfix;
+
+    for (int i = 0; i < expr_array.size(); i++) {
+        if (isOperand(expr_array[i].lexem)) {
+            postfix.push_back(expr_array[i]);
+        } else if (expr_array[i].lexem == "(") {
+            stack.push(expr_array[i]);
+        } else if (expr_array[i].lexem == ")") {
+            while (!stack.empty() && stack.top().lexem != "(") {
+                postfix.push_back(stack.top());
+                stack.pop();
+            }
+            if (!stack.empty() && stack.top().lexem == "(") {
+                stack.pop(); // Pop the opening parenthesis
+            }
+        } else if (isOperator(expr_array[i].lexem)) {
+
+            int tokenPrecedence = precedence(expr_array[i].lexem, i);
+
+            while (!stack.empty() && (tokenPrecedence < precedence(stack.top().lexem, i) ||
+                    (tokenPrecedence == precedence(stack.top().lexem, i) && tokenPrecedence != Precedence::UNARY))) {
+                postfix.push_back(stack.top());
+                stack.pop();
+            }
+            stack.push(expr_array[i]);
+        }
+    }
+
+    while (!stack.empty()) {
+        postfix.push_back(stack.top());
+        stack.pop();
+    }
+
+    return postfix;
+}
+
