@@ -20,8 +20,8 @@ std::string enum_to_string(Type token){
 int main(int argc, char *argv[]) {
     Lexical lexical = Lexical();
     Expr_builder expr_builder = Expr_builder();
-    Record record;
-    Symbol_table symbol_table = Symbol_table();
+    // Record record;
+    // Symbol_table symbol_table = Symbol_table();
     lexical.open_file(argv);
 
     std::vector<Expr_token> array;
