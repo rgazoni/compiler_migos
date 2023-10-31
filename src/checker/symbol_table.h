@@ -32,7 +32,10 @@ class Symbol_table{
     private:
     std::stack<Record> stack;
     public:
-    void insert_record(Record *record); 
+    void Symbol_table::insert_record_variable(Record *record);
+    void Symbol_table::insert_record_function(Record *record);
+    void pop();
+    void query_table(Record *record);
     bool search_table(const std::string& lexem);   
     void print_table();
 };
