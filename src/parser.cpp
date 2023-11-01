@@ -6,131 +6,11 @@
 #include "symbols.h"
 #include "expr_token.h"
 #include "semantic_analyzer.h"
+#include "dev_env/tests.h"
 
-std::string enum_to_string(Type token){
-    switch(token){
-        case Type::Bool: return "bool";
-        case Type::Int: return "int";
-        case Type::Arit_unary: return "unary";
-        case Type::Logical_unary: return "l_unary";
-        default: return "Unknown";
-    }
-}
-
-int main(int argc, char *argv[]) {
+void parser(char *file_path){
     Lexical lexical = Lexical();
-    Expr_builder expr_builder = Expr_builder();
-    // Record record;
-    // Symbol_table symbol_table = Symbol_table();
-    lexical.open_file(argv);
-
-    std::vector<Expr_token> array;
-
-
-    // // Token* token;
-    expr_builder.add_to_array(Expr_token("(", Type::Int));
-    expr_builder.add_to_array(Expr_token("x", Type::Int));
-    expr_builder.add_to_array(Expr_token("+", Type::Int));
-    expr_builder.add_to_array(Expr_token("7", Type::Int));
-    expr_builder.add_to_array(Expr_token("*", Type::Int));
-    expr_builder.add_to_array(Expr_token("5", Type::Int));
-    expr_builder.add_to_array(Expr_token("div", Type::Int));
-    expr_builder.add_to_array(Expr_token("(", Type::Int));
-    expr_builder.add_to_array(Expr_token("30", Type::Int));
-    expr_builder.add_to_array(Expr_token("+", Type::Int));
-    expr_builder.add_to_array(Expr_token("y", Type::Int));
-    expr_builder.add_to_array(Expr_token(")", Type::Int));
-    expr_builder.add_to_array(Expr_token("<=", Type::Int));
-    expr_builder.add_to_array(Expr_token("(", Type::Int));
-    expr_builder.add_to_array(Expr_token("x", Type::Int));
-    expr_builder.add_to_array(Expr_token("*", Type::Int));
-    expr_builder.add_to_array(Expr_token("a", Type::Int));
-    expr_builder.add_to_array(Expr_token("+", Type::Int));
-    expr_builder.add_to_array(Expr_token("2", Type::Int));
-    expr_builder.add_to_array(Expr_token(")", Type::Int));
-    expr_builder.add_to_array(Expr_token(")", Type::Int));
-    expr_builder.add_to_array(Expr_token("e", Type::Int));
-    expr_builder.add_to_array(Expr_token("(", Type::Int));
-    expr_builder.add_to_array(Expr_token("z", Type::Int));
-    expr_builder.add_to_array(Expr_token(">", Type::Int));
-    expr_builder.add_to_array(Expr_token("0", Type::Int));
-    expr_builder.add_to_array(Expr_token(")", Type::Int));
-    
-    // expr_builder.add_to_array(Expr_token("a", Type::Int));
-    // expr_builder.add_to_array(Expr_token("+", Type::Int));
-    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("b", Type::Int));
-    // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
-
-
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("a", Type::Int));
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("b", Type::Int));
-    // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
-    // // expr_builder.add_to_array(Expr_token("b", Type::Int));
-    // expr_builder.add_to_array(Expr_token("<", Type::Bool));
-    // // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-
-    // expr_builder.add_to_array(Expr_token("b", Type::Int));
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    // expr_builder.add_to_array(Expr_token("+", Type::Int));
-    // expr_builder.add_to_array(Expr_token("b", Type::Int));
-    // // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
-    // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
-
-   
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("a", Type::Int));
-    // expr_builder.add_to_array(Expr_token("+", Type::Int));
-    // expr_builder.add_to_array(Expr_token("b", Type::Int));
-    // expr_builder.add_to_array(Expr_token("*", Type::Int));
-    // expr_builder.add_to_array(Expr_token("(", Type::Int));
-    // expr_builder.add_to_array(Expr_token("c", Type::Int));
-    // expr_builder.add_to_array(Expr_token("*", Type::Int));
-    // expr_builder.add_to_array(Expr_token("d", Type::Int));
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("t", Type::Int));
-    // expr_builder.add_to_array(Expr_token(")", Type::Int));
-    // expr_builder.add_to_array(Expr_token("*", Type::Int));
-    // expr_builder.add_to_array(Expr_token("(", Type::Int));
-    // expr_builder.add_to_array(Expr_token("f", Type::Int));
-    // expr_builder.add_to_array(Expr_token("+", Type::Int));
-    // expr_builder.add_to_array(Expr_token("g", Type::Int));
-    // expr_builder.add_to_array(Expr_token("*", Type::Int));
-    // expr_builder.add_to_array(Expr_token("h", Type::Int));
-    // expr_builder.add_to_array(Expr_token(")", Type::Int));
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("i", Type::Int));
-
-    std::cout << "--------------------------" << std::endl;
-
-    array = expr_builder.infix_to_postfix();
-
-    std::cout << "--------------------------" << std::endl;
-
-    for(Expr_token element : array){
-        std::cout << "lexem: " << element.lexem << "  " << enum_to_string(element.type) << std::endl;
-    }
-        std::cout << std::endl;
-
-
-    Type resultado = Semantic_analyzer().validateExpression(array);
-    if (resultado != Type::Unknown) {
-        std::cout << "O tipo resultante da expressão é: ";
-        if (resultado == Type::Int) {
-            std::cout << "int";
-        } else if (resultado == Type::Bool) {
-            std::cout << "bool";
-        }
-        std::cout << std::endl;
-    }
-    
+    lexical.open_file(file_path);
 
     // rotulo := 1
     lexical.next_token();
@@ -166,6 +46,34 @@ int main(int argc, char *argv[]) {
     }
 
     lexical.close_file();
+}
 
+
+int main(int argc, char *argv[]) {
+    Lexical lexical = Lexical();
+    Expr_builder expr_builder = Expr_builder();
+    bool dev_flag = false;
+    char* file_path;
+    // Record record;
+    // Symbol_table symbol_table = Symbol_table();
+
+    for(int i = 0 ; i < argc ; i++){
+        if(argv[i] == "--dev" || argv[i] == "-D"){
+            dev_flag = true;
+            //call tests functions from dev_env directory
+            expression();
+        }
+
+        if((argv[i] == "--file" || argv[i] == "-f" ) && i+1 <= argc){
+            file_path = argv[i+1];
+        }
+
+    }
+
+    if(!dev_flag)
+        parser(file_path);
+
+    std::cout << "passou?" << std::endl;
     return 0;
+
 }

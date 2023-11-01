@@ -12,8 +12,8 @@ int Lexical::execution_column = 0;
 char* Lexical::c = new char;
 std::ifstream Lexical::file;
 
-void Lexical::open_file(char *argv[]) {
-    file.open(argv[1]);
+void Lexical::open_file(char *path) {
+    file.open(path);
     if (!file.is_open()) {
         raiseError(Error::COULD_NOT_OPEN_FILE);
     }
