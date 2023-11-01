@@ -4,7 +4,11 @@
 *.exe
 *.o
 
+user_interface/node_modules
+
 .DS_Store
 */.DS_Store
 
 target/
+
+

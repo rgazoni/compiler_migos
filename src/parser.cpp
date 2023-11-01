@@ -52,28 +52,29 @@ void parser(char *file_path){
 int main(int argc, char *argv[]) {
     Lexical lexical = Lexical();
     Expr_builder expr_builder = Expr_builder();
-    bool dev_flag = false;
+    bool is_file_provided = false;
     char* file_path;
-    // Record record;
-    // Symbol_table symbol_table = Symbol_table();
 
     for(int i = 0 ; i < argc ; i++){
-        if(argv[i] == "--dev" || argv[i] == "-D"){
-            dev_flag = true;
-            //call tests functions from dev_env directory
+        std::string arg = argv[i];
+
+        if(arg == "--dev"|| arg == "-D"){
+            //Call tests functions from dev_env directory
             expression();
         }
 
         if((argv[i] == "--file" || argv[i] == "-f" ) && i+1 <= argc){
+            is_file_provided = true;
             file_path = argv[i+1];
         }
 
     }
 
-    if(!dev_flag)
+    if(is_file_provided)
         parser(file_path);
+    else
+        std::cout << "To run parser, a file must be provided with --file or -f." << std::endl;
 
-    std::cout << "passou?" << std::endl;
     return 0;
 
 }
