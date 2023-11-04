@@ -16,19 +16,74 @@ int main(int argc, char *argv[]) {
     lexical.next_token();
 
     ///////////
-    lexical.next_token();
-    lexical.next_token();
     std::cout << lexical.get_current_token().symbol << std::endl;
     std::cout << lexical.get_current_token().lexem << std::endl;
-
+            
     while(lexical.get_current_token().symbol != Symbols::SPONTO){
-        record.setLexem(lexical.get_current_token().lexem);
-        record.setSymbol(lexical.get_current_token().symbol);
-        record.setType("asdad");
-        record.setAddress(0);
-        symbol_table.insert_record_variable(&record);
+        //para o caso de ser o nome de um programa
+        if(lexical.get_current_token().symbol == Symbols::SPROGRAMA){
+            lexical.next_token();
+            if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
+                record.setScope(true);
+                record.setLexem(lexical.get_current_token().lexem);
+                record.setSymbol(lexical.get_current_token().symbol);
+                record.setType("asdad");
+                record.setAddress(0);
+
+                symbol_table.insert_record_function(&record);
+                lexical.next_token();
+            }
+        }
+        //para o caso de ser o nome de uma função
+        if(lexical.get_current_token().symbol == Symbols::SPROCEDIMENTO){
+            lexical.next_token();
+            if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
+                record.setScope(true);
+                record.setLexem(lexical.get_current_token().lexem);
+                record.setSymbol(lexical.get_current_token().symbol);
+                record.setType("asdad");
+                record.setAddress(0);
+
+                symbol_table.insert_record_function(&record);
+                lexical.next_token();
+            }
+        }
+        //para o caso de ser variavel
+        if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
+                
+                record.setScope(false);
+                record.setLexem(lexical.get_current_token().lexem);
+                record.setSymbol(lexical.get_current_token().symbol);
+                record.setType("asdad");
+                record.setAddress(0);
+
+                symbol_table.insert_record_variable(&record);
+                lexical.next_token();
+            }
+
+
+
         lexical.next_token();
+
+        // if(lexical.get_current_token().symbol == Symbols::SVAR){
+        //         lexical.next_token();
+        //         if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {
+                    
+        //             record.setScope(false);
+        //             record.setLexem(lexical.get_current_token().lexem);
+        //             record.setSymbol(lexical.get_current_token().symbol);
+        //             record.setType("asdad");
+        //             record.setAddress(0);
+                    
+        //             symbol_table.insert_record_variable(&record);
+        //         }
+        //         lexical.next_token();
+        //         std::cout << "fora do if" << lexical.get_current_token().symbol << std::endl;
+        //         std::cout << "fora do if" << lexical.get_current_token().lexem << std::endl;
+            
+        // }
     }
+        
     symbol_table.print_table();
     //////////////////////////////////
     
@@ -62,7 +117,8 @@ int main(int argc, char *argv[]) {
     //     raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     // }
 
-    lexical.close_file();
+        lexical.close_file();
 
-    return 0;
+        return 0;
 }
+

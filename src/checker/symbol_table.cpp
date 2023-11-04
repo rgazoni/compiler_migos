@@ -7,20 +7,20 @@
 #include "lexical/lexical_analyzer.h"
 
 void Symbol_table::insert_record_variable(Record *record){ 
-   if (!search_table(record->getLexem()) && record->getSymbol() == Symbols::SIDENTIFICADOR && record->getScope() == false) { 
+   if (!search_variable_table(record->getLexem()) && record->getSymbol() == Symbols::SIDENTIFICADOR && record->getScope() == false) { 
         stack.push(*record);
    }else{
-        std::cout << "já esta contido na tabela de simbolos" << std:: endl;
+        std::cout << "variavel já declarada" << std:: endl;
         //colocar mensagem de erro caso haja uma variavel repetida no mesmo escopo
    }
 }
 
 //insere na pilha o nome de funções e o nome do programa
 void Symbol_table::insert_record_function(Record *record){ 
-     if (!search_table(record->getLexem()) && record->getSymbol() == Symbols::SIDENTIFICADOR && record->getScope() == true) { 
+     if (!search_function_table(record->getLexem()) && record->getSymbol() == Symbols::SIDENTIFICADOR && record->getScope() == true) { 
         stack.push(*record);
      } else {
-        std::cout << "já esta contido na tabela de simbolos" << std:: endl;
+        std::cout << "nome de função ou programa já declarado" << std:: endl;
         //colocar mensagem de erro caso haja uma variavel repetida no mesmo escopo
      }
 }
@@ -38,23 +38,58 @@ void Symbol_table::pop(){
     }
 }
 
-// bool Symbol_table::query_table(){ // passar o parametro de qual variavel voce quer achar
-//     while(!stack.empty()){
-//         Record topRecord = stack.top();
-//         if(topRecord.getScope() != false){
-//             std::cout << "Variável não" << std::endl;    
-//         } 
-//     }
-// }
 //percorrer a pilha verificando se todas as variaveis de um scopo estao ok
 //se chegar no final da pilha e nao achar, retornar uma mensagem de erro
-// void Symbol_table::query_table(){
 
-bool Symbol_table::search_table(const std::string& lexem) {
+bool Symbol_table::search_variable_table(const std::string& lexem){
+    std::stack<Record> auxStack = stack;
+    bool scope = false; //significa nao entrou num escopo por enquanto
+    while(!auxStack.empty()){
+        Record topRecord = auxStack.top();  //ainda esta adicionando variaveis a mais
+        if(topRecord.getScope() == false && scope == false){  //rever a questao do escopo
+            scope = true;
+            std::cout << "entrou aqui" << std::endl;
+            if(topRecord.getLexem() == lexem && scope == true){
+                std::cout << "lexema encontrado:" << lexem << std::endl;
+                return true;
+            }else{
+                auxStack.pop();
+                topRecord = auxStack.top();
+            }
+        }
+        if(topRecord.getScope() == true && scope == true){
+            scope = false;
+            auxStack.pop();
+        }
+    }
+    return false; //quer dizer que nao achou nenhuma variavel
+}
+
+
+
+// Percorre a tabela de simbolo
+// bool Symbol_table::iterate_through_symbol_table(const std::string& lexem) {
+//     std::stack<Record> auxStack = stack;
+//     // percorre pilha até chegar no fim dela
+//     while (!stack.empty()) {
+//         Record record = auxStack.top();
+//         // se o lexema vindo do parametro for igual ao campo atual da tabela, esta declaradoa ou seja retorna true
+//         if (record.getLexem() == lexem && record.getScope() == false) {
+//             return true;
+//         } else if (record.getScope() == true){ 
+//             auxStack.pop();
+//         } else { //variavel nao esta na tabela de simbolo entao retorna erro
+//             //ERRO
+//         }
+//         auxStack.pop();
+//     }
+// }
+
+bool Symbol_table::search_function_table(const std::string& lexem) {
     std::stack<Record> auxStack = stack; 
     while (!auxStack.empty()) {
         Record record = auxStack.top();
-        if (record.getLexem() == lexem) {
+        if (record.getLexem() == lexem && record.getScope() == true) {
             std::cout << "lexema encontrado:" << lexem << std::endl;
             return true; // O lexema foi encontrado na tabela
         }
