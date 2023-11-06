@@ -21,9 +21,11 @@ enum Precedence {
     DEFAULT_PRECEDENCE = -1  // Valor padrão para tratamento de erros
 };
 
+std::vector<Expr_token> Expr_builder::expr_array = {};
+
 
 void Expr_builder::add_to_array(Expr_token token){
-    Expr_builder::expr_array.push_back(token);
+    expr_array.push_back(token);
 }
 
 bool isOperator(string token) {

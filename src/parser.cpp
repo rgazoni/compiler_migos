@@ -6,6 +6,7 @@
 #include "symbols.h"
 #include "expr_token.h"
 #include "semantic_analyzer.h"
+#include "expression_builder.h"
 #include "dev_env/tests.h"
 
 void parser(char *file_path){
@@ -52,6 +53,7 @@ void parser(char *file_path){
 int main(int argc, char *argv[]) {
     Lexical lexical = Lexical();
     Expr_builder expr_builder = Expr_builder();
+
     bool is_file_provided = false;
     char* file_path;
 
@@ -60,14 +62,13 @@ int main(int argc, char *argv[]) {
 
         if(arg == "--dev"|| arg == "-D"){
             //Call tests functions from dev_env directory
-            expression();
+            // expression();
         }
 
-        if((argv[i] == "--file" || argv[i] == "-f" ) && i+1 <= argc){
+        if((arg == "--file" || arg == "-f" ) && i+1 <= argc){
             is_file_provided = true;
             file_path = argv[i+1];
         }
-
     }
 
     if(is_file_provided)
@@ -75,6 +76,9 @@ int main(int argc, char *argv[]) {
     else
         std::cout << "To run parser, a file must be provided with --file or -f." << std::endl;
 
-    return 0;
+    for(Expr_token token : expr_builder.expr_array){
+        std::cout << "lexem: " << token.lexem << std::endl;
+    }
 
+    return 0;
 }
