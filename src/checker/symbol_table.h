@@ -34,7 +34,8 @@ class Symbol_table{
     public:
     void insert_record_variable(Record *record);
     void insert_record_function(Record *record);
-    void pop();
+    void pop_scope();
+    bool search_identifier(const std::string& lexem);
     bool search_variable_table(const std::string& lexem);
     bool search_function_table(const std::string& lexem);   
     void print_table();

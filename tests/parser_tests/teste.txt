@@ -4,5 +4,6 @@ programa test1;
 var a,b,c,a: inteiro;
 
 procedimento oi;
-var a: inteiro;
+var a,x,z,m: inteiro;
+  a:=3;
 .

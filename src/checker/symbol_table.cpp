@@ -26,13 +26,12 @@ void Symbol_table::insert_record_function(Record *record){
 }
 
 //percorre a pilha para desempilhar as variaveis que ja foram usadas de uma função
-void Symbol_table::pop(){
+void Symbol_table::pop_scope(){
     while(!stack.empty()){
-        Record topRecord = stack.top();
-        if(topRecord.getScope() == false){
+        if(stack.top().getScope() == false){
             stack.pop();
-        }else {
-           topRecord.setScope(false);
+        }else if(stack.top().getScope() == true){
+           stack.top().setScope(false);
            break; 
         }
     }
@@ -58,23 +57,21 @@ bool Symbol_table::search_variable_table(const std::string& lexem) {
 }
 
 
-// Percorre a tabela de simbolo
-// bool Symbol_table::iterate_through_symbol_table(const std::string& lexem) {
-//     std::stack<Record> auxStack = stack;
-//     // percorre pilha até chegar no fim dela
-//     while (!stack.empty()) {
-//         Record record = auxStack.top();
-//         // se o lexema vindo do parametro for igual ao campo atual da tabela, esta declaradoa ou seja retorna true
-//         if (record.getLexem() == lexem && record.getScope() == false) {
-//             return true;
-//         } else if (record.getScope() == true){ 
-//             auxStack.pop();
-//         } else { //variavel nao esta na tabela de simbolo entao retorna erro
-//             //ERRO
-//         }
-//         auxStack.pop();
-//     }
-// }
+//Percorre a tabela de simbolo
+bool Symbol_table::search_identifier(const std::string& lexem) {
+    std::stack<Record> auxStack = stack;
+    // percorre pilha até chegar no fim dela
+    while (!auxStack.empty()) {
+        Record record = auxStack.top();
+        // se o lexema vindo do parametro for igual ao campo atual da tabela, esta declaradoa ou seja retorna true
+        if (record.getLexem() == lexem && record.getScope() == false) {
+            std::cout << "variavel encontrada" << lexem << std::endl;
+            return true;
+        }
+        auxStack.pop(); 
+    }
+    //mensagem de erro dizendo que a variavel nao foi declarada
+}
 
 bool Symbol_table::search_function_table(const std::string& lexem) {
     std::stack<Record> auxStack = stack; 
@@ -122,7 +119,7 @@ void Record::setSymbol(Symbols sy){
 }
 
 
-void Record:: setScope(bool s){
+void Record::setScope(bool s){
     scope = s;
 }
 

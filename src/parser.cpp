@@ -62,8 +62,12 @@ int main(int argc, char *argv[]) {
 
         lexical.next_token();
     }
-        
+    std::cout << "antes do pop \n\n\n" << std::endl;
     symbol_table.print_table();
+    symbol_table.pop_scope();
+    std::cout << "depois do pop \n\n\n" << std::endl;
+    symbol_table.print_table();
+    symbol_table.search_identifier("z");
     //////////////////////////////////
     
     // if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
