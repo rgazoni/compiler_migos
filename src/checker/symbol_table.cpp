@@ -21,7 +21,7 @@ void Symbol_table::insert_record_function(Record *record){
         stack.push(*record);
      } else {
         std::cout << "nome de função ou programa já declarado" << std:: endl;
-        //colocar mensagem de erro caso haja uma variavel repetida no mesmo escopo
+        //colocar mensagem de erro caso haja uma funcao repetida no mesmo escopo
      }
 }
 
@@ -41,30 +41,21 @@ void Symbol_table::pop(){
 //percorrer a pilha verificando se todas as variaveis de um scopo estao ok
 //se chegar no final da pilha e nao achar, retornar uma mensagem de erro
 
-bool Symbol_table::search_variable_table(const std::string& lexem){
-    std::stack<Record> auxStack = stack;
-    bool scope = false; //significa nao entrou num escopo por enquanto
-    while(!auxStack.empty()){
-        Record topRecord = auxStack.top();  //ainda esta adicionando variaveis a mais
-        if(topRecord.getScope() == false && scope == false){  //rever a questao do escopo
-            scope = true;
-            std::cout << "entrou aqui" << std::endl;
-            if(topRecord.getLexem() == lexem && scope == true){
-                std::cout << "lexema encontrado:" << lexem << std::endl;
-                return true;
-            }else{
-                auxStack.pop();
-                topRecord = auxStack.top();
-            }
+bool Symbol_table::search_variable_table(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+    while(topRecord.getScope() == false){
+        topRecord = auxStack.top();
+        if (topRecord.getLexem() == lexem) {
+            std::cout << "variavel ja declarada" << lexem << std::endl;
+            //colocar uma mensagem de erro
+            return true; // O lexema foi encontrado na tabela
         }
-        if(topRecord.getScope() == true && scope == true){
-            scope = false;
-            auxStack.pop();
-        }
+        auxStack.pop();
     }
-    return false; //quer dizer que nao achou nenhuma variavel
+    
+    return false; // O lexema não foi encontrado na tabela
 }
-
 
 
 // Percorre a tabela de simbolo
@@ -91,6 +82,7 @@ bool Symbol_table::search_function_table(const std::string& lexem) {
         Record record = auxStack.top();
         if (record.getLexem() == lexem && record.getScope() == true) {
             std::cout << "lexema encontrado:" << lexem << std::endl;
+            //colocar uma mensagem de erro
             return true; // O lexema foi encontrado na tabela
         }
         auxStack.pop();
@@ -104,7 +96,7 @@ void Symbol_table::print_table() {
     while (!auxStack.empty()) {
         Record record = auxStack.top();
         std::cout << "Lexema: " << record.getLexem() << std::endl;
-        std::cout << "Scope: " << (record.getScope() ? "Global" : "Local") << std::endl;
+        std::cout << "Scope: " << (record.getScope()) << std::endl;
         std::cout << "Type: " << record.getType() << std::endl;
         std::cout << "Address: " << record.getAddress() << std::endl;
         std::cout << "---------------" << std::endl;

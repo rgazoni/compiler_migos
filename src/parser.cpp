@@ -56,32 +56,11 @@ int main(int argc, char *argv[]) {
                 record.setSymbol(lexical.get_current_token().symbol);
                 record.setType("asdad");
                 record.setAddress(0);
-
                 symbol_table.insert_record_variable(&record);
                 lexical.next_token();
-            }
-
-
+        }
 
         lexical.next_token();
-
-        // if(lexical.get_current_token().symbol == Symbols::SVAR){
-        //         lexical.next_token();
-        //         if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {
-                    
-        //             record.setScope(false);
-        //             record.setLexem(lexical.get_current_token().lexem);
-        //             record.setSymbol(lexical.get_current_token().symbol);
-        //             record.setType("asdad");
-        //             record.setAddress(0);
-                    
-        //             symbol_table.insert_record_variable(&record);
-        //         }
-        //         lexical.next_token();
-        //         std::cout << "fora do if" << lexical.get_current_token().symbol << std::endl;
-        //         std::cout << "fora do if" << lexical.get_current_token().lexem << std::endl;
-            
-        // }
     }
         
     symbol_table.print_table();
