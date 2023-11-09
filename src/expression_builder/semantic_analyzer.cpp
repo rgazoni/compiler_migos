@@ -5,6 +5,7 @@
 
 #include "Expr_token.h"
 #include "semantic_analyzer.h"
+#include "expression_builder.h"
 
 // Tabela de tipos
 // unordered_map -> implementa uma hash table desorndenada - busca, inserçao e remoção = média de O(1)
@@ -101,6 +102,8 @@ Type Semantic_analyzer::validateExpression(std::vector<Expr_token>& expression) 
             stack.push(token.type);
         }
     }
+
+    // Expr_builder().flush_expression();
 
     if (stack.size() == 1) {
         return stack.top();

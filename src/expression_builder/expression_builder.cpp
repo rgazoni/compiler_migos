@@ -7,6 +7,7 @@
 #include <stack>
 
 #include "expression_builder.h"
+#include "semantic_analyzer.h"
 
 using namespace std;
 
@@ -26,6 +27,10 @@ std::vector<Expr_token> Expr_builder::expr_array = {};
 
 void Expr_builder::add_to_array(Expr_token token){
     expr_array.push_back(token);
+}
+
+void Expr_builder::flush_expression(){
+    Expr_builder::expr_array = {};
 }
 
 bool isOperator(string token) {
@@ -94,7 +99,7 @@ int Expr_builder::precedence(string lexem, int position) {
     return Precedence::DEFAULT_PRECEDENCE;
 }
 
-std::vector<Expr_token> Expr_builder::infix_to_postfix() {
+Type Expr_builder::infix_to_postfix() {
     std::stack<Expr_token> stack;
     std::vector<Expr_token> postfix;
 
@@ -129,6 +134,14 @@ std::vector<Expr_token> Expr_builder::infix_to_postfix() {
         stack.pop();
     }
 
-    return postfix;
+    expr_array = postfix;
+
+    for(Expr_token element : expr_array){
+        std::cout << "lexem: " << element.lexem << std::endl;
+    }
+
+    Type resultado = Semantic_analyzer().validateExpression(expr_array);
+
+    return resultado;
 }
 

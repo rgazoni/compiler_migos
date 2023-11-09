@@ -21,8 +21,9 @@ std::string enum_to_string(Type token){
 void expression(){
     Expr_builder expr_builder = Expr_builder();
     std::vector<Expr_token> array;
+    Type resultado;
 
-    // // Token* token;
+    // // // Token* token;
     expr_builder.add_to_array(Expr_token("(", Type::Unknown));
     expr_builder.add_to_array(Expr_token("x", Type::Int));
     expr_builder.add_to_array(Expr_token("+", Type::Int));
@@ -50,13 +51,28 @@ void expression(){
     expr_builder.add_to_array(Expr_token(">", Type::Int));
     expr_builder.add_to_array(Expr_token("0", Type::Int));
     expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+
+    resultado = expr_builder.infix_to_postfix();
+
+    if (resultado != Type::Unknown) {
+        std::cout << "O tipo resultante da expressão é: ";
+        if (resultado == Type::Int) {
+            std::cout << "int";
+        } else if (resultado == Type::Bool) {
+            std::cout << "bool";
+        }
+        std::cout << std::endl;
+    }
     
-    // expr_builder.add_to_array(Expr_token("a", Type::Int));
-    // expr_builder.add_to_array(Expr_token("+", Type::Int));
-    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("b", Type::Int));
-    // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+    expr_builder.add_to_array(Expr_token("a", Type::Int));
+    expr_builder.add_to_array(Expr_token("+", Type::Int));
+    expr_builder.add_to_array(Expr_token("(", Type::Unknown));
+    expr_builder.add_to_array(Expr_token("-", Type::Int));
+    expr_builder.add_to_array(Expr_token("b", Type::Int));
+    expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+
+    resultado = expr_builder.infix_to_postfix();
+
 
 
     // expr_builder.add_to_array(Expr_token("-", Type::Int));
@@ -105,7 +121,7 @@ void expression(){
 
     std::cout << "--------------------------" << std::endl;
 
-    array = expr_builder.infix_to_postfix();
+    // expr_builder.infix_to_postfix();
 
     std::cout << "--------------------------" << std::endl;
 
@@ -114,8 +130,9 @@ void expression(){
     }
     std::cout << std::endl;
 
+    // resultado = expr_builder.infix_to_postfix();
 
-    Type resultado = Semantic_analyzer().validateExpression(array);
+    // Type resultado = Semantic_analyzer().validateExpression(array);
     if (resultado != Type::Unknown) {
         std::cout << "O tipo resultante da expressão é: ";
         if (resultado == Type::Int) {

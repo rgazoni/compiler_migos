@@ -18,6 +18,9 @@ namespace Parser {
             // Então Analisa_chamada_função 
             //     Senão Léxico(token)
             // Senão ERRO
+
+            //não trata se é variavel ou função - n~~ao há diferença
+            expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));
             Parser::function_caller_analyzer();
         }else if(lexical.get_current_token().symbol == Symbols::SNUMERO){
             expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));

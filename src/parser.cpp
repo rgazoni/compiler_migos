@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 
         if(arg == "--dev"|| arg == "-D"){
             //Call tests functions from dev_env directory
-            // expression();
+            expression();
         }
 
         if((arg == "--file" || arg == "-f" ) && i+1 <= argc){
@@ -76,9 +76,9 @@ int main(int argc, char *argv[]) {
     else
         std::cout << "To run parser, a file must be provided with --file or -f." << std::endl;
 
-    for(Expr_token token : expr_builder.expr_array){
-        std::cout << "lexem: " << token.lexem << std::endl;
-    }
+    // for(Expr_token token : expr_builder.expr_array){
+    //     std::cout << "lexem: " << token.lexem << std::endl;
+    // }
 
     return 0;
 }
