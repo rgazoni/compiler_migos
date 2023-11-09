@@ -5,5 +5,4 @@ var a,b,c,a: inteiro;
 
 procedimento oi;
 var a,x,z,m: inteiro;
-  a:=3;
 .

@@ -36,8 +36,8 @@ class Symbol_table{
     void insert_record_function(Record *record);
     void pop_scope();
     bool search_identifier(const std::string& lexem);
-    bool search_variable_table(const std::string& lexem);
-    bool search_function_table(const std::string& lexem);   
+    bool is_variable_exists(const std::string& lexem);
+    bool is_function_exists(const std::string& lexem);   
     void print_table();
 };
 
