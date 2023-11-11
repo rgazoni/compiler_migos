@@ -137,10 +137,13 @@ Type Expr_builder::infix_to_postfix() {
     expr_array = postfix;
 
     for(Expr_token element : expr_array){
-        std::cout << "lexem: " << element.lexem << std::endl;
+        std::cout << "lexem: " << element.lexem <<  " -- address: " << element.address << std::endl;
+
     }
 
     Type resultado = Semantic_analyzer().validateExpression(expr_array);
+
+    std::cout << std::endl;
 
     return resultado;
 }

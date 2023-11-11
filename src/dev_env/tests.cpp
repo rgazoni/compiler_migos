@@ -7,6 +7,7 @@
 #include "expr_token.h"
 #include "semantic_analyzer.h"
 #include "tests.h"
+#include "generate.h"
 
 std::string enum_to_string(Type token){
     switch(token){
@@ -126,7 +127,7 @@ void expression(){
     std::cout << "--------------------------" << std::endl;
 
     for(Expr_token element : array){
-        std::cout << "lexem: " << element.lexem << "  " << enum_to_string(element.type) << std::endl;
+        std::cout << "lexem: " << element.lexem << "  " << enum_to_string(element.type) << "  " << "address: " << std::endl;
     }
     std::cout << std::endl;
 
@@ -142,4 +143,11 @@ void expression(){
         }
         std::cout << std::endl;
     }
+}
+
+void expression2(){
+    generate(1, "DALLOC", 25, 3);
+    generate(2, "ALLOC", 988, 6);
+    generate(-1, "LDT", 24, 7);
+
 }

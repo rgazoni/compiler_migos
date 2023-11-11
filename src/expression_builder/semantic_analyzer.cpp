@@ -103,7 +103,7 @@ Type Semantic_analyzer::validateExpression(std::vector<Expr_token>& expression) 
         }
     }
 
-    // Expr_builder().flush_expression();
+    Expr_builder().flush_expression();
 
     if (stack.size() == 1) {
         return stack.top();

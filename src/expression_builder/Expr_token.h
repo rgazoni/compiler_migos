@@ -12,9 +12,11 @@ struct Expr_token {
     public:
         std::string lexem;
         Type type;
-        Expr_token(std::string x, Type y){
+        int address;
+        Expr_token(std::string x, Type y, int z = 0){
             lexem = x;
             type = y;
+            address = z;
         }
 };
 

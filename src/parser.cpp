@@ -29,7 +29,7 @@ void parser(char *file_path){
 
                 if (lexical.get_current_token().symbol == Symbols::SPONTO) {
                     lexical.next_token();
-                    std::cout << lexical.get_current_token().lexem << std::endl;
+                    // std::cout << lexical.get_current_token().lexem << std::endl;
                     if (lexical.get_current_token().symbol !=
                         Symbols::END_OF_FILE)
                         raiseError(Error::EXPECTED_EOF);
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 
         if(arg == "--dev"|| arg == "-D"){
             //Call tests functions from dev_env directory
-            expression();
+            expression2();
         }
 
         if((arg == "--file" || arg == "-f" ) && i+1 <= argc){

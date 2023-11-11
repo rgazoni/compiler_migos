@@ -6,5 +6,7 @@
 #include <string>
 
 void expression();
+void expression2();
+
 
 #endif
