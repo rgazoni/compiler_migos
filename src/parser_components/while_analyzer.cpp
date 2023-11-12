@@ -17,7 +17,7 @@ namespace Parser {
         // Gera(rotulo, NULL, ´ ´, ´ ´)
         // rotulo := rotulo + 1
 
-        cout << label << endl;
+        // cout << label << endl;
 
         // int auxrot1, auxrot2;
         // auxrot1 = label;

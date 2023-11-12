@@ -5,8 +5,8 @@
 using namespace std;
 
 int digitsAmount(string number) {
-    std::string numberStr = to_string(stoi(number));
-    return numberStr.length();
+    // std::string numberStr = to_string(stoi(number));
+    return number.length();
 }
 
 
@@ -22,42 +22,31 @@ void generate(string label, string instruction, string attribute1, string attrib
         return;
     }     
 
-    if(label == "")
-        outputFile << "  ";
-    else
-        outputFile << label;
+    outputFile << label;
 
-    spaces_count = sizeof(label) - digitsAmount(label);
+    spaces_count = (sizeof(label)/8) - digitsAmount(label);
     for(int i=0 ; i<spaces_count+1 ; i++){
         outputFile << " ";
     }
 
-    if(instruction == "")
-        outputFile << "";
-    else
-        outputFile << instruction;
+    outputFile << instruction;
 
     spaces_count = (sizeof(instruction)/4) - instruction.length();
     for(int i=0 ; i<spaces_count+1 ; i++){
         outputFile << " ";
     }
 
-    if(attribute1 == "")
-        outputFile << "     ";
-    else
-        outputFile << attribute1;
+    outputFile << attribute1;
 
-    spaces_count = sizeof(attribute1) - digitsAmount(attribute1);
+    spaces_count = (sizeof(attribute1)/8) - digitsAmount(attribute1);
     for(int i=0 ; i<spaces_count+1 ; i++){
         outputFile << " ";
     }
 
-    if(attribute2 == "")
-        outputFile << "     ";
-    else
-        outputFile << attribute2;
+    
+    outputFile << attribute2;
 
-    spaces_count = sizeof(attribute2) - digitsAmount(attribute2);
+    spaces_count = (sizeof(attribute2)/8) - digitsAmount(attribute2);
     for(int i=0 ; i<spaces_count+1 ; i++){
         outputFile << " ";
     }

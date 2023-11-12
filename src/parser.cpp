@@ -9,14 +9,14 @@
 #include "expression_builder.h"
 #include "dev_env/tests.h"
 
-int label;
+// int label;
 
 void parser(char *file_path){
     Lexical lexical = Lexical();
     lexical.open_file(file_path);
 
     // rotulo := 1
-    label = 1;
+    // label = 1;
     lexical.next_token();
     
     if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
