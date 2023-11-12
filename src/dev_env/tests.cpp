@@ -146,8 +146,8 @@ void expression(){
 }
 
 void expression2(){
-    generate(1, "DALLOC", 25, 3);
-    generate(2, "ALLOC", 988, 6);
-    generate(-1, "LDT", 24, 7);
+    generate("2", "DALLOC", "", "3");
+    generate("2", "ALLOC", "988", "");
+    generate("", "LDT", "24", "7");
 
 }

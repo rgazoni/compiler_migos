@@ -4,13 +4,13 @@
 
 using namespace std;
 
-int digitsAmount(int number) {
-    std::string numberStr = std::to_string(number);
+int digitsAmount(string number) {
+    std::string numberStr = to_string(stoi(number));
     return numberStr.length();
 }
 
 
-void generate(int label, string instruction, int attribute1, int attribute2){
+void generate(string label, string instruction, string attribute1, string attribute2){
     const char* filename = "assembly.obj";
     int spaces_count;
 
@@ -22,7 +22,7 @@ void generate(int label, string instruction, int attribute1, int attribute2){
         return;
     }     
 
-    if(label == -1)
+    if(label == "")
         outputFile << "  ";
     else
         outputFile << label;
@@ -42,7 +42,7 @@ void generate(int label, string instruction, int attribute1, int attribute2){
         outputFile << " ";
     }
 
-    if(attribute1 == -1)
+    if(attribute1 == "")
         outputFile << "     ";
     else
         outputFile << attribute1;
@@ -52,7 +52,7 @@ void generate(int label, string instruction, int attribute1, int attribute2){
         outputFile << " ";
     }
 
-    if(attribute2 == -1)
+    if(attribute2 == "")
         outputFile << "     ";
     else
         outputFile << attribute2;

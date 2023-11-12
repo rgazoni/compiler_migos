@@ -5,6 +5,7 @@
 #include "../token/symbols.h"
 #include "./error/Errors.h"
 #include "lexical_analyzer.h"
+#include "generate.h"
 
 namespace Parser {
     void while_analyzer() {
@@ -15,6 +16,12 @@ namespace Parser {
         // auxrot1 := rotulo
         // Gera(rotulo, NULL, ´ ´, ´ ´)
         // rotulo := rotulo + 1
+
+        cout << label << endl;
+
+        // int auxrot1, auxrot2;
+        // auxrot1 = label;
+        // generate(label, "NULL", "", "");
 
         lexical.next_token();
         Parser::expression_analyzer();

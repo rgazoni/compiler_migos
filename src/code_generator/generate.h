@@ -7,6 +7,6 @@
 
 using namespace std;
 
-void generate(int label = -1, string instruction = "", int attribute1 = -1, int attribute2 = -1);
+void generate(string label, string instruction = "", string attribute1 = "", string attribute2 = "");
 
 #endif
