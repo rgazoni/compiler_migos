@@ -1,0 +1,10 @@
+programa gentest;
+
+var a,b,q: inteiro;
+
+inicio
+    se q 
+    entao a := 1
+    senao a := 2
+
+fim.

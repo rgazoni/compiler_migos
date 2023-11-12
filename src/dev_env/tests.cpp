@@ -1,6 +1,5 @@
 #include <iostream>
 #include "expression_builder.h"
-#include "../parser_components/parser_components.h"
 #include "error/Errors.h"
 #include "lexical/lexical_analyzer.h"
 #include "symbols.h"
@@ -146,8 +145,8 @@ void expression(){
 }
 
 void expression2(){
-    generate("2", "DALLOC", "", "3");
-    generate("2", "ALLOC", "988", "");
-    generate("", "LDT", "24", "7");
+    // generate("", "DALLOC", "", "3");
+    // generate("3", "ALLOC", "988", "");
+    // generate("5", "LDT", "24", "7");
 
 }

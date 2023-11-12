@@ -4,12 +4,6 @@
 
 using namespace std;
 
-int digitsAmount(string number) {
-    // std::string numberStr = to_string(stoi(number));
-    return number.length();
-}
-
-
 void generate(string label, string instruction, string attribute1, string attribute2){
     const char* filename = "assembly.obj";
     int spaces_count;
@@ -24,7 +18,7 @@ void generate(string label, string instruction, string attribute1, string attrib
 
     outputFile << label;
 
-    spaces_count = (sizeof(label)/8) - digitsAmount(label);
+    spaces_count = (sizeof(label)/8) - label.length();
     for(int i=0 ; i<spaces_count+1 ; i++){
         outputFile << " ";
     }
@@ -38,7 +32,7 @@ void generate(string label, string instruction, string attribute1, string attrib
 
     outputFile << attribute1;
 
-    spaces_count = (sizeof(attribute1)/8) - digitsAmount(attribute1);
+    spaces_count = (sizeof(attribute1)/8) - attribute1.length();
     for(int i=0 ; i<spaces_count+1 ; i++){
         outputFile << " ";
     }
@@ -46,7 +40,7 @@ void generate(string label, string instruction, string attribute1, string attrib
     
     outputFile << attribute2;
 
-    spaces_count = (sizeof(attribute2)/8) - digitsAmount(attribute2);
+    spaces_count = (sizeof(attribute2)/8) - attribute2.length();
     for(int i=0 ; i<spaces_count+1 ; i++){
         outputFile << " ";
     }

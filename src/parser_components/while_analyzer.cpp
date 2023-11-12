@@ -6,6 +6,7 @@
 #include "./error/Errors.h"
 #include "lexical_analyzer.h"
 #include "generate.h"
+#include "label.h"
 
 namespace Parser {
     void while_analyzer() {
@@ -17,11 +18,10 @@ namespace Parser {
         // Gera(rotulo, NULL, ´ ´, ´ ´)
         // rotulo := rotulo + 1
 
-        // cout << label << endl;
-
-        // int auxrot1, auxrot2;
-        // auxrot1 = label;
-        // generate(label, "NULL", "", "");
+        string auxrot1, auxrot2;
+        auxrot1 = Label::getLabel();
+        generate(Label::getLabel(), "NULL", "", "");
+        Label::setLabel(Label::incrementLabel());
 
         lexical.next_token();
         Parser::expression_analyzer();
@@ -31,10 +31,19 @@ namespace Parser {
             // Gera(´ ´,  JMPF, rotulo, ´ ´) {salta se falso}
             // rotulo := rotulo + 1
 
+            auxrot2 = Label::getLabel();
+            generate("", "JMPF", Label::getLabel(), "");
+            Label::setLabel(Label::incrementLabel());
+
+
             lexical.next_token();
             Parser::simple_command_analyzer();
             // Gera(´ ´, JMP, auxrot1, ´ ´) {retorna incio do loop}
             // Gera(auxrot2, NULL, ´ ´. ´ ´) {fim do while}
+
+            generate("", "JMP", auxrot1, "");
+            generate(auxrot2, "NULL", "", "");
+
         } else {
             raiseError(Error::EXPECTED_IDENTIFIER);
         }

@@ -1,8 +1,6 @@
 #ifndef general_parser_h
 #define general_parser_h
 
-// extern int label;
-
 namespace Parser {
     void et_variable_analyzer();
     void factor_analyzer();

@@ -4,6 +4,8 @@
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
+#include "label.h"
+#include "generate.h"
 
 namespace Parser{
     void procedure_declaration_analyzer(){
@@ -20,6 +22,9 @@ namespace Parser{
                 //     Gera(rotulo,NULL, ́  ́, ́  ́)
                 //             {CALL irá buscar este rótulo na TabSimb}
                 //     rotulo:= rotulo+1
+                        generate(Label::getLabel(), "NULL", "", "");
+                        Label::incrementLabel();
+
                         lexical.next_token();
                         if(lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA){
                             Parser::snippet_analyzer();
