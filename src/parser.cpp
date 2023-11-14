@@ -9,6 +9,8 @@
 #include "expression_builder.h"
 #include "dev_env/tests.h"
 #include "label.h"
+#include "generate.h"
+#include "address.h"
 
 
 void parser(char *file_path){
@@ -17,9 +19,11 @@ void parser(char *file_path){
 
     // rotulo := 1
     Label::setLabel(1);
+    Address::setAddress(1);
     lexical.next_token();
     
     if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
+        generate("", "START", "", "");
         lexical.next_token();
         
         if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {            
@@ -49,6 +53,7 @@ void parser(char *file_path){
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
 
+    generate("", "HLT", "", "");
     lexical.close_file();
 }
 
@@ -65,7 +70,7 @@ int main(int argc, char *argv[]) {
 
         if(arg == "--dev"|| arg == "-D"){
             //Call tests functions from dev_env directory
-            expression2();
+            expression();
         }
 
         if((arg == "--file" || arg == "-f" ) && i+1 <= argc){

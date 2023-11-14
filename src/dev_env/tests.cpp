@@ -1,4 +1,5 @@
 #include <iostream>
+#include <typeinfo>
 #include "expression_builder.h"
 #include "error/Errors.h"
 #include "lexical/lexical_analyzer.h"
@@ -24,54 +25,54 @@ void expression(){
     Type resultado;
 
     // // // Token* token;
-    expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    expr_builder.add_to_array(Expr_token("x", Type::Int));
-    expr_builder.add_to_array(Expr_token("+", Type::Int));
-    expr_builder.add_to_array(Expr_token("7", Type::Int));
-    expr_builder.add_to_array(Expr_token("*", Type::Int));
-    expr_builder.add_to_array(Expr_token("5", Type::Int));
-    expr_builder.add_to_array(Expr_token("div", Type::Int));
-    expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    expr_builder.add_to_array(Expr_token("30", Type::Int));
-    expr_builder.add_to_array(Expr_token("+", Type::Int));
-    expr_builder.add_to_array(Expr_token("y", Type::Int));
-    expr_builder.add_to_array(Expr_token(")", Type::Unknown));
-    expr_builder.add_to_array(Expr_token("<=", Type::Int));
-    expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    expr_builder.add_to_array(Expr_token("x", Type::Int));
-    expr_builder.add_to_array(Expr_token("*", Type::Int));
-    expr_builder.add_to_array(Expr_token("a", Type::Int));
-    expr_builder.add_to_array(Expr_token("+", Type::Int));
-    expr_builder.add_to_array(Expr_token("2", Type::Int));
-    expr_builder.add_to_array(Expr_token(")", Type::Unknown));
-    expr_builder.add_to_array(Expr_token(")", Type::Unknown));
-    expr_builder.add_to_array(Expr_token("e", Type::Int));
-    expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    expr_builder.add_to_array(Expr_token("z", Type::Int));
-    expr_builder.add_to_array(Expr_token(">", Type::Int));
-    expr_builder.add_to_array(Expr_token("0", Type::Int));
-    expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token("xx", Type::Int));
+    // expr_builder.add_to_array(Expr_token("+", Type::Int));
+    // expr_builder.add_to_array(Expr_token("7", Type::Int));
+    // expr_builder.add_to_array(Expr_token("*", Type::Int));
+    // expr_builder.add_to_array(Expr_token("5", Type::Int));
+    // expr_builder.add_to_array(Expr_token("div", Type::Int));
+    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token("30", Type::Int));
+    // expr_builder.add_to_array(Expr_token("+", Type::Int));
+    // expr_builder.add_to_array(Expr_token("y", Type::Int));
+    // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token("<=", Type::Int));
+    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token("xx", Type::Int));
+    // expr_builder.add_to_array(Expr_token("*", Type::Int));
+    // expr_builder.add_to_array(Expr_token("a", Type::Int));
+    // expr_builder.add_to_array(Expr_token("+", Type::Int));
+    // expr_builder.add_to_array(Expr_token("2", Type::Int));
+    // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token("e", Type::Int));
+    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token("zz", Type::Int));
+    // expr_builder.add_to_array(Expr_token(">", Type::Int));
+    // expr_builder.add_to_array(Expr_token("0", Type::Int));
+    // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
 
-    resultado = expr_builder.infix_to_postfix();
+    // resultado = expr_builder.infix_to_postfix();
 
-    if (resultado != Type::Unknown) {
-        std::cout << "O tipo resultante da expressão é: ";
-        if (resultado == Type::Int) {
-            std::cout << "int";
-        } else if (resultado == Type::Bool) {
-            std::cout << "bool";
-        }
-        std::cout << std::endl;
-    }
+    // if (resultado != Type::Unknown) {
+    //     std::cout << "O tipo resultante da expressão é: ";
+    //     if (resultado == Type::Int) {
+    //         std::cout << "int";
+    //     } else if (resultado == Type::Bool) {
+    //         std::cout << "bool";
+    //     }
+    //     std::cout << std::endl;
+    // }
     
-    expr_builder.add_to_array(Expr_token("a", Type::Int));
-    expr_builder.add_to_array(Expr_token("+", Type::Int));
-    expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    expr_builder.add_to_array(Expr_token("-", Type::Int));
-    expr_builder.add_to_array(Expr_token("b", Type::Int));
-    expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token("a", Type::Int));
+    // expr_builder.add_to_array(Expr_token("+", Type::Int));
+    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
+    // expr_builder.add_to_array(Expr_token("-", Type::Int));
+    // expr_builder.add_to_array(Expr_token("b", Type::Int));
+    // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
 
-    resultado = expr_builder.infix_to_postfix();
+    // resultado = expr_builder.infix_to_postfix();
 
 
 
@@ -87,13 +88,16 @@ void expression(){
     // // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
     // expr_builder.add_to_array(Expr_token("-", Type::Int));
 
-    // expr_builder.add_to_array(Expr_token("b", Type::Int));
-    // expr_builder.add_to_array(Expr_token("-", Type::Int));
-    // expr_builder.add_to_array(Expr_token("(", Type::Unknown));
-    // expr_builder.add_to_array(Expr_token("+", Type::Int));
-    // expr_builder.add_to_array(Expr_token("b", Type::Int));
-    // // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+    expr_builder.add_to_array(Expr_token("b", Type::Int, 0));
+    expr_builder.add_to_array(Expr_token("-", Type::Int));
+    expr_builder.add_to_array(Expr_token("(", Type::Unknown));
+    expr_builder.add_to_array(Expr_token("+", Type::Int));
+    expr_builder.add_to_array(Expr_token("b", Type::Int, 0));
+    expr_builder.add_to_array(Expr_token("+", Type::Int));
+    expr_builder.add_to_array(Expr_token("2", Type::Int));
+    
     // expr_builder.add_to_array(Expr_token(")", Type::Unknown));
+    expr_builder.add_to_array(Expr_token(")", Type::Unknown));
 
    
     // expr_builder.add_to_array(Expr_token("-", Type::Int));
@@ -125,12 +129,12 @@ void expression(){
 
     std::cout << "--------------------------" << std::endl;
 
-    for(Expr_token element : array){
-        std::cout << "lexem: " << element.lexem << "  " << enum_to_string(element.type) << "  " << "address: " << std::endl;
-    }
-    std::cout << std::endl;
+    // for(Expr_token element : array){
+    //     std::cout << "lexem: " << element.lexem << "  " << enum_to_string(element.type) << "  " << "address: " << std::endl;
+    // }
+    // std::cout << std::endl;
 
-    // resultado = expr_builder.infix_to_postfix();
+    resultado = expr_builder.infix_to_postfix();
 
     // Type resultado = Semantic_analyzer().validateExpression(array);
     if (resultado != Type::Unknown) {
@@ -148,5 +152,10 @@ void expression2(){
     // generate("", "DALLOC", "", "3");
     // generate("3", "ALLOC", "988", "");
     // generate("5", "LDT", "24", "7");
+    string a;
+    int b = 1;
+
+    a = b;
+    cout << "valooor: " << a << "--- tipó: " << typeid(a).name() << endl;
 
 }

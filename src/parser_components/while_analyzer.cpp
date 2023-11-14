@@ -7,10 +7,14 @@
 #include "lexical_analyzer.h"
 #include "generate.h"
 #include "label.h"
+#include "expression_builder.h"
+
 
 namespace Parser {
     void while_analyzer() {
         Lexical lexical = Lexical();
+        Expr_builder expr_builder = Expr_builder();
+
 
         // Def auxrot1, auxrot2 inteiro
         // Inicio
@@ -25,6 +29,8 @@ namespace Parser {
 
         lexical.next_token();
         Parser::expression_analyzer();
+        
+        expr_builder.infix_to_postfix();
 
         if (lexical.get_current_token().symbol == Symbols::SFACA) {
             // auxrot2 := rotulo

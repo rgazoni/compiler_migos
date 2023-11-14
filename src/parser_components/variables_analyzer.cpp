@@ -4,10 +4,13 @@
 #include <iostream>
 #include "lexical_analyzer.h"
 #include "parser_components.h"
+#include "generate.h"
+#include "address.h"
 
 namespace Parser{
     void variables_analyzer(){
         Lexical lexical = Lexical();
+        int var_count = 0;
 
         do{
             if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
@@ -15,6 +18,7 @@ namespace Parser{
                 //se não encontrou duplicidade
                 //então inicio
                     //insere_tabela(token.lexema, "variavel", ",")
+                    var_count++;
                     lexical.next_token();
                     if(lexical.get_current_token().symbol == Symbols::SVIRGULA || lexical.get_current_token().symbol == Symbols::SDOISPONTOS){
                         if(lexical.get_current_token().symbol == Symbols::SVIRGULA){
@@ -32,6 +36,8 @@ namespace Parser{
             }
 
         }while(lexical.get_current_token().symbol != Symbols::SDOISPONTOS);
+
+        generate("", "ALLOC", Address::getAddress(), to_string(var_count));
 
         lexical.next_token();
         Parser::type_analyzer();

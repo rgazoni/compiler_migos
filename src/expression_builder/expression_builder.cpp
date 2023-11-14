@@ -8,6 +8,8 @@
 
 #include "expression_builder.h"
 #include "semantic_analyzer.h"
+#include "generate.h"
+#include "label.h"
 
 using namespace std;
 
@@ -138,10 +140,37 @@ Type Expr_builder::infix_to_postfix() {
 
     for(Expr_token element : expr_array){
         std::cout << "lexem: " << element.lexem <<  " -- address: " << element.address << std::endl;
-
     }
 
     Type resultado = Semantic_analyzer().validateExpression(expr_array);
+
+    string command, attribute1 = "";
+
+    if (resultado == Type::Int || resultado == Type::Bool){ 
+        for(Expr_token token : expr_array){
+            if (isalpha(token.lexem[0])){
+                command = "LDV";
+                // attribute1 = to_string(token.address);
+                attribute1 = token.lexem;
+            } else if(isdigit(token.lexem[0])){
+                command = "LDC";
+                attribute1 = token.lexem;
+            } else{
+                command = get_lpd_symbols(token.lexem);
+            }
+
+            generate("", command, attribute1, "");
+            attribute1 = "";
+        }
+    }
+
+    postfix.clear();
+    Expr_builder().flush_expression();
+
+    if(expr_array.empty()){
+        std::cout << "vaziuu" << std::endl;
+    }
+
 
     std::cout << std::endl;
 

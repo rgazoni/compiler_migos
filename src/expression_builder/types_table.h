@@ -9,5 +9,9 @@ enum class Type {
     Arit_binary,
     Logical_binary,
     Relational,
+    Multiplicative,
+    Not,
+    And,
+    Or,
     Unknown
 };
