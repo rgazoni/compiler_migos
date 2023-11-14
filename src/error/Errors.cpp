@@ -81,9 +81,13 @@ void raiseError(Error error) {
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_ANOTHER_VARIABLE_NAME << std::endl;
             std::cout << "MESSAGE: Variable already declared" << std::endl;
             break;
+        case Error::EXPECTED_ANOTHER_PROCEDURE_NAME:
+            std::cout << "ERROR CODE: " << (int) Error::EXPECTED_ANOTHER_PROCEDURE_NAME << std::endl;
+            std::cout << "MESSAGE: Name already used" << std::endl;
+            break;
         case Error::EXPECTED_ANOTHER_FUNCTION_NAME:
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_ANOTHER_FUNCTION_NAME << std::endl;
-            std::cout << "MESSAGE: Name already used" << std::endl;
+            std::cout << "MESSAGE: " << std::endl;
             break;
         case Error::EXPECTED_VARIABLE_DECLARATION:
             std::cout << "ERROR CODE: " << (int) Error::EXPECTED_VARIABLE_DECLARATION << std::endl;

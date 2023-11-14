@@ -8,8 +8,7 @@
 
 int main(int argc, char *argv[]) {
     Lexical lexical = Lexical();
-    //Record record;
-    //Symbol_table symbol_table = Symbol_table();
+    Symbol_table symbol_table = Symbol_table();
     lexical.open_file(argv);
     //Token* token;
     // rotulo := 1
@@ -19,12 +18,12 @@ int main(int argc, char *argv[]) {
         lexical.next_token();
         
         if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {            
-            // insere_tabela(token->lexema,"nomedeprograma", "", "")
+            Record record(lexical.get_current_token().lexem, "SPROGRAMA", true, 0 );
+            symbol_table.insert_record_procedure(&record);
+            //symbol_table.print_table();
             lexical.next_token();
             if (lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA) {
-                // analisa_bloco
                 Parser::snippet_analyzer();
-                // lexical.next_token();
 
                 if (lexical.get_current_token().symbol == Symbols::SPONTO) {
                     lexical.next_token();

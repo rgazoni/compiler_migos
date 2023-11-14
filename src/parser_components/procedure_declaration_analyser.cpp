@@ -4,14 +4,18 @@
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
+#include "symbol_table.h"
 
 namespace Parser{
     void procedure_declaration_analyzer(){
         Lexical lexical = Lexical();
-
+        Symbol_table symbol_table;
         lexical.next_token();
         // nível := “L” (marca ou novo galho)
         if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
+            Record record(lexical.get_current_token().lexem, "SPROCEDIMENTO", true, 0);
+            symbol_table.insert_record_procedure(&record);
+            symbol_table.print_table();
             // pesquisa_declproc_tabela(token.lexema)
             // se não encontrou
             // então início
