@@ -80,7 +80,7 @@ string get_lpd_symbols(const std::string& token) {
 }
 
 void generate(string label, string instruction, string attribute1, string attribute2){
-    const char* filename = "assembly.obj";
+    const char* filename = "byte_code.obj";
     int spaces_count;
 
     //open file in append mode

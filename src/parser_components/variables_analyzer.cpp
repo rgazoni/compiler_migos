@@ -19,6 +19,7 @@ namespace Parser{
                 //então inicio
                     //insere_tabela(token.lexema, "variavel", ",")
                     var_count++;
+                    any_variables.push_back(lexical.get_current_token().lexem);
                     lexical.next_token();
                     if(lexical.get_current_token().symbol == Symbols::SVIRGULA || lexical.get_current_token().symbol == Symbols::SDOISPONTOS){
                         if(lexical.get_current_token().symbol == Symbols::SVIRGULA){

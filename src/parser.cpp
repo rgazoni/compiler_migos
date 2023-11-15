@@ -11,11 +11,13 @@
 #include "label.h"
 #include "generate.h"
 #include "address.h"
+#include "DVM.h"
 
 
 void parser(char *file_path){
     Lexical lexical = Lexical();
     lexical.open_file(file_path);
+    DVM dvm = DVM();
 
     // rotulo := 1
     Label::setLabel(1);
@@ -54,6 +56,8 @@ void parser(char *file_path){
     }
 
     generate("", "HLT", "", "");
+
+    // dvm.executeFromFile("byte_code.obj");
     lexical.close_file();
 }
 

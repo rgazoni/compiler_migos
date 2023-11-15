@@ -1,7 +1,16 @@
 #ifndef general_parser_h
 #define general_parser_h
 
+#include <vector>
+#include <any>
+
+using namespace std;
+
 namespace Parser {
+    static std::vector<int> integer_variables;
+    static std::vector<bool> boolean_variables;
+    static std::vector<any> any_variables;
+
     void et_variable_analyzer();
     void factor_analyzer();
     void snippet_analyzer();
