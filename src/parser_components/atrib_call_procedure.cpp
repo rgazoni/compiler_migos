@@ -17,7 +17,7 @@ namespace Parser {
             //Analisa_atribuicao();
             Parser::assignment_analyzer();
             //buscar na tabela de simbolos para colocar o endereço no gera
-            generate("", "STR", token.lexem, "");
+            // generate("", "STR", token.lexem, "");
         } else {
            //Chamada_procedimento();
            Parser::procedure_caller_analyzer();

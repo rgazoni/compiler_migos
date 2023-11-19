@@ -11,7 +11,7 @@ public:
     static int incrementAddress();
 
 private:
-    static int address;
+    static int current_available_address;
 };
 
 #endif

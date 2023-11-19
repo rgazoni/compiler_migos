@@ -13,6 +13,13 @@
 
 using namespace std;
 
+void print_type(Type type){
+    if(type == Type::Int)
+        cout << "type: inteiro" << endl;  
+    if(type == Type::Bool)
+        cout << "type: booleano" << endl;  
+}
+
 enum Precedence {
     UNARY = 6,
     MULTIPLICATIVE = 5,
@@ -24,6 +31,9 @@ enum Precedence {
     DEFAULT_PRECEDENCE = -1  // Valor padrão para tratamento de erros
 };
 
+std::vector<string> Expr_builder::integer_variables = {};
+std::vector<string> Expr_builder::boolean_variables = {};
+std::vector<string> Expr_builder::any_variables = {};
 std::vector<Expr_token> Expr_builder::expr_array = {};
 
 
@@ -57,6 +67,10 @@ bool isOperator(string token) {
 bool isOperand (string lexem) {
     if(lexem == "div" || lexem == "e" || lexem == "ou" || lexem == "nao"){
         return false;
+    }
+
+    if(lexem == "verdadeiro" || lexem == "falso"){
+        return true;
     }
 
     if ((isalpha(lexem[0]) || isdigit(lexem[0]))) {
@@ -105,7 +119,7 @@ Type Expr_builder::infix_to_postfix() {
     std::stack<Expr_token> stack;
     std::vector<Expr_token> postfix;
 
-    for (int i = 0; i < expr_array.size(); i++) {
+    for (int i = 0; i < expr_array.size(); i++) { 
         if (isOperand(expr_array[i].lexem)) {
             postfix.push_back(expr_array[i]);
         } else if (expr_array[i].lexem == "(") {
@@ -138,9 +152,10 @@ Type Expr_builder::infix_to_postfix() {
 
     expr_array = postfix;
 
-    for(Expr_token element : expr_array){
-        std::cout << "lexem: " << element.lexem <<  " -- address: " << element.address << std::endl;
-    }
+    // for(Expr_token element : expr_array){
+    //     std::cout << "lexem: " << element.lexem <<  " -- ";
+    //     print_type(element.type);
+    // }
 
     Type resultado = Semantic_analyzer().validateExpression(expr_array);
 
@@ -159,7 +174,7 @@ Type Expr_builder::infix_to_postfix() {
                 command = get_lpd_symbols(token.lexem);
             }
 
-            generate("", command, attribute1, "");
+            // generate("", command, attribute1, "");
             attribute1 = "";
         }
     }
@@ -167,12 +182,12 @@ Type Expr_builder::infix_to_postfix() {
     postfix.clear();
     Expr_builder().flush_expression();
 
-    if(expr_array.empty()){
-        std::cout << "vaziuu" << std::endl;
-    }
+    // if(expr_array.empty()){
+    //     std::cout << "vaziuu" << std::endl;
+    // }
 
 
-    std::cout << std::endl;
+    // std::cout << std::endl;
 
     return resultado;
 }

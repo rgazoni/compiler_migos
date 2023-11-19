@@ -5,6 +5,10 @@
 #include "lexical_analyzer.h"
 #include "expression_builder.h"
 #include "parser_components.h"
+#include <algorithm>
+#include <vector>
+
+using namespace std;
 
 namespace Parser {
     void factor_analyzer(){
@@ -25,7 +29,14 @@ namespace Parser {
             // else if(lexical.get_current_token().symbol == Symbols::SBOOLEANO)
             //     expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Bool));
 
-            expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));
+            //SO POR VIA DE TESTES
+            if(find(expr_builder.integer_variables.begin(), expr_builder.integer_variables.end(), lexical.get_current_token().lexem) != expr_builder.integer_variables.end()){
+                expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));
+            } else if(find(expr_builder.boolean_variables.begin(), expr_builder.boolean_variables.end(), lexical.get_current_token().lexem) != expr_builder.boolean_variables.end()){
+                expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Bool));
+            }
+
+            // expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));
             Parser::function_caller_analyzer();
         }else if(lexical.get_current_token().symbol == Symbols::SNUMERO){
             expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));
@@ -47,10 +58,9 @@ namespace Parser {
             }else{
                 raiseError(Error::EXPECTED_CLOSE_PARENTHESIS);
             }
-        } else if(lexical.get_current_token().lexem == "true" || lexical.get_current_token().lexem == "false"){
+        } else if(lexical.get_current_token().lexem == "verdadeiro" || lexical.get_current_token().lexem == "falso"){
             // we don't know how to treat "true" or "false" token 
-            // expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Bool));
-
+            expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Bool));
             lexical.next_token();
             
         }else{

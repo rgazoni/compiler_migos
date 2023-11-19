@@ -2,27 +2,42 @@
 #include <iostream>
 #include <cctype>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-DVM::DVM() : S(-1), PC(0) {}
+int DVM::S = -1;
+int DVM::PC = 0;
+int DVM::current_available_address = 0;
+std::vector<int> DVM::M = {};
 
 bool isDigit(string s){
     bool isDigit = true;
-
-    try {
-        for (char c : s) {
-            if (!std::isdigit(c)) {
-                isDigit = false;
-                break;  // No need to check further once a non-digit character is found
-            }
+   
+    for (char c : s) {
+        if (!std::isdigit(c)) {
+            isDigit = false;
+            break;  // No need to check further once a non-digit character is found
         }
-
-    } catch (const std::exception& e) {
-        std::cerr << "Exception caught: " << e.what() << std::endl;
     }
-
+    
     return isDigit;
+}
+
+string DVM::getS() {
+    return to_string(S);
+}
+
+string DVM::getPC() {
+    return to_string(PC);
+}
+
+void DVM::setS(int newValue) {
+    S = newValue;
+}
+
+void DVM::setPC(int newValue) {
+    PC = newValue;
 }
 
 void DVM::executeFromFile(const std::string& filename) {
@@ -38,12 +53,13 @@ void DVM::executeFromFile(const std::string& filename) {
     while (std::getline(file, line)) {
         std::istringstream iss(line);
         iss >> command;
+        cout << "command: " << command << endl;
 
-        std::cout << "command1: " << command << std::endl;
+        // std::cout << "command1: " << command << std::endl;
         if(isDigit(command) || command == "NULL")
             iss >> command;
 
-        std::cout << "command2: " << command << std::endl;
+        // std::cout << "command2: " << command << std::endl;
 
         if (command == "LDV") {
             string variable;
@@ -98,7 +114,13 @@ void DVM::executeFromFile(const std::string& filename) {
             if (iss >> variable) {
                 // STR(variable - 'A'); // Convert character to index
             }
-        }
+        } 
+        // else if (command == "ALLOC") {
+        //     string var_count;
+        //     iss >> var_count;
+        //     if(iss >> var_count)
+        //         ALLOC(var_count);
+        // }
     
         PC++;
         displayState();
@@ -111,7 +133,7 @@ void DVM::executeFromFile(const std::string& filename) {
 // Exibir estado atual
 void DVM::displayState() {
     std::cout << "Stack: ";
-    for (int i = 0; !M.empty() ; ++i) {
+    for (int i = 0; i < M.size() ; i++) {
         std::cout << M[i] << " | ";
     }
     std::cout << "\n" << "PC: " << PC << "\n";
@@ -233,4 +255,58 @@ void DVM::CMAQ() {
     else
         M[S - 1] = 0;
     S--;
+}
+
+void DVM::JMP(string label) {
+    PC = stoi(label);
+}
+
+void DVM::JMPF(string label) {
+    if (M[S] == 0) {
+        PC = stoi(label);
+    } else {
+        PC = PC + 1;
+    }
+
+    S--;
+}
+
+// void DVM::ALLOC(string var_count) {
+//     for(int i=0 ; i<=stoi(var_count)-1 ; i++) {
+//         //acessar tabela de tipos para colocar o respectivo endereço
+//         S++;
+//         M[S] = M[current_available_address + i];
+//         current_available_address = current_available_address + stoi(var_count);
+//     }
+//     cout << "alloc stack: " << S << endl;
+// }
+
+void DVM::ALLOC(string var_count) {
+    int count = stoi(var_count);
+    cout << "var_count: " << count << endl;
+
+    // Resize the vector if necessary
+    M.resize(current_available_address + count);
+
+    for (int k = 0; k < count; k++) {
+        // Access table of types to put the respective address
+        int index = current_available_address + k;
+        cout << "Index: " << index << ", M[" << index << "]: " << M[index] << endl;
+
+        S++;
+        M.push_back(M[index]);
+    }
+
+    current_available_address = current_available_address + count;
+    cout << "available address: " << current_available_address << endl;
+}
+
+void DVM::DALLOC(string var_count) {
+    for(int i=stoi(var_count)-1 ; i>=0 ; i--) {
+        //acessar tabela de tipos para colocar o respectivo endereço
+        M[S + i] = M[S];
+        S--;
+    }
+    cout << "dalloc stack: " << S << endl;
+
 }

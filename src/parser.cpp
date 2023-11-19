@@ -57,7 +57,7 @@ void parser(char *file_path){
 
     generate("", "HLT", "", "");
 
-    // dvm.executeFromFile("byte_code.obj");
+    dvm.executeFromFile("byte_code.obj");
     lexical.close_file();
 }
 

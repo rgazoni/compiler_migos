@@ -11,14 +11,21 @@ using namespace std;
 
 class DVM {
 public:
-    DVM();
     void executeFromFile(const std::string& filename);
     void displayState();
+    static string getS();
+    static string getPC();
+    static void setS(int newValue);
+    static void setPC(int newValue);
+    static int current_available_address;
+    static std::vector<int> M;
+    void ALLOC(string var_count);
+    void DALLOC(string var_count);
+
 
 private:
-    std::vector<int> M;
     static int S;
-    int PC;
+    static int PC;
 
     void LDC(string k);
     void LDV(string n);
@@ -36,9 +43,10 @@ private:
     void CDIF();
     void CMEQ();
     void CMAQ();
-    void JMP(const std::string& label);
-    void JMPF(const std::string& label);
+    void JMP(string label);
+    void JMPF(string label);
     void STR(int variableIndex);
+    
 };
 
 #endif

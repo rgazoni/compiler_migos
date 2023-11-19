@@ -4,7 +4,9 @@ programa test1;;
 var a,b,c: inteiro;
 
 {proc 1}
+jmp 1
 procedimento analisa1;
+
 var a, x; inteiro;
        z: booleano;
 inicio
@@ -17,7 +19,7 @@ inicio
        fim;
   escreva(a)
 fim;
-
+1 NULL
 
 procedimento analisa2;
 inicio
