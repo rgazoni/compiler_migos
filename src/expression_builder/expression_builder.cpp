@@ -163,19 +163,30 @@ Type Expr_builder::infix_to_postfix() {
 
     if (resultado == Type::Int || resultado == Type::Bool){ 
         for(Expr_token token : expr_array){
-            if (isalpha(token.lexem[0])){
-                command = "LDV";
-                // attribute1 = to_string(token.address);
-                attribute1 = token.lexem;
+            if (isOperator(token.lexem)){
+                command = get_lpd_symbols(token.lexem);
+                generate("", command, "", "");
+
             } else if(isdigit(token.lexem[0])){
                 command = "LDC";
                 attribute1 = token.lexem;
-            } else{
-                command = get_lpd_symbols(token.lexem);
-            }
+                generate("", command, attribute1, "");
 
-            // generate("", command, attribute1, "");
-            attribute1 = "";
+            } else if(token.lexem == "verdadeiro"){
+                command = "LDC";
+                attribute1 = "1";
+                generate("", command, attribute1, "");
+
+            } else if(token.lexem == "falso"){
+                command = "LDC";
+                attribute1 = "0";
+                generate("", command, attribute1, "");
+
+            } else {
+                command = "LDV";
+                // attribute1 = to_string(token.address);
+                generate("", command, token.lexem, "");
+            }
         }
     }
 
@@ -185,7 +196,6 @@ Type Expr_builder::infix_to_postfix() {
     // if(expr_array.empty()){
     //     std::cout << "vaziuu" << std::endl;
     // }
-
 
     // std::cout << std::endl;
 

@@ -2,14 +2,14 @@
 #include <iostream>
 #include <cctype>
 #include <string>
-#include <vector>
+#include <stack>
+
 
 using namespace std;
 
 int DVM::S = -1;
 int DVM::PC = 0;
-int DVM::current_available_address = 0;
-std::vector<int> DVM::M = {};
+std::stack<int> DVM::M = {};
 
 bool isDigit(string s){
     bool isDigit = true;
@@ -114,13 +114,13 @@ void DVM::executeFromFile(const std::string& filename) {
             if (iss >> variable) {
                 // STR(variable - 'A'); // Convert character to index
             }
-        } 
-        // else if (command == "ALLOC") {
-        //     string var_count;
-        //     iss >> var_count;
-        //     if(iss >> var_count)
-        //         ALLOC(var_count);
-        // }
+        } else if (command == "ALLOC") {
+            string address;
+            string var_count;
+            iss >> address;
+            if(iss >> var_count)
+                ALLOC(address, var_count);
+        }
     
         PC++;
         displayState();
@@ -130,146 +130,146 @@ void DVM::executeFromFile(const std::string& filename) {
 }
 
 
-// Exibir estado atual
-void DVM::displayState() {
-    std::cout << "Stack: ";
-    for (int i = 0; i < M.size() ; i++) {
-        std::cout << M[i] << " | ";
-    }
-    std::cout << "\n" << "PC: " << PC << "\n";
-}
+// // Exibir estado atual
+// void DVM::displayState() {
+//     std::cout << "Stack: ";
+//     for (int i = 0; i < M.size() ; i++) {
+//         std::cout << M[i] << " | ";
+//     }
+//     std::cout << "\n" << "PC: " << PC << "\n";
+// }
 
-// Carregar constante
-void DVM::LDC(string k) {
-    S++;
-    M[S] = stoi(k);
-}
+// // Carregar constante
+// void DVM::LDC(string k) {
+//     S++;
+//     M[S] = stoi(k);
+// }
 
-// Carregar valor
-void DVM::LDV(string n) {
-    S++;
-    M[S] = M[stoi(n)];
-}
+// // Carregar valor
+// void DVM::LDV(string n) {
+//     S++;
+//     M[S] = M[stoi(n)];
+// }
 
-// Somar
-void DVM::ADD() {
-    M[S - 1] += M[S];
-    S--;
-}
+// // Somar
+// void DVM::ADD() {
+//     M[S - 1] += M[S];
+//     S--;
+// }
 
-// Subtrair
-void DVM::SUB() {
-    M[S - 1] -= M[S];
-    S--;
-}
+// // Subtrair
+// void DVM::SUB() {
+//     M[S - 1] -= M[S];
+//     S--;
+// }
 
-// Multiplicar
-void DVM::MULT() {
-    M[S - 1] *= M[S];
-    S--;
-}
+// // Multiplicar
+// void DVM::MULT() {
+//     M[S - 1] *= M[S];
+//     S--;
+// }
 
-// Dividir
-void DVM::DIVI() {
-    M[S - 1] /= M[S];
-    S--;
-}
+// // Dividir
+// void DVM::DIVI() {
+//     M[S - 1] /= M[S];
+//     S--;
+// }
 
-// Inverter sinal
-void DVM::INV() {
-    M[S] = -M[S];
-}
+// // Inverter sinal
+// void DVM::INV() {
+//     M[S] = -M[S];
+// }
 
-// Conjunção
-void DVM::AND() {
-    if (M[S - 1] == 1 && M[S] == 1)
-        M[S - 1] = 1;
-    else
-        M[S - 1] = 0;
-    S--;
-}
+// // Conjunção
+// void DVM::AND() {
+//     if (M[S - 1] == 1 && M[S] == 1)
+//         M[S - 1] = 1;
+//     else
+//         M[S - 1] = 0;
+//     S--;
+// }
 
-// Disjunção
-void DVM::OR() {
-    if (M[S - 1] == 1 || M[S] == 1)
-        M[S - 1] = 1;
-    else
-        M[S - 1] = 0;
-    S--;
-}
+// // Disjunção
+// void DVM::OR() {
+//     if (M[S - 1] == 1 || M[S] == 1)
+//         M[S - 1] = 1;
+//     else
+//         M[S - 1] = 0;
+//     S--;
+// }
 
-// Negação
-void DVM::NEG() {
-    M[S] = 1 - M[S];
-}
+// // Negação
+// void DVM::NEG() {
+//     M[S] = 1 - M[S];
+// }
 
-// Comparar menor
-void DVM::CME() {
-    if (M[S - 1] < M[S])
-        M[S - 1] = 1;
-    else
-        M[S - 1] = 0;
-    S--;
-}
+// // Comparar menor
+// void DVM::CME() {
+//     if (M[S - 1] < M[S])
+//         M[S - 1] = 1;
+//     else
+//         M[S - 1] = 0;
+//     S--;
+// }
 
-// Comparar maior
-void DVM::CMA() {
-    if (M[S - 1] > M[S])
-        M[S - 1] = 1;
-    else
-        M[S - 1] = 0;
-    S--;
-}
+// // Comparar maior
+// void DVM::CMA() {
+//     if (M[S - 1] > M[S])
+//         M[S - 1] = 1;
+//     else
+//         M[S - 1] = 0;
+//     S--;
+// }
 
-// Comparar igual
-void DVM::CEQ() {
-    if (M[S - 1] == M[S])
-        M[S - 1] = 1;
-    else
-        M[S - 1] = 0;
-    S--;
-}
+// // Comparar igual
+// void DVM::CEQ() {
+//     if (M[S - 1] == M[S])
+//         M[S - 1] = 1;
+//     else
+//         M[S - 1] = 0;
+//     S--;
+// }
 
-// Comparar desigual
-void DVM::CDIF() {
-    if (M[S - 1] != M[S])
-        M[S - 1] = 1;
-    else
-        M[S - 1] = 0;
-    S--;
-}
+// // Comparar desigual
+// void DVM::CDIF() {
+//     if (M[S - 1] != M[S])
+//         M[S - 1] = 1;
+//     else
+//         M[S - 1] = 0;
+//     S--;
+// }
 
-// Comparar menor ou igual
-void DVM::CMEQ() {
-    if (M[S - 1] <= M[S])
-        M[S - 1] = 1;
-    else
-        M[S - 1] = 0;
-    S--;
-}
+// // Comparar menor ou igual
+// void DVM::CMEQ() {
+//     if (M[S - 1] <= M[S])
+//         M[S - 1] = 1;
+//     else
+//         M[S - 1] = 0;
+//     S--;
+// }
 
-// Comparar maior ou igual
-void DVM::CMAQ() {
-    if (M[S - 1] >= M[S])
-        M[S - 1] = 1;
-    else
-        M[S - 1] = 0;
-    S--;
-}
+// // Comparar maior ou igual
+// void DVM::CMAQ() {
+//     if (M[S - 1] >= M[S])
+//         M[S - 1] = 1;
+//     else
+//         M[S - 1] = 0;
+//     S--;
+// }
 
-void DVM::JMP(string label) {
-    PC = stoi(label);
-}
+// void DVM::JMP(string label) {
+//     PC = stoi(label);
+// }
 
-void DVM::JMPF(string label) {
-    if (M[S] == 0) {
-        PC = stoi(label);
-    } else {
-        PC = PC + 1;
-    }
+// void DVM::JMPF(string label) {
+//     if (M[S] == 0) {
+//         PC = stoi(label);
+//     } else {
+//         PC = PC + 1;
+//     }
 
-    S--;
-}
+//     S--;
+// }
 
 // void DVM::ALLOC(string var_count) {
 //     for(int i=0 ; i<=stoi(var_count)-1 ; i++) {
@@ -281,32 +281,219 @@ void DVM::JMPF(string label) {
 //     cout << "alloc stack: " << S << endl;
 // }
 
-void DVM::ALLOC(string var_count) {
+// void DVM::ALLOC(string current_available_address, string var_count) {
+//     int count = stoi(var_count);
+//     cout << "var_count: " << count << endl;
+
+//     // Resize the vector if necessary
+//     M.resize(stoi(current_available_address) + count);
+
+//     for (int k = 0; k < count; k++) {
+//         // Access table of types to put the respective address
+//         int index = stoi(current_available_address) + k;
+//         cout << "Index: " << index << ", M[" << index << "]: " << M[index] << endl;
+
+//         S++;
+//         M.push_back(M[index]);
+//     }
+
+//     cout << "addresS:::::::::: " << stoi(current_available_address) << endl;
+// }
+
+// void DVM::DALLOC(string var_count) {
+//     for(int i=stoi(var_count)-1 ; i>=0 ; i--) {
+//         //acessar tabela de tipos para colocar o respectivo endereço
+//         M[S + i] = M[S];
+//         S--;
+//     }
+//     cout << "dalloc stack: " << S << endl;
+
+// }
+
+void DVM::displayState() {
+    std::cout << "Stack: ";
+    std::stack<int> tempStack = M;
+
+    while (!tempStack.empty()) {
+        std::cout << tempStack.top() << " | ";
+        tempStack.pop();
+    }
+
+    std::cout << "\nPC: " << PC << "\n";
+}
+
+void DVM::LDC(string k) {
+    S++;
+    M.push(stoi(k));
+}
+
+void DVM::LDV(string n) {
+    int index = stoi(n);
+    S++;
+    M.push(M.top());
+}
+
+void DVM::ADD() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push(operand1 + operand2);
+    S--;
+}
+
+void DVM::SUB() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push(operand1 - operand2);
+    S--;
+}
+
+void DVM::MULT() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push(operand1 * operand2);
+    S--;
+}
+
+void DVM::DIVI() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push(operand1 / operand2);
+    S--;
+}
+
+void DVM::INV() {
+    int value = M.top();
+    M.pop();
+    M.push(-value);
+}
+
+void DVM::AND() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push((operand1 == 1 && operand2 == 1) ? 1 : 0);
+    S--;
+}
+
+void DVM::OR() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push((operand1 == 1 || operand2 == 1) ? 1 : 0);
+    S--;
+}
+
+void DVM::NEG() {
+    int value = M.top();
+    M.pop();
+    M.push(1 - value);
+}
+
+void DVM::CME() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push((operand1 < operand2) ? 1 : 0);
+    S--;
+}
+
+void DVM::CMA() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push((operand1 > operand2) ? 1 : 0);
+    S--;
+}
+
+void DVM::CEQ() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push((operand1 == operand2) ? 1 : 0);
+    S--;
+}
+
+void DVM::CDIF() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push((operand1 != operand2) ? 1 : 0);
+    S--;
+}
+
+void DVM::CMEQ() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push((operand1 <= operand2) ? 1 : 0);
+    S--;
+}
+
+void DVM::CMAQ() {
+    int operand1 = M.top();
+    M.pop();
+    int operand2 = M.top();
+    M.pop();
+    M.push((operand1 >= operand2) ? 1 : 0);
+    S--;
+}
+
+void DVM::JMP(string label) {
+    PC = stoi(label);
+}
+
+void DVM::JMPF(string label) {
+    if (M.top() == 0) {
+        PC = stoi(label);
+    } else {
+        PC = PC + 1;
+    }
+
+    M.pop();
+    S--;
+}
+
+void DVM::ALLOC(string current_available_address, string var_count) {
     int count = stoi(var_count);
     cout << "var_count: " << count << endl;
 
-    // Resize the vector if necessary
-    M.resize(current_available_address + count);
+    // Get the current stack size
+    int currentStackSize = M.size();
 
     for (int k = 0; k < count; k++) {
         // Access table of types to put the respective address
-        int index = current_available_address + k;
-        cout << "Index: " << index << ", M[" << index << "]: " << M[index] << endl;
 
         S++;
-        M.push_back(M[index]);
+        if (!M.empty()) {
+            M.push(M.top());  
+        } else
+            M.push(0);  
+        
     }
 
-    current_available_address = current_available_address + count;
-    cout << "available address: " << current_available_address << endl;
+    cout << "addresS:::::::::: " << stoi(current_available_address) << endl;
 }
 
 void DVM::DALLOC(string var_count) {
-    for(int i=stoi(var_count)-1 ; i>=0 ; i--) {
+    for (int i = stoi(var_count) - 1; i >= 0; i--) {
         //acessar tabela de tipos para colocar o respectivo endereço
-        M[S + i] = M[S];
+        M.push(M.top());
         S--;
     }
     cout << "dalloc stack: " << S << endl;
-
 }

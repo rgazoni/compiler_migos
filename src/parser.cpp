@@ -21,7 +21,7 @@ void parser(char *file_path){
 
     // rotulo := 1
     Label::setLabel(1);
-    Address::setAddress(1);
+    Address::setAddress(0);
     lexical.next_token();
     
     if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
@@ -55,9 +55,10 @@ void parser(char *file_path){
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
 
+    generate("", "DALLOC", Address::getAddress(), Address::getVarCount());
     generate("", "HLT", "", "");
 
-    dvm.executeFromFile("byte_code.obj");
+    // dvm.executeFromFile("byte_code.obj");
     lexical.close_file();
 }
 

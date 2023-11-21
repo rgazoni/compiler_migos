@@ -8,13 +8,11 @@
 #include "address.h"
 #include "expression_builder.h"
 #include "label.h"
-#include "DVM.h"
 
 namespace Parser{
     void variables_analyzer(){
         Lexical lexical = Lexical();
         Expr_builder expr_builder = Expr_builder();
-        DVM dvm = DVM();
 
         int var_count = 0;
 
@@ -46,14 +44,11 @@ namespace Parser{
         }while(lexical.get_current_token().symbol != Symbols::SDOISPONTOS);
 
 
-        // cout << "Before generate: " << DVM::getAvailableAddress() << endl;
-        generate("", "ALLOC", to_string(dvm.current_available_address), to_string(var_count));
-        dvm.ALLOC(to_string(var_count));
-
-        // cout << "After generate: " << DVM::getAvailableAddress() << endl;
+        generate("", "ALLOC", Address::getAddress(), to_string(var_count));
+        Address::setAddress(stoi(Address::getAddress()) + var_count);
+        Address::setVarCount(stoi(Address::getVarCount()) + var_count);
 
         lexical.next_token();
         Parser::type_analyzer();
     }
-
 }

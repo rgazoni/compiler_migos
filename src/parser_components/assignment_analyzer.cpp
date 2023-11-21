@@ -15,7 +15,7 @@ namespace Parser{
 
         lexical.next_token();
         Parser::expression_analyzer();
-        expr_builder.infix_to_postfix();
+        // expr_builder.infix_to_postfix();
         // generate("", "STR", lexical.get_current_token().lexem, "");
 
     }

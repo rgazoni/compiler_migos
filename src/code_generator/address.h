@@ -8,10 +8,14 @@ class Address {
 public:
     static std::string getAddress();
     static void setAddress(int value);
-    static int incrementAddress();
+    static std::string getVarCount();
+    static void setVarCount(int value);
+
 
 private:
     static int current_available_address;
+    static int var_count;
+
 };
 
 #endif

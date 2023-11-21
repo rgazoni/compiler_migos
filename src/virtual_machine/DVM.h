@@ -4,8 +4,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <vector>
 #include <unordered_map>
+#include <stack>
+
 
 using namespace std;
 
@@ -17,9 +18,8 @@ public:
     static string getPC();
     static void setS(int newValue);
     static void setPC(int newValue);
-    static int current_available_address;
-    static std::vector<int> M;
-    void ALLOC(string var_count);
+    static std::stack<int> M;
+    void ALLOC(string current_available_address, string var_count);
     void DALLOC(string var_count);
 
 
