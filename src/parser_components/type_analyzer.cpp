@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include "lexical_analyzer.h"
+#include "symbol_table.h"
 #include "parser_components.h"
 #include "expression_builder.h"
 
@@ -11,12 +12,11 @@ using namespace std;
 namespace Parser{
     void type_analyzer(){
         Lexical lexical = Lexical();
-        Expr_builder expr_builder = Expr_builder();
-
 
         if(lexical.get_current_token().symbol != Symbols::SINTEIRO && lexical.get_current_token().symbol != Symbols::SBOOLEANO){
             raiseError(Error::EXPECTED_BOOLEAN_OR_INT);
         }else{
+            symbol_table.update_variable_type(lexical.get_current_token().lexem);
             //coloca_tipo_tabela(token->lexem);
 
             //if so feito por via de testes

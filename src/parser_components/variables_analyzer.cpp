@@ -8,16 +8,22 @@
 #include "address.h"
 #include "expression_builder.h"
 #include "label.h"
+#include "symbol_table.h"
 
 namespace Parser{
     void variables_analyzer(){
         Lexical lexical = Lexical();
         Expr_builder expr_builder = Expr_builder();
-
+        Symbol_table symbol_table;
+        
         int var_count = 0;
-
+        
         do{
             if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
+               Record record(lexical.get_current_token().lexem, "", false, 0);
+               symbol_table.insert_record_variable(&record);
+               //std::cout << "print do variables_analyzer" << std::endl;
+               //symbol_table.print_table();
                 //pesquisa_duplicvar_tabela(token.lexema)
                 //se não encontrou duplicidade
                 //então inicio

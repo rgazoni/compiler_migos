@@ -5,42 +5,175 @@
 #include <stack>
 #include "symbols.h"
 #include "lexical/lexical_analyzer.h"
+#include "./error/Errors.h"
 
-void Symbol_table::insert_record(Record *record){ //ajustar a fução que deve receber os parametros node e identificador
-   if (!search_table(record->getLexem()) && record->getSymbol() == Symbols::SIDENTIFICADOR) {
+std::stack<Record> Symbol_table::stack;
+
+//DUVIDAS PARA O FREITAS
+//como identificar o tipo de função quando for inserida na tabela de simbolos
+//como identificar o tipo de variavel quando for inserida na tabela de simbolos
+//entender a implemntação das funções analisa chamada de função e chamada de procedimento
+//como testaria pra ver se é uma função
+
+//insere variavel 
+void Symbol_table::insert_record_variable(Record *record){ 
+   if (!is_variable_exists(record->getLexem()) && record->getScope() == false) { 
         stack.push(*record);
-    }else{
-        std::cout << "já esta contido na tabela de simbolos" << std:: endl;
-    }
+   }else{
+        raiseError(Error::EXPECTED_ANOTHER_VARIABLE_NAME);
+   }
 }
 
-bool Symbol_table::search_table(const std::string& lexem){
-    std::stack<Record> auxStack = stack; //pilha auxiliar 
-    while(!auxStack.empty()){
-        Record record = auxStack.top();
-        if(record.getLexem() == lexem){
-            std::cout << lexem << std::endl;
-            return true; // O lexema foi encontrado na tabela
+//pesquisa por variavel duplicada
+bool Symbol_table::is_variable_exists(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+    while(topRecord.getScope() == false){
+        topRecord = auxStack.top();
+        if (topRecord.getLexem() == lexem) {
+            return true;
         }
         auxStack.pop();
     }
-    return false; // O lexema não foi encontrado na tabela
+    return false;
 }
 
+//coloca tipo na variavel
+void Symbol_table::update_variable_type(const std::string& lexem) {
+    int count = 0;
+    std::stack<Record> auxStack;
+    if (!stack.empty()) {
+        Record topRecord = stack.top();
+        while (!topRecord.getScope()) {
+            if (lexem.compare("inteiro") == 0 && topRecord.getType().empty()) {
+                topRecord.setType("SINTEIRO");
+                auxStack.push(topRecord);
+            } else if (lexem.compare("booleano") == 0 && topRecord.getType().empty()) {
+                topRecord.setType("SBOOLEANO");
+                auxStack.push(topRecord);
+            } else if (!topRecord.getType().empty()) {
+                auxStack.push(topRecord);
+            }
+            stack.pop();
+            count++;
+            if (!stack.empty()) {
+                topRecord = stack.top();
+            } else {
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < count; i++) {
+        stack.push(auxStack.top());
+        auxStack.pop();
+    }
+}
+
+
+//insere na pilha o nome de procedimentos, funções e o nome do programa
+void Symbol_table::insert_record_procedure(Record *record){ 
+     if (!is_procedure_exists(record->getLexem()) && record->getScope() == true) { 
+        stack.push(*record);
+     } else {
+        raiseError(Error::EXPECTED_ANOTHER_PROCEDURE_NAME);
+     }
+}
+
+//pesquisa por procedimento dublicado
+bool Symbol_table::is_procedure_exists(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    while (!auxStack.empty()) {
+        Record record = auxStack.top();
+        if (record.getLexem() == lexem && record.getScope() == true) {
+            return true; 
+        }
+        auxStack.pop();
+    }
+    return false; 
+}
+
+//coloca tipo nas funções
+void Symbol_table::update_function_type(const std::string& lexem){
+    int count = 0;
+    std::stack<Record> auxStack;
+    if (!stack.empty()) {
+        Record topRecord = stack.top();
+        while (topRecord.getScope()) {
+            if (lexem.compare("inteiro") == 0 && topRecord.getType().empty()) {
+                topRecord.setType("S_FUNCAO_INTEIRO");
+                auxStack.push(topRecord);
+            } else if (lexem.compare("booleano") == 0 && topRecord.getType().empty()) {
+                topRecord.setType("S_FUNCAO_BOOLEANO");
+                auxStack.push(topRecord);
+            } else if (!topRecord.getType().empty()) {
+                auxStack.push(topRecord);
+            }
+            stack.pop();
+            count++;
+            if (!stack.empty()) {
+                topRecord = stack.top();
+            } else {
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < count; i++) {
+        stack.push(auxStack.top());
+        auxStack.pop();
+    }
+}
+
+//percorre a pilha e desempilha todas as variavies ja usadas no escopo de uma função
+void Symbol_table::pop_scope(){
+    while(!stack.empty()){
+        if(!stack.top().getScope()){
+            stack.pop();
+        }else if(stack.top().getScope()){
+           stack.top().setScope(false);
+           break; 
+        }
+    }
+}
+
+//verifica se a variavel foi declarada para ser usada nos comandos leia ou escreva
+//retornar o endereço (em construção)
+bool Symbol_table::search_identifier(const std::string& lexem) {
+    std::stack<Record> auxStack = stack;
+    while (!auxStack.empty()) {
+        Record record = auxStack.top();
+        if (record.getLexem() == lexem && !record.getScope()) {
+            return true;
+        }
+        auxStack.pop(); 
+    }
+    raiseError(Error::EXPECTED_VARIABLE_DECLARATION);
+}
+
+//imprime a tabela de simbolos
 void Symbol_table::print_table() {
     std::stack<Record> auxStack = stack;
     while (!auxStack.empty()) {
         Record record = auxStack.top();
         std::cout << "Lexema: " << record.getLexem() << std::endl;
-        std::cout << "Scope: " << (record.getScope() ? "Global" : "Local") << std::endl;
+        std::cout << "Scope: " << (record.getScope()) << std::endl;
         std::cout << "Type: " << record.getType() << std::endl;
         std::cout << "Address: " << record.getAddress() << std::endl;
         std::cout << "---------------" << std::endl;
-        
         auxStack.pop();
     }
 }
 
+//construtor da classe record
+Record::Record(std::string lexem, std::string type, bool scope, int address)
+    : lexem(lexem), type(type), scope(scope), address(address) {}
+
+Symbol_table::Symbol_table() {
+    // Inicialize os membros da classe, se necessário
+}
+
+//getters e setters da classe Record
 void Record::setLexem(std::string l){
     lexem = l;
 }
@@ -49,16 +182,7 @@ std::string Record::getLexem(){
     return lexem;
 }
 
-void Record::setSymbol(Symbols sy){
-    symbol = sy;
-}
-
- Symbols Record::getSymbol(){
-    return symbol;
-}
-
-
-void Record:: setScope(bool s){
+void Record::setScope(bool s){
     scope = s;
 }
 
@@ -81,22 +205,3 @@ void Record::setAddress(int a){
 int Record::getAddress(){
     return address;
 }
-
-////////////////////////////TRECHO PARA TESTES DA TABELA DE SIMBOLO////////////////////////////
-//inserir elas entre as linhas 18 e 32 do arquivo parser
-// lexical.next_token();
-//     lexical.next_token();
-//     std::cout << lexical.get_current_token().symbol << std::endl;
-//     std::cout << lexical.get_current_token().lexem << std::endl;
-
-//     while(lexical.get_current_token().symbol != Symbols::SPONTO){
-//         record.setLexem(lexical.get_current_token().lexem);
-//         record.setSymbol(lexical.get_current_token().symbol);
-//         record.setScope(true);
-//         record.setType("asdad");
-//         record.setAddress(0);
-//         symbol_table.insert_record(&record);
-//         lexical.next_token();
-//     }
-//     symbol_table.print_table();
-/////////////////////////////////////////

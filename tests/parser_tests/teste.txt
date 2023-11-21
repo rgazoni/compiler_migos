@@ -1,0 +1,54 @@
+{Teste 1 - OK}
+programa test1;
+
+var a,b,c: inteiro;
+    ramon: booleano;
+
+{proc 1}
+procedimento analisa1;
+var a, x: inteiro;
+       z: booleano;
+       
+inicio
+  se x>1  entao
+      x:= 0;
+  leia(a);
+  enquanto (a != 89) e (a<= 1000)  {condicao de parada}
+  faca inicio
+           a:= x+z
+       fim;
+  escreva(a)
+fim;
+
+funcao Exp: inteiro;
+    var a, Contador, Expoente : inteiro;
+        ola: booleano;
+    inicio
+    Exp := Contador;
+    fim;
+
+funcao Exp2: booleano;
+    var Contador, Expoente : inteiro;
+    
+    inicio
+
+    escreva(a);
+    Exp := Contador;
+    fim;
+
+procedimento analisa2;
+var a: booleano;
+inicio
+  leia(c);
+  b:= a*a+(c div b) 
+fim;
+
+inicio
+    analisa1;
+    analisa2;
+    se b > (c+ a*a)
+    entao escreva(a)
+    senao escreva(b)
+fim.
+
+{fim}   

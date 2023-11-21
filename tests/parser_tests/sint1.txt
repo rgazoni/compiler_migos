@@ -1,13 +1,21 @@
-programa exemplo6;
-var x, y: inteiro;
-procedimento p;
-var z: inteiro;
+{Teste 1 - OK}
+programa test1;
+
+var a,b,c: inteiro;
+
+{proc 1}
+procedimento analisa1;
+var a, x: inteiro;
+       z: booleano;
+       
 inicio
 z:= x; x:=x-1;
 se z>1 entao p
 senao y:=1;
 y:=y*z
 fim;
+
+procedimento analisa2;
 inicio
 leia(x);
 p;

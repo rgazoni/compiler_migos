@@ -4,13 +4,18 @@
 #include "./error/Errors.h"
 #include <fstream>
 #include <iostream>
+#include "symbol_table.h"
 
 namespace Parser{
     void function_declaration_analyzer(){
         Lexical lexical = Lexical();
+        Symbol_table symbol_table;
         lexical.next_token();
         // nível := “L” (marca ou novo galho)
         if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
+            Record record(lexical.get_current_token().lexem, "", true, 0);
+            symbol_table.insert_record_procedure(&record);
+            
             // pesquisa_declfunc_tabela(token.lexema)
             // se não encontrou
             // então início
@@ -20,6 +25,7 @@ namespace Parser{
                     lexical.next_token();
 
                     if(lexical.get_current_token().symbol == Symbols::SINTEIRO || lexical.get_current_token().symbol == Symbols::SBOOLEANO){
+                        symbol_table.update_function_type(lexical.get_current_token().lexem);
                         // se (token.símbolo = Sinteger)
                         // então TABSIMB[pc].tipo:=
                         //     “função inteiro”
@@ -42,6 +48,7 @@ namespace Parser{
             // erro
             raiseError(Error::EXPECTED_IDENTIFIER);
         }
+        //symbol_table.pop_scope();
         // DESEMPILHA OU VOLTA NÍVEL
     }
 }
