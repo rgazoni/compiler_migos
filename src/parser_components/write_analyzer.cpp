@@ -11,6 +11,8 @@ namespace Parser {
         if (lexical.get_current_token().symbol == Symbols::SABRE_PARENTESES) {
             lexical.next_token(); 
             if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {
+                symbol_table.search_identifier(lexical.get_current_token().lexem);
+                std::cout << "variavel da função escreva: " <<lexical.get_current_token().lexem  << std::endl;
                 //se pesquisa_declvarfunc_tabela(token.lexema)
                 lexical.next_token(); 
                 if (lexical.get_current_token().symbol == Symbols::SFECHA_PARENTESES) {

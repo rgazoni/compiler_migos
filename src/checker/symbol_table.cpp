@@ -9,6 +9,13 @@
 
 std::stack<Record> Symbol_table::stack;
 
+//DUVIDAS PARA O FREITAS
+//como identificar o tipo de função quando for inserida na tabela de simbolos
+//como identificar o tipo de variavel quando for inserida na tabela de simbolos
+//entender a implemntação das funções analisa chamada de função e chamada de procedimento
+//como testaria pra ver se é uma função
+
+//insere variavel 
 void Symbol_table::insert_record_variable(Record *record){ 
    if (!is_variable_exists(record->getLexem()) && record->getScope() == false) { 
         stack.push(*record);
@@ -17,6 +24,7 @@ void Symbol_table::insert_record_variable(Record *record){
    }
 }
 
+//pesquisa por variavel duplicada
 bool Symbol_table::is_variable_exists(const std::string& lexem) {
     std::stack<Record> auxStack = stack; 
     Record topRecord = auxStack.top();
@@ -63,7 +71,7 @@ void Symbol_table::update_variable_type(const std::string& lexem) {
 }
 
 
-//insere na pilha o nome de procedimentos e o nome do programa
+//insere na pilha o nome de procedimentos, funções e o nome do programa
 void Symbol_table::insert_record_procedure(Record *record){ 
      if (!is_procedure_exists(record->getLexem()) && record->getScope() == true) { 
         stack.push(*record);
@@ -72,6 +80,7 @@ void Symbol_table::insert_record_procedure(Record *record){
      }
 }
 
+//pesquisa por procedimento dublicado
 bool Symbol_table::is_procedure_exists(const std::string& lexem) {
     std::stack<Record> auxStack = stack; 
     while (!auxStack.empty()) {
@@ -84,65 +93,62 @@ bool Symbol_table::is_procedure_exists(const std::string& lexem) {
     return false; 
 }
 
-//insere na pilha nomes de funções tem que fazer ainda
-void Symbol_table::insert_record_function(Record *record){
-    if (!is_procedure_exists(record->getLexem()) && record->getScope() == true) { 
-        stack.push(*record);
-     } else {
-        raiseError(Error::EXPECTED_ANOTHER_FUNCTION_NAME);
-     }
-}
-
-bool Symbol_table::is_function_exists(const std::string& lexem){
-    std::stack<Record> auxStack = stack;
-    while (!auxStack.empty()) {
-        Record record = auxStack.top();
-        if (record.getLexem() == lexem && record.getScope() == true) {
-            return true; 
+//coloca tipo nas funções
+void Symbol_table::update_function_type(const std::string& lexem){
+    int count = 0;
+    std::stack<Record> auxStack;
+    if (!stack.empty()) {
+        Record topRecord = stack.top();
+        while (topRecord.getScope()) {
+            if (lexem.compare("inteiro") == 0 && topRecord.getType().empty()) {
+                topRecord.setType("S_FUNCAO_INTEIRO");
+                auxStack.push(topRecord);
+            } else if (lexem.compare("booleano") == 0 && topRecord.getType().empty()) {
+                topRecord.setType("S_FUNCAO_BOOLEANO");
+                auxStack.push(topRecord);
+            } else if (!topRecord.getType().empty()) {
+                auxStack.push(topRecord);
+            }
+            stack.pop();
+            count++;
+            if (!stack.empty()) {
+                topRecord = stack.top();
+            } else {
+                break;
+            }
         }
+    }
+
+    for (int i = 0; i < count; i++) {
+        stack.push(auxStack.top());
         auxStack.pop();
     }
-    return false;
 }
-
-//Analisar possiveis erros que podem ocorrer na busca e inserção de nomes de funções e elaborar
-//uma mensagem de erro se precisar
-//OBSERVAÇÃO: se o for mesmo utilizar o escopo de função como true igual a de procedimentos,
-//ficar atento que pode cagar a função de desempilhar. Tentar ver se com o escopo igual a false
-//nao fica mais facil
-
-//DUVIDAS PARA O FREITAS
-//como identificar o tipo de função quando for inserida na tabela de simbolos
-//como identificar o tipo de variavel quando for inserida na tabela de simbolos
-//entender a implemntação das funções analisa chamada de função e chamada de procedimento
-//como testaria pra ver se é uma função
-
-//Insere_tabela(token.lexema,””,nível,rótulo) - perguntar quais os parametros da função que vao ser
-//e como inserir a função na tabela de simbolos
 
 //percorre a pilha e desempilha todas as variavies ja usadas no escopo de uma função
 void Symbol_table::pop_scope(){
     while(!stack.empty()){
-        if(stack.top().getScope() == false){
+        if(!stack.top().getScope()){
             stack.pop();
-        }else if(stack.top().getScope() == true){
+        }else if(stack.top().getScope()){
            stack.top().setScope(false);
            break; 
         }
     }
 }
 
-//Percorre a tabela de simbolo //retornar o endereço
+//verifica se a variavel foi declarada para ser usada nos comandos leia ou escreva
+//retornar o endereço (em construção)
 bool Symbol_table::search_identifier(const std::string& lexem) {
     std::stack<Record> auxStack = stack;
     while (!auxStack.empty()) {
         Record record = auxStack.top();
-        if (record.getLexem() == lexem && record.getScope() == false) {
+        if (record.getLexem() == lexem && !record.getScope()) {
             return true;
         }
         auxStack.pop(); 
     }
-    return false;
+    raiseError(Error::EXPECTED_VARIABLE_DECLARATION);
 }
 
 //imprime a tabela de simbolos
@@ -159,6 +165,7 @@ void Symbol_table::print_table() {
     }
 }
 
+//construtor da classe record
 Record::Record(std::string lexem, std::string type, bool scope, int address)
     : lexem(lexem), type(type), scope(scope), address(address) {}
 
@@ -166,7 +173,7 @@ Symbol_table::Symbol_table() {
     // Inicialize os membros da classe, se necessário
 }
 
-//getters e setters
+//getters e setters da classe Record
 void Record::setLexem(std::string l){
     lexem = l;
 }

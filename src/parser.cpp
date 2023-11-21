@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     } else {
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
-
+        symbol_table.print_table();
         lexical.close_file();
 
         return 0;

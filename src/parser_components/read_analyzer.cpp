@@ -16,8 +16,7 @@ namespace Parser{
             lexical.next_token();
             if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
                 symbol_table.search_identifier(lexical.get_current_token().lexem);
-                std::cout << "Leia: " << lexical.get_current_token().lexem << std::endl;
-                //std::cout << "variavel: " <<lexical.get_current_token().lexem  << std::endl;
+                std::cout << "variavel da função leia: " <<lexical.get_current_token().lexem  << std::endl;
                 // então se pesquisa_declvar_tabela(token.lexema) 
                 // então início (pesquisa em toda a tabela)
                     lexical.next_token();

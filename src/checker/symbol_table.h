@@ -37,13 +37,13 @@ class Symbol_table{
 
     void insert_record_variable(Record *record);
     bool is_variable_exists(const std::string& lexem);
+    void update_variable_type(const std::string& lexem);
     void insert_record_procedure(Record *record);
     bool is_procedure_exists(const std::string& lexem);
-    void insert_record_function(Record *record);
-    bool is_function_exists(const std::string& lexem);
-    void update_variable_type(const std::string& lexem);
+    void update_function_type(const std::string& lexem);
     void pop_scope();
-    bool search_identifier(const std::string& lexem); 
+    bool search_identifier(const std::string& lexem);
+    bool search_variable_function_declaration(const std::string& lexem); 
     void print_table();
 };
 
