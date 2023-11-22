@@ -3,9 +3,12 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include <vector>
 #include "symbols.h"
 #include "lexical/lexical_analyzer.h"
 #include "./error/Errors.h"
+
+using namespace std;
 
 std::stack<Record> Symbol_table::stack;
 
@@ -38,12 +41,50 @@ bool Symbol_table::is_variable_exists(const std::string& lexem) {
     return false;
 }
 
+void reverseStack(std::stack<Record>& stack) {
+    size_t size = stack.size();
+    std::vector<Record> elements;
+
+    elements.reserve(size);
+
+    // Store stack elements in the vector
+    while (!stack.empty()) {
+        elements.push_back(stack.top());
+        stack.pop();
+    }
+
+    // Reinsert elements into the stack in reverse order
+    for (size_t i = 0; i < size; ++i) {
+        stack.push(elements[i]);
+    }
+}
+
 Symbols Symbol_table::get_variable_type(const std::string& lexem) {
     std::stack<Record> auxStack = stack; 
     Record topRecord = auxStack.top();
 
     while(topRecord.getScope() == false){
         topRecord = auxStack.top();
+        if (topRecord.getLexem() == lexem) {
+            if(topRecord.getType() == "SINTEIRO")
+                return Symbols::SINTEIRO;
+            if(topRecord.getType() == "SBOOLEANO")
+                return Symbols::SBOOLEANO;
+        }
+        auxStack.pop();
+    }
+
+    auxStack = stack;
+    reverseStack(auxStack);
+    auxStack.pop();
+    topRecord = auxStack.top();
+
+    cout << "1. type: " << topRecord.getType() << " lexema: " << topRecord.getLexem() << endl;
+
+    while(topRecord.getScope() == false){
+        topRecord = auxStack.top();
+        cout << "type: " << topRecord.getType() << " lexema: " << topRecord.getLexem() << endl;
+
         if (topRecord.getLexem() == lexem) {
             if(topRecord.getType() == "SINTEIRO")
                 return Symbols::SINTEIRO;

@@ -55,7 +55,7 @@ void parser(char *file_path){
     } else {
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
-    symbol_table.print_table();
+    // symbol_table.print_table();
 
     generate("", "DALLOC", Address::getAddress(), Address::getVarCount());
     generate("", "HLT", "", "");
