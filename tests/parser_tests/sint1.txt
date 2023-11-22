@@ -20,7 +20,10 @@ inicio
 fim;
 
 procedimento analisa2;
+  var a, x: booleano;
+
 inicio
+  
   leia(a);
   b:= a*a+(c div b) 
 fim;
