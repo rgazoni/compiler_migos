@@ -13,6 +13,7 @@
 #include "lexical_analyzer.h"
 #include "Expr_token.h"
 #include "Token.h"
+#include "symbol_table.h"
 
 using namespace std;
 
@@ -93,8 +94,14 @@ std::vector<Expr_token> Expr_builder::expr_array = {};
 
 
 void Expr_builder::add_to_array(Token token){
+    
     Expr_token expr_token(token.lexem, token.symbol, 0);
+    expr_array.push_back(expr_token);
+}
 
+void Expr_builder::add_to_array(Token token, Symbols symbol){
+    
+    Expr_token expr_token(token.lexem, symbol, 0);
     expr_array.push_back(expr_token);
 }
 

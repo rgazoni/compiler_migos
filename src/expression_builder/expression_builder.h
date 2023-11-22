@@ -19,6 +19,7 @@ class Expr_builder{
         // static std::vector<string> any_variables;
 
         void add_to_array(Token token);
+        void add_to_array(Token token, Symbols symbol);
         Symbols infix_to_postfix();
         int precedence(string lexem, int position);
         bool isUnary(int i);

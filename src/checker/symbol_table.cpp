@@ -38,6 +38,24 @@ bool Symbol_table::is_variable_exists(const std::string& lexem) {
     return false;
 }
 
+Symbols Symbol_table::get_variable_type(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+
+    while(topRecord.getScope() == false){
+        topRecord = auxStack.top();
+        if (topRecord.getLexem() == lexem) {
+            if(topRecord.getType() == "SINTEIRO")
+                return Symbols::SINTEIRO;
+            if(topRecord.getType() == "SBOOLEANO")
+                return Symbols::SBOOLEANO;
+        }
+        auxStack.pop();
+    }
+
+    return Symbols::SDESCONHECIDO;
+}
+
 //coloca tipo na variavel
 void Symbol_table::update_variable_type(const std::string& lexem) {
     int count = 0;

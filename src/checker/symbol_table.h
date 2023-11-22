@@ -38,6 +38,7 @@ class Symbol_table{
     void insert_record_variable(Record *record);
     bool is_variable_exists(const std::string& lexem);
     void update_variable_type(const std::string& lexem);
+    Symbols get_variable_type(const std::string& lexem);
     void insert_record_procedure(Record *record);
     bool is_procedure_exists(const std::string& lexem);
     void update_function_type(const std::string& lexem);
@@ -45,6 +46,7 @@ class Symbol_table{
     bool search_identifier(const std::string& lexem);
     bool search_variable_function_declaration(const std::string& lexem); 
     void print_table();
+    
 };
 
 #endif
