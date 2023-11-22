@@ -74,22 +74,23 @@ Symbols Symbol_table::get_variable_type(const std::string& lexem) {
         auxStack.pop();
     }
 
-    auxStack = stack;
-    reverseStack(auxStack);
-    auxStack.pop();
-    topRecord = auxStack.top();
+    // auxStack = stack;
+    // reverseStack(auxStack);
+    // auxStack.pop();
+    // topRecord = auxStack.top();
 
-    cout << "1. type: " << topRecord.getType() << " lexema: " << topRecord.getLexem() << endl;
+    // cout << "1. type: " << topRecord.getType() << " lexema: " << topRecord.getLexem() << endl;
 
-    while(topRecord.getScope() == false){
+    while(!auxStack.empty()){
         topRecord = auxStack.top();
-        cout << "type: " << topRecord.getType() << " lexema: " << topRecord.getLexem() << endl;
 
         if (topRecord.getLexem() == lexem) {
-            if(topRecord.getType() == "SINTEIRO")
+            if(topRecord.getType() == "SINTEIRO"){
                 return Symbols::SINTEIRO;
-            if(topRecord.getType() == "SBOOLEANO")
+            }
+            if(topRecord.getType() == "SBOOLEANO"){
                 return Symbols::SBOOLEANO;
+            }
         }
         auxStack.pop();
     }

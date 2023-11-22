@@ -486,7 +486,7 @@ void DVM::ALLOC(string current_available_address, string var_count) {
         
     }
 
-    cout << "addresS:::::::::: " << stoi(current_available_address) << endl;
+    cout << "address: " << stoi(current_available_address) << endl;
 }
 
 void DVM::DALLOC(string var_count) {

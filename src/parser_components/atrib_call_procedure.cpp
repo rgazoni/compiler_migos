@@ -6,12 +6,14 @@
 #include "../parser_components/parser_components.h"
 #include "expression_builder.h"
 #include "generate.h"
+#include "symbol_table.h"
 
 namespace Parser {
     void atribution_and_call_procedure(){
         Lexical lexical = Lexical();
         Expr_builder expr_builder = Expr_builder();
         Token token = lexical.get_current_token();
+        Symbol_table symbol_table;
         
         lexical.next_token();
 
@@ -20,6 +22,7 @@ namespace Parser {
             //buscar na tabela de simbolos
             Parser::assignment_analyzer();
             expr_builder.infix_to_postfix();
+            // symbol_table.print_table();
 
             //buscar na tabela de simbolos para colocar o endereço no gera
             generate("", "STR", token.lexem, "");

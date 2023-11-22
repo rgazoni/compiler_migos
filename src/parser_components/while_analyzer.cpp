@@ -8,12 +8,14 @@
 #include "generate.h"
 #include "label.h"
 #include "expression_builder.h"
+#include "symbol_table.h"
 
 
 namespace Parser {
     void while_analyzer() {
         Lexical lexical = Lexical();
         Expr_builder expr_builder = Expr_builder();
+        Symbol_table symbol_table;
 
 
         // Def auxrot1, auxrot2 inteiro
@@ -31,6 +33,7 @@ namespace Parser {
         Parser::expression_analyzer();
         
         expr_builder.infix_to_postfix();
+        // symbol_table.print_table();
 
         if (lexical.get_current_token().symbol == Symbols::SFACA) {
             // auxrot2 := rotulo

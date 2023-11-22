@@ -41,20 +41,20 @@ namespace Parser {
             expr_builder.add_to_array(lexical.get_current_token(), symbol_table.get_variable_type(lexical.get_current_token().lexem));
             Parser::function_caller_analyzer();
         }else if(lexical.get_current_token().symbol == Symbols::SNUMERO){
-            expr_builder.add_to_array(lexical.get_current_token());
+            expr_builder.add_to_array(lexical.get_current_token(), Symbols::SINTEIRO);
             lexical.next_token();
 
         }else if(lexical.get_current_token().symbol == Symbols::SNAO){
-            expr_builder.add_to_array(lexical.get_current_token());
+            expr_builder.add_to_array(lexical.get_current_token(), Symbols::SBOOLEANO);
             lexical.next_token();
             Parser::factor_analyzer();
 
         }else if(lexical.get_current_token().symbol == Symbols::SABRE_PARENTESES){
-            expr_builder.add_to_array(lexical.get_current_token());
+            expr_builder.add_to_array(lexical.get_current_token(), Symbols::SDESCONHECIDO);
             lexical.next_token();
             Parser::expression_analyzer();
             if(lexical.get_current_token().symbol == Symbols::SFECHA_PARENTESES){
-                expr_builder.add_to_array(lexical.get_current_token());
+                expr_builder.add_to_array(lexical.get_current_token(), Symbols::SDESCONHECIDO);
                 lexical.next_token();
 
             }else{
@@ -62,7 +62,7 @@ namespace Parser {
             }
         } else if(lexical.get_current_token().lexem == "verdadeiro" || lexical.get_current_token().lexem == "falso"){
             // we don't know how to treat "true" or "false" token 
-            expr_builder.add_to_array(lexical.get_current_token());
+            expr_builder.add_to_array(lexical.get_current_token(), Symbols::SBOOLEANO);
             lexical.next_token();
             
         }else{

@@ -5,8 +5,8 @@ var a,b,c: inteiro;
 
 {proc 1}
 procedimento analisa1;
-var a, x: booleano;
-       z: booleano;
+var a, x: inteiro;
+       z: inteiro;
        
 inicio
   se x>1  entao
@@ -20,7 +20,7 @@ inicio
 fim;
 
 procedimento analisa2;
-  var a, x: booleano;
+  var a, x: inteiro;
 
 inicio
   

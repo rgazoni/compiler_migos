@@ -94,13 +94,19 @@ std::vector<Expr_token> Expr_builder::expr_array = {};
 
 
 void Expr_builder::add_to_array(Token token){
+    if(token.symbol == Symbols::SE || token.symbol == Symbols::SOU){
+        Expr_token expr_token(token.lexem, Symbols::SBOOLEANO, 0);
+        expr_array.push_back(expr_token);
+
+    } else if(token.symbol == Symbols::SMAIS || token.symbol == Symbols::SMENOS || token.symbol == Symbols::SDIV || token.symbol == Symbols::SMULT){
+        Expr_token expr_token(token.lexem, Symbols::SINTEIRO, 0);
+        expr_array.push_back(expr_token);
+    }
     
-    Expr_token expr_token(token.lexem, token.symbol, 0);
-    expr_array.push_back(expr_token);
+    
 }
 
 void Expr_builder::add_to_array(Token token, Symbols symbol){
-    
     Expr_token expr_token(token.lexem, symbol, 0);
     expr_array.push_back(expr_token);
 }
