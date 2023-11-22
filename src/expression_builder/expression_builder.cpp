@@ -10,15 +10,70 @@
 #include "semantic_analyzer.h"
 #include "generate.h"
 #include "label.h"
+#include "lexical_analyzer.h"
+#include "Expr_token.h"
+#include "Token.h"
 
 using namespace std;
 
-void print_type(Type type){
-    if(type == Type::Int)
-        cout << "type: inteiro" << endl;  
-    if(type == Type::Bool)
-        cout << "type: booleano" << endl;  
+// void print_type(Type type){
+//     if(type == Type::Int)
+//         cout << "type: inteiro" << endl;  
+//     if(type == Type::Bool)
+//         cout << "type: booleano" << endl;  
+// }
+
+string symbolToString(Symbols symbol) {
+    switch (symbol) {
+        case Symbols::SPROGRAMA: return "PROGRAMA";
+        case Symbols::SSE: return "SE";
+        case Symbols::SENTAO: return "ENTAO";
+        case Symbols::SSENAO: return "SENAO";
+        case Symbols::SENQUANTO: return "ENQUANTO";
+        case Symbols::SFACA: return "FACA";
+        case Symbols::SINICIO: return "INICIO";
+        case Symbols::SFIM: return "FIM";
+        case Symbols::SESCREVA: return "ESCREVA";
+        case Symbols::SLEIA: return "LEIA";
+        case Symbols::SVAR: return "VAR";
+        case Symbols::SINTEIRO: return "INTEIRO";
+        case Symbols::SBOOLEANO: return "BOOLEANO";
+        case Symbols::SVERDADEIRO: return "VERDADEIRO";
+        case Symbols::SFALSO: return "FALSO";
+        case Symbols::SPROCEDIMENTO: return "PROCEDIMENTO";
+        case Symbols::SFUNCAO: return "FUNCAO";
+        case Symbols::SDIV: return "DIV";
+        case Symbols::SE: return "E";
+        case Symbols::SOU: return "OU";
+        case Symbols::SNAO: return "NAO";
+        case Symbols::SIDENTIFICADOR: return "IDENTIFICADOR";
+        case Symbols::SNUMERO: return "NUMERO";
+        case Symbols::SMAIS: return "MAIS";
+        case Symbols::SMENOS: return "MENOS";
+        case Symbols::SMULT: return "MULT";
+        case Symbols::SUNARIOARITMETICO: return "UNARIOARITMETICO";
+        case Symbols::SUNARIOLOGICO: return "UNARIOLOGICO";
+        case Symbols::SDESCONHECIDO: return "DESCONHECIDO";
+        case Symbols::SMAIORIG: return "MAIORIG";
+        case Symbols::SMAIOR: return "MAIOR";
+        case Symbols::SMENORIG: return "MENORIG";
+        case Symbols::SMENOR: return "MENOR";
+        case Symbols::SDIF: return "DIF";
+        case Symbols::SIG: return "IG";
+        case Symbols::SPONTO_VIRGULA: return "PONTO_VIRGULA";
+        case Symbols::SVIRGULA: return "VIRGULA";
+        case Symbols::SABRE_PARENTESES: return "ABRE_PARENTESES";
+        case Symbols::SFECHA_PARENTESES: return "FECHA_PARENTESES";
+        case Symbols::SPONTO: return "PONTO";
+        case Symbols::SATRIBUICAO: return "ATRIBUICAO";
+        case Symbols::SDOISPONTOS: return "DOISPONTOS";
+        case Symbols::SERRO: return "ERRO";
+        case Symbols::EMPTY: return "EMPTY";
+        case Symbols::END_OF_FILE: return "END_OF_FILE";
+        default: return "UNKNOWN_SYMBOL";
+    }
 }
+
 
 enum Precedence {
     UNARY = 6,
@@ -31,14 +86,16 @@ enum Precedence {
     DEFAULT_PRECEDENCE = -1  // Valor padrão para tratamento de erros
 };
 
-std::vector<string> Expr_builder::integer_variables = {};
-std::vector<string> Expr_builder::boolean_variables = {};
-std::vector<string> Expr_builder::any_variables = {};
+// std::vector<string> Expr_builder::integer_variables = {};
+// std::vector<string> Expr_builder::boolean_variables = {};
+// std::vector<string> Expr_builder::any_variables = {};
 std::vector<Expr_token> Expr_builder::expr_array = {};
 
 
-void Expr_builder::add_to_array(Expr_token token){
-    expr_array.push_back(token);
+void Expr_builder::add_to_array(Token token){
+    Expr_token expr_token(token.lexem, token.symbol, 0);
+
+    expr_array.push_back(expr_token);
 }
 
 void Expr_builder::flush_expression(){
@@ -94,7 +151,7 @@ int Expr_builder::precedence(string lexem, int position) {
         return Precedence::MULTIPLICATIVE;
     } else if (lexem == "+" || lexem == "-") {
         if(isUnary(position)){
-            expr_array[position].type = Type::Arit_unary;
+            expr_array[position].symbol = Symbols::SUNARIOARITMETICO;
             return Precedence::UNARY;
         }
         return Precedence::ADDITIVE;
@@ -102,7 +159,7 @@ int Expr_builder::precedence(string lexem, int position) {
         return Precedence::RELATIONAL;
     } else if (lexem == "nao") {
         if(isUnary(position)){
-            expr_array[position].type = Type::Logical_unary;
+            expr_array[position].symbol = Symbols::SUNARIOLOGICO;
             return Precedence::UNARY;
         }
         return Precedence::NOT;
@@ -115,7 +172,7 @@ int Expr_builder::precedence(string lexem, int position) {
     return Precedence::DEFAULT_PRECEDENCE;
 }
 
-Type Expr_builder::infix_to_postfix() {
+Symbols Expr_builder::infix_to_postfix() {
     std::stack<Expr_token> stack;
     std::vector<Expr_token> postfix;
 
@@ -152,16 +209,19 @@ Type Expr_builder::infix_to_postfix() {
 
     expr_array = postfix;
 
-    // for(Expr_token element : expr_array){
-    //     std::cout << "lexem: " << element.lexem <<  " -- ";
-    //     print_type(element.type);
-    // }
+    for(Expr_token element : expr_array){
+        std::cout << "lexem: " << element.lexem <<  " - " << "symbol: " <<  symbolToString(element.symbol);
+        cout << endl;
+        // print_type(element.type);
+    }
 
-    Type resultado = Semantic_analyzer().validateExpression(expr_array);
+    cout << endl;
+
+    Symbols resultado = Semantic_analyzer().validateExpression(expr_array);
 
     string command, attribute1 = "";
 
-    if (resultado == Type::Int || resultado == Type::Bool){ 
+    if (resultado == Symbols::SINTEIRO || resultado == Symbols::SBOOLEANO){ 
         for(Expr_token token : expr_array){
             if (isOperator(token.lexem)){
                 command = get_lpd_symbols(token.lexem);

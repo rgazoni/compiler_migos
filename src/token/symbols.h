@@ -36,6 +36,9 @@ enum class Symbols : u_int8_t
     SMAIS,
     SMENOS,
     SMULT,
+    SUNARIOARITMETICO,
+    SUNARIOLOGICO,
+    SDESCONHECIDO,
 
     // Relational Symbols
     SMAIORIG,

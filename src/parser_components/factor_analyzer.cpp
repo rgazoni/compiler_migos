@@ -30,29 +30,29 @@ namespace Parser {
             //     expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Bool));
 
             //SO POR VIA DE TESTES
-            if(find(expr_builder.integer_variables.begin(), expr_builder.integer_variables.end(), lexical.get_current_token().lexem) != expr_builder.integer_variables.end()){
-                expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));
-            } else if(find(expr_builder.boolean_variables.begin(), expr_builder.boolean_variables.end(), lexical.get_current_token().lexem) != expr_builder.boolean_variables.end()){
-                expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Bool));
-            }
+            // if(find(expr_builder.integer_variables.begin(), expr_builder.integer_variables.end(), lexical.get_current_token().lexem) != expr_builder.integer_variables.end()){
+            //     expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, "SINTEIRO"));
+            // } else if(find(expr_builder.boolean_variables.begin(), expr_builder.boolean_variables.end(), lexical.get_current_token().lexem) != expr_builder.boolean_variables.end()){
+            //     expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, "SBOOLEANO"));
+            // }
 
-            // expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));
+            expr_builder.add_to_array(lexical.get_current_token());
             Parser::function_caller_analyzer();
         }else if(lexical.get_current_token().symbol == Symbols::SNUMERO){
-            expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));
+            expr_builder.add_to_array(lexical.get_current_token());
             lexical.next_token();
 
         }else if(lexical.get_current_token().symbol == Symbols::SNAO){
-            expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Arit_unary));
+            expr_builder.add_to_array(lexical.get_current_token());
             lexical.next_token();
             Parser::factor_analyzer();
 
         }else if(lexical.get_current_token().symbol == Symbols::SABRE_PARENTESES){
-            expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Unknown));
+            expr_builder.add_to_array(lexical.get_current_token());
             lexical.next_token();
             Parser::expression_analyzer();
             if(lexical.get_current_token().symbol == Symbols::SFECHA_PARENTESES){
-                expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Unknown));
+                expr_builder.add_to_array(lexical.get_current_token());
                 lexical.next_token();
 
             }else{
@@ -60,7 +60,7 @@ namespace Parser {
             }
         } else if(lexical.get_current_token().lexem == "verdadeiro" || lexical.get_current_token().lexem == "falso"){
             // we don't know how to treat "true" or "false" token 
-            expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Bool));
+            expr_builder.add_to_array(lexical.get_current_token());
             lexical.next_token();
             
         }else{

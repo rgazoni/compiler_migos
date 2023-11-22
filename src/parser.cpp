@@ -4,7 +4,6 @@
 #include "error/Errors.h"
 #include "lexical/lexical_analyzer.h"
 #include "symbols.h"
-#include "expr_token.h"
 #include "semantic_analyzer.h"
 #include "expression_builder.h"
 #include "dev_env/tests.h"
@@ -56,8 +55,7 @@ void parser(char *file_path){
     } else {
         raiseError(Error::EXPECTED_RESERVED_WORD_PROGRAMA);
     }
-        symbol_table.print_table();
-        lexical.close_file();
+    symbol_table.print_table();
 
     generate("", "DALLOC", Address::getAddress(), Address::getVarCount());
     generate("", "HLT", "", "");

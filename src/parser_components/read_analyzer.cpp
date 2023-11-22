@@ -18,16 +18,16 @@ namespace Parser{
             lexical.next_token();
             if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
                 symbol_table.search_identifier(lexical.get_current_token().lexem);
-                std::cout << "variavel da função leia: " <<lexical.get_current_token().lexem  << std::endl;
+                // std::cout << "variavel da função leia: " <<lexical.get_current_token().lexem  << std::endl;
                 // então se pesquisa_declvar_tabela(token.lexema) 
                 // então início (pesquisa em toda a tabela)
-                    token = lexical.get_current_token();
+                token = lexical.get_current_token();
+                lexical.next_token();
+                if(lexical.get_current_token().symbol == Symbols::SFECHA_PARENTESES){
                     lexical.next_token();
-                    if(lexical.get_current_token().symbol == Symbols::SFECHA_PARENTESES){
-                        lexical.next_token();
-                    } else{
-                        raiseError(Error::EXPECTED_CLOSE_PARENTHESIS);
-                    }
+                } else{
+                    raiseError(Error::EXPECTED_CLOSE_PARENTHESIS);
+                }
                 // senão ERRO
             } else{
                 raiseError(Error::EXPECTED_IDENTIFIER);

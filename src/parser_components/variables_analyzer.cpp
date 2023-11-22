@@ -28,21 +28,21 @@ namespace Parser{
                 //se não encontrou duplicidade
                 //então inicio
                     //insere_tabela(token.lexema, "variavel", ",")
-                    var_count++;
-                    expr_builder.any_variables.push_back(lexical.get_current_token().lexem);
+                var_count++;
+                // expr_builder.any_variables.push_back(lexical.get_current_token().lexem);
 
-                    lexical.next_token();
-                    if(lexical.get_current_token().symbol == Symbols::SVIRGULA || lexical.get_current_token().symbol == Symbols::SDOISPONTOS){
-                        if(lexical.get_current_token().symbol == Symbols::SVIRGULA){
-                            lexical.next_token();
+                lexical.next_token();
+                if(lexical.get_current_token().symbol == Symbols::SVIRGULA || lexical.get_current_token().symbol == Symbols::SDOISPONTOS){
+                    if(lexical.get_current_token().symbol == Symbols::SVIRGULA){
+                        lexical.next_token();
 
-                            if(lexical.get_current_token().symbol == Symbols::SDOISPONTOS){
-                                raiseError(Error::NOT_EXPECTED_COLON);
-                            }
+                        if(lexical.get_current_token().symbol == Symbols::SDOISPONTOS){
+                            raiseError(Error::NOT_EXPECTED_COLON);
                         }
-                    }else{
-                        raiseError(Error::EXPECTED_COMMA_OR_COLON);
                     }
+                }else{
+                    raiseError(Error::EXPECTED_COMMA_OR_COLON);
+                }
             }else{
                 raiseError(Error::EXPECTED_IDENTIFIER);
             }

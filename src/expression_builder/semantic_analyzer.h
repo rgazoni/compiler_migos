@@ -7,11 +7,12 @@
 #include <vector>
 
 #include "Expr_token.h"
+#include "Token.h"
 
 // Enumeração para representar tipos
 class Semantic_analyzer{
     public:
-        Type validateExpression(std::vector<Expr_token>& expression);
+        Symbols validateExpression(std::vector<Expr_token>& expression);
 };
 
 #endif

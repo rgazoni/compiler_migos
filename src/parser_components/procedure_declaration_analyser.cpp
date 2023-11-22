@@ -25,16 +25,16 @@ namespace Parser{
                 //     Gera(rotulo,NULL, ́  ́, ́  ́)
                 //             {CALL irá buscar este rótulo na TabSimb}
                 //     rotulo:= rotulo+1
-                        generate(Label::getLabel(), "NULL", "", "");
-                        Label::incrementLabel();
+            generate(Label::getLabel(), "NULL", "", "");
+            Label::incrementLabel();
 
-                        lexical.next_token();
-                        if(lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA){
-                            Parser::snippet_analyzer();
-                        } else{
-                            // error
-                            raiseError(Error::EXPECTED_SEMICOLON);
-                        }
+            lexical.next_token();
+            if(lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA){
+                Parser::snippet_analyzer();
+            } else{
+                // error
+                raiseError(Error::EXPECTED_SEMICOLON);
+            }
                 //     fim
                 // senão ERRO
         }else{

@@ -13,7 +13,7 @@ namespace Parser{
 
         Parser::factor_analyzer();
         while(lexical.get_current_token().symbol == Symbols::SMULT || lexical.get_current_token().symbol == Symbols::SDIV || lexical.get_current_token().symbol == Symbols::SE){
-            expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, Type::Int));
+            expr_builder.add_to_array(lexical.get_current_token());
             lexical.next_token();
             Parser::factor_analyzer();
         }
