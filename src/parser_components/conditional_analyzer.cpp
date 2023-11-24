@@ -35,8 +35,10 @@ namespace Parser{
             generate(auxrot1, "NULL", "", "");
             if (lexical.get_current_token().symbol == Symbols::SSENAO) {
                 lexical.next_token();
+                Label::setLabel(Label::incrementLabel());
                 Parser::simple_command_analyzer();
                 generate(auxrot2, "NULL", "", "");
+
             } 
         }else {
             raiseError(Error::EXPECTED_SENTAO);

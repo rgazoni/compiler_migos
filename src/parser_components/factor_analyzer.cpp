@@ -38,7 +38,7 @@ namespace Parser {
             //     expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, "SBOOLEANO"));
             // }
 
-            expr_builder.add_to_array(lexical.get_current_token(), symbol_table.get_variable_type(lexical.get_current_token().lexem));
+            expr_builder.add_to_array(lexical.get_current_token(), symbol_table.get_variable_type(lexical.get_current_token().lexem), symbol_table.get_variable_address(lexical.get_current_token().lexem));
             Parser::function_caller_analyzer();
         }else if(lexical.get_current_token().symbol == Symbols::SNUMERO){
             expr_builder.add_to_array(lexical.get_current_token(), Symbols::SINTEIRO);

@@ -20,6 +20,7 @@ class Expr_builder{
 
         void add_to_array(Token token);
         void add_to_array(Token token, Symbols symbol);
+        void add_to_array(Token token, Symbols symbol, int address);
         Symbols infix_to_postfix();
         int precedence(string lexem, int position);
         bool isUnary(int i);

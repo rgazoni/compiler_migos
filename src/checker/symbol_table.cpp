@@ -74,13 +74,6 @@ Symbols Symbol_table::get_variable_type(const std::string& lexem) {
         auxStack.pop();
     }
 
-    // auxStack = stack;
-    // reverseStack(auxStack);
-    // auxStack.pop();
-    // topRecord = auxStack.top();
-
-    // cout << "1. type: " << topRecord.getType() << " lexema: " << topRecord.getLexem() << endl;
-
     while(!auxStack.empty()){
         topRecord = auxStack.top();
 
@@ -97,6 +90,52 @@ Symbols Symbol_table::get_variable_type(const std::string& lexem) {
 
     return Symbols::SDESCONHECIDO;
 }
+
+
+int Symbol_table::get_variable_address(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+    int addressValue;
+
+    while(topRecord.getScope() == false){
+        topRecord = auxStack.top();
+        if (topRecord.getLexem() == lexem) {
+            addressValue = topRecord.getAddress();
+            return addressValue;
+        }
+        auxStack.pop();
+    }
+
+    while(!auxStack.empty()){
+        topRecord = auxStack.top();
+
+        if (topRecord.getLexem() == lexem) {
+            addressValue = topRecord.getAddress();
+            return addressValue;
+        }
+        auxStack.pop();
+    }
+
+    return 0;
+}
+
+int Symbol_table::get_procedure_label(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+    int label;
+
+    while(!auxStack.empty()){
+        topRecord = auxStack.top();
+        if (topRecord.getType() == "SPROCEDIMENTO") {
+            label = topRecord.getAddress();
+            return label;
+        }
+        auxStack.pop();
+    }
+
+    return 0;
+}
+
 
 //coloca tipo na variavel
 void Symbol_table::update_variable_type(const std::string& lexem) {

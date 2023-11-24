@@ -10,8 +10,8 @@ std::string Address::getAddress() {
     return std::to_string(current_available_address);
 }
 
-std::string Address::getVarCount() {
-    return std::to_string(var_count);
+int Address::getVarCount() {
+    return var_count;
 }
 
 void Address::setAddress(int value) {
@@ -20,4 +20,8 @@ void Address::setAddress(int value) {
 
 void Address::setVarCount(int value) {
     var_count = value;
+}
+
+void Address::incrementVarCount() {
+    var_count = var_count + 1;
 }

@@ -100,11 +100,13 @@ void DVM::executeFromFile(const std::string& filename) {
         } else if (command == "CMAQ") {
             CMAQ();
         } else if (command == "JMP") {
+            PC--;
             std::string label;
             if (iss >> label) {
                 // JMP(label);
             }
         } else if (command == "JMPF") {
+            PC--;
             std::string label;
             if (iss >> label) {
                 // JMPF(label);
@@ -328,6 +330,7 @@ void DVM::LDC(string k) {
 }
 
 void DVM::LDV(string n) {
+    cout << "auysgauysgdu:  " << n << endl;
     int index = stoi(n);
     S++;
     M.push(M.top());
@@ -483,7 +486,6 @@ void DVM::ALLOC(string current_available_address, string var_count) {
             M.push(M.top());  
         } else
             M.push(0);  
-        
     }
 
     cout << "address: " << stoi(current_available_address) << endl;

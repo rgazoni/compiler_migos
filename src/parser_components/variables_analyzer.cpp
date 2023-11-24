@@ -20,7 +20,8 @@ namespace Parser{
         
         do{
             if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
-               Record record(lexical.get_current_token().lexem, "", false, 0);
+               Record record(lexical.get_current_token().lexem, "", false, Address::getVarCount());
+               Address::setVarCount(Address::getVarCount() + 1);
                symbol_table.insert_record_variable(&record);
                //std::cout << "print do variables_analyzer" << std::endl;
                //symbol_table.print_table();
@@ -52,7 +53,7 @@ namespace Parser{
 
         generate("", "ALLOC", Address::getAddress(), to_string(var_count));
         Address::setAddress(stoi(Address::getAddress()) + var_count);
-        Address::setVarCount(stoi(Address::getVarCount()) + var_count);
+        // Address::setVarCount(stoi(Address::getVarCount()) + var_count);
 
         lexical.next_token();
         Parser::type_analyzer();

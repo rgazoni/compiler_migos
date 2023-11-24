@@ -8,6 +8,8 @@
 namespace Parser {
     void simple_command_analyzer () {
         Lexical lexical = Lexical();
+        // cout << "quem é: " << lexical.get_current_token().lexem << " - symbol: " << symbolToString(lexical.get_current_token().symbol) << endl;
+
         if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {
             Parser::atribution_and_call_procedure();
         } else if (lexical.get_current_token().symbol == Symbols::SSE) {

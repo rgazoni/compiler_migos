@@ -15,7 +15,7 @@ namespace Parser{
         lexical.next_token();
         // nível := “L” (marca ou novo galho)
         if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
-            Record record(lexical.get_current_token().lexem, "SPROCEDIMENTO", true, 0);
+            Record record(lexical.get_current_token().lexem, "SPROCEDIMENTO", true, std::stoi(Label::getLabel()));
             symbol_table.insert_record_procedure(&record);
             // pesquisa_declproc_tabela(token.lexema)
             // se não encontrou

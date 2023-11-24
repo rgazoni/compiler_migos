@@ -24,56 +24,56 @@ using namespace std;
 //         cout << "type: booleano" << endl;  
 // }
 
-string symbolToString(Symbols symbol) {
-    switch (symbol) {
-        case Symbols::SPROGRAMA: return "PROGRAMA";
-        case Symbols::SSE: return "SE";
-        case Symbols::SENTAO: return "ENTAO";
-        case Symbols::SSENAO: return "SENAO";
-        case Symbols::SENQUANTO: return "ENQUANTO";
-        case Symbols::SFACA: return "FACA";
-        case Symbols::SINICIO: return "INICIO";
-        case Symbols::SFIM: return "FIM";
-        case Symbols::SESCREVA: return "ESCREVA";
-        case Symbols::SLEIA: return "LEIA";
-        case Symbols::SVAR: return "VAR";
-        case Symbols::SINTEIRO: return "INTEIRO";
-        case Symbols::SBOOLEANO: return "BOOLEANO";
-        case Symbols::SVERDADEIRO: return "VERDADEIRO";
-        case Symbols::SFALSO: return "FALSO";
-        case Symbols::SPROCEDIMENTO: return "PROCEDIMENTO";
-        case Symbols::SFUNCAO: return "FUNCAO";
-        case Symbols::SDIV: return "DIV";
-        case Symbols::SE: return "E";
-        case Symbols::SOU: return "OU";
-        case Symbols::SNAO: return "NAO";
-        case Symbols::SIDENTIFICADOR: return "IDENTIFICADOR";
-        case Symbols::SNUMERO: return "NUMERO";
-        case Symbols::SMAIS: return "MAIS";
-        case Symbols::SMENOS: return "MENOS";
-        case Symbols::SMULT: return "MULT";
-        case Symbols::SUNARIOARITMETICO: return "UNARIOARITMETICO";
-        case Symbols::SUNARIOLOGICO: return "UNARIOLOGICO";
-        case Symbols::SDESCONHECIDO: return "DESCONHECIDO";
-        case Symbols::SMAIORIG: return "MAIORIG";
-        case Symbols::SMAIOR: return "MAIOR";
-        case Symbols::SMENORIG: return "MENORIG";
-        case Symbols::SMENOR: return "MENOR";
-        case Symbols::SDIF: return "DIF";
-        case Symbols::SIG: return "IG";
-        case Symbols::SPONTO_VIRGULA: return "PONTO_VIRGULA";
-        case Symbols::SVIRGULA: return "VIRGULA";
-        case Symbols::SABRE_PARENTESES: return "ABRE_PARENTESES";
-        case Symbols::SFECHA_PARENTESES: return "FECHA_PARENTESES";
-        case Symbols::SPONTO: return "PONTO";
-        case Symbols::SATRIBUICAO: return "ATRIBUICAO";
-        case Symbols::SDOISPONTOS: return "DOISPONTOS";
-        case Symbols::SERRO: return "ERRO";
-        case Symbols::EMPTY: return "EMPTY";
-        case Symbols::END_OF_FILE: return "END_OF_FILE";
-        default: return "UNKNOWN_SYMBOL";
-    }
-}
+// string symbolToString(Symbols symbol) {
+//     switch (symbol) {
+//         case Symbols::SPROGRAMA: return "PROGRAMA";
+//         case Symbols::SSE: return "SE";
+//         case Symbols::SENTAO: return "ENTAO";
+//         case Symbols::SSENAO: return "SENAO";
+//         case Symbols::SENQUANTO: return "ENQUANTO";
+//         case Symbols::SFACA: return "FACA";
+//         case Symbols::SINICIO: return "INICIO";
+//         case Symbols::SFIM: return "FIM";
+//         case Symbols::SESCREVA: return "ESCREVA";
+//         case Symbols::SLEIA: return "LEIA";
+//         case Symbols::SVAR: return "VAR";
+//         case Symbols::SINTEIRO: return "INTEIRO";
+//         case Symbols::SBOOLEANO: return "BOOLEANO";
+//         case Symbols::SVERDADEIRO: return "VERDADEIRO";
+//         case Symbols::SFALSO: return "FALSO";
+//         case Symbols::SPROCEDIMENTO: return "PROCEDIMENTO";
+//         case Symbols::SFUNCAO: return "FUNCAO";
+//         case Symbols::SDIV: return "DIV";
+//         case Symbols::SE: return "E";
+//         case Symbols::SOU: return "OU";
+//         case Symbols::SNAO: return "NAO";
+//         case Symbols::SIDENTIFICADOR: return "IDENTIFICADOR";
+//         case Symbols::SNUMERO: return "NUMERO";
+//         case Symbols::SMAIS: return "MAIS";
+//         case Symbols::SMENOS: return "MENOS";
+//         case Symbols::SMULT: return "MULT";
+//         case Symbols::SUNARIOARITMETICO: return "UNARIOARITMETICO";
+//         case Symbols::SUNARIOLOGICO: return "UNARIOLOGICO";
+//         case Symbols::SDESCONHECIDO: return "DESCONHECIDO";
+//         case Symbols::SMAIORIG: return "MAIORIG";
+//         case Symbols::SMAIOR: return "MAIOR";
+//         case Symbols::SMENORIG: return "MENORIG";
+//         case Symbols::SMENOR: return "MENOR";
+//         case Symbols::SDIF: return "DIF";
+//         case Symbols::SIG: return "IG";
+//         case Symbols::SPONTO_VIRGULA: return "PONTO_VIRGULA";
+//         case Symbols::SVIRGULA: return "VIRGULA";
+//         case Symbols::SABRE_PARENTESES: return "ABRE_PARENTESES";
+//         case Symbols::SFECHA_PARENTESES: return "FECHA_PARENTESES";
+//         case Symbols::SPONTO: return "PONTO";
+//         case Symbols::SATRIBUICAO: return "ATRIBUICAO";
+//         case Symbols::SDOISPONTOS: return "DOISPONTOS";
+//         case Symbols::SERRO: return "ERRO";
+//         case Symbols::EMPTY: return "EMPTY";
+//         case Symbols::END_OF_FILE: return "END_OF_FILE";
+//         default: return "UNKNOWN_SYMBOL";
+//     }
+// }
 
 
 enum Precedence {
@@ -92,7 +92,6 @@ enum Precedence {
 // std::vector<string> Expr_builder::any_variables = {};
 std::vector<Expr_token> Expr_builder::expr_array = {};
 
-
 void Expr_builder::add_to_array(Token token){
     if(token.symbol == Symbols::SE || token.symbol == Symbols::SOU){
         Expr_token expr_token(token.lexem, Symbols::SBOOLEANO, 0);
@@ -101,13 +100,31 @@ void Expr_builder::add_to_array(Token token){
     } else if(token.symbol == Symbols::SMAIS || token.symbol == Symbols::SMENOS || token.symbol == Symbols::SDIV || token.symbol == Symbols::SMULT){
         Expr_token expr_token(token.lexem, Symbols::SINTEIRO, 0);
         expr_array.push_back(expr_token);
-    }
-    
+    }    
     
 }
 
 void Expr_builder::add_to_array(Token token, Symbols symbol){
+    if(token.symbol == Symbols::SE || token.symbol == Symbols::SOU){
+        Expr_token expr_token(token.lexem, Symbols::SBOOLEANO, 0);
+        expr_array.push_back(expr_token);
+
+    } else if(token.symbol == Symbols::SMAIS || token.symbol == Symbols::SMENOS || token.symbol == Symbols::SDIV || token.symbol == Symbols::SMULT){
+        Expr_token expr_token(token.lexem, Symbols::SINTEIRO, 0);
+        expr_array.push_back(expr_token);
+    }
+
     Expr_token expr_token(token.lexem, symbol, 0);
+    expr_array.push_back(expr_token);
+    
+    
+}
+
+void Expr_builder::add_to_array(Token token, Symbols symbol, int address){
+    to_string(address);
+    // cout << "address: " << address << endl;
+    
+    Expr_token expr_token(token.lexem, symbol, address);
     expr_array.push_back(expr_token);
 }
 
@@ -222,13 +239,13 @@ Symbols Expr_builder::infix_to_postfix() {
 
     expr_array = postfix;
 
-    for(Expr_token element : expr_array){
-        std::cout << "lexem: " << element.lexem <<  " - " << "symbol: " <<  symbolToString(element.symbol);
-        cout << endl;
-        // print_type(element.type);
-    }
+    // for(Expr_token element : expr_array){
+    //     // std::cout << "lexem: " << element.lexem <<  " - " << "symbol: " <<  symbolToString(element.symbol);
+    //     cout << endl;
+    //     // print_type(element.type);
+    // }
 
-    cout << endl;
+    // cout << endl;
 
     Symbols resultado = Semantic_analyzer().validateExpression(expr_array);
 
@@ -258,7 +275,7 @@ Symbols Expr_builder::infix_to_postfix() {
             } else {
                 command = "LDV";
                 // attribute1 = to_string(token.address);
-                generate("", command, token.lexem, "");
+                generate("", command, token.lexem, to_string(token.address));
             }
         }
     }

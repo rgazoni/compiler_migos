@@ -8,8 +8,9 @@ class Address {
 public:
     static std::string getAddress();
     static void setAddress(int value);
-    static std::string getVarCount();
+    static int getVarCount();
     static void setVarCount(int value);
+    static void incrementVarCount();
 
 
 private:
