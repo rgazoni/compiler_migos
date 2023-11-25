@@ -31,7 +31,7 @@ namespace Parser {
             raiseError(Error::EXPECTED_OPEN_PARENTHESIS);
         }
 
-        generate("", "LDV", token.lexem, "");
+        generate("", "LDV", std::to_string(symbol_table.get_variable_address(token.lexem)), "");
         generate("", "PRN", "", "");
     }
 }

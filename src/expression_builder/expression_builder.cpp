@@ -275,7 +275,7 @@ Symbols Expr_builder::infix_to_postfix() {
             } else {
                 command = "LDV";
                 // attribute1 = to_string(token.address);
-                generate("", command, token.lexem, to_string(token.address));
+                generate("", command, to_string(token.address), "");
             }
         }
     }

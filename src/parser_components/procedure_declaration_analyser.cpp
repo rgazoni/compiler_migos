@@ -41,6 +41,8 @@ namespace Parser{
             // error
             raiseError(Error::EXPECTED_IDENTIFIER);
         }
+
+        generate("", "RETURN", "", "");
         symbol_table.pop_scope();
         // DESEMPILHA OU VOLTA NÍVEL
     }

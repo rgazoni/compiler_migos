@@ -66,9 +66,10 @@ namespace Parser {
         Expr_builder expr_builder = Expr_builder();
         Token token = lexical.get_current_token();
         Symbol_table symbol_table;
-        
+
+        // cout << "ant3es: " << lexical.get_current_token().lexem << " - symbol: " << symbolToString(lexical.get_current_token().symbol) << endl;
         lexical.next_token();
-        cout << "esse pokemon: " << lexical.get_current_token().lexem << " - symbol: " << symbolToString(lexical.get_current_token().symbol) << endl;
+        // cout << "esse pokemon: " << lexical.get_current_token().lexem << " - symbol: " << symbolToString(lexical.get_current_token().symbol) << endl;
 
         if (lexical.get_current_token().symbol == Symbols::SATRIBUICAO) {
             //Analisa_atribuicao();
@@ -78,7 +79,7 @@ namespace Parser {
             // symbol_table.print_table();
 
             //buscar na tabela de simbolos para colocar o endereço no gera
-            generate("", "STR", token.lexem, "");
+            generate("", "STR", std::to_string(symbol_table.get_variable_address(token.lexem)), "");
         } else {
            //Chamada_procedimento();
            Parser::procedure_caller_analyzer();

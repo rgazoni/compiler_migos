@@ -9,7 +9,7 @@ using namespace std;
 
 int DVM::S = -1;
 int DVM::PC = 0;
-std::stack<int> DVM::M = {};
+std::stack<int> DVM::M;
 
 bool isDigit(string s){
     bool isDigit = true;
@@ -112,9 +112,9 @@ void DVM::executeFromFile(const std::string& filename) {
                 // JMPF(label);
             }
         } else if (command == "STR") {
-            char variable;
+            string variable;
             if (iss >> variable) {
-                // STR(variable - 'A'); // Convert character to index
+                // STR(variable);
             }
         } else if (command == "ALLOC") {
             string address;
@@ -470,6 +470,10 @@ void DVM::JMPF(string label) {
     M.pop();
     S--;
 }
+
+// void DVM::STR(string address) {
+
+// }
 
 void DVM::ALLOC(string current_available_address, string var_count) {
     int count = stoi(var_count);

@@ -45,7 +45,7 @@ private:
     void CMAQ();
     void JMP(string label);
     void JMPF(string label);
-    void STR(int variableIndex);
+    void STR(string variable);
     
 };
 

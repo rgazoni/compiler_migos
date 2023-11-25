@@ -38,6 +38,6 @@ namespace Parser{
         }   
 
         generate("", "RD", "", "");
-        generate("", "STR", token.lexem, "");
+        generate("", "STR", std::to_string(symbol_table.get_variable_address(token.lexem)), "");
     }
 }
