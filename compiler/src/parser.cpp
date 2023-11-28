@@ -57,7 +57,7 @@ void parser(char *file_path){
     }
     // symbol_table.print_table();
 
-    generate("", "DALLOC", Address::getAddress(), to_string(Address::getVarCount()));
+    generate("", "DALLOC", to_string(stoi(Address::getAddress()) - Address::getVarCount()), to_string(Address::getVarCount()));
     generate("", "HLT", "", "");
 
     dvm.executeFromFile("byte_code.obj");

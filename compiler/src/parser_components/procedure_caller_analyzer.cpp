@@ -15,13 +15,13 @@ namespace Parser{
         Lexical lexical = Lexical();
         int label;
 
-        // cout << "oq entrou aq: " << lexical.get_current_token().lexem << endl;
 
         //lexema vem errado, mas ele ainda assim funciona
-        if(!symbol_table.is_procedure_exists(lexical.get_current_token().lexem)) {
-            label = symbol_table.get_procedure_label(lexical.get_current_token().lexem);
-            generate("", "CALL", to_string(label), "");
-        }
+        // if(!symbol_table.is_procedure_exists(lexical.get_current_token().lexem)) {
+        //     label = symbol_table.get_procedure_label(lexical.get_current_token().lexem);
+        //     generate("", "CALL", to_string(label), "");
+        // }
+   
 
         // procura na tabela de simbolos algo correspondente a um procedimento == token atual
         // diorecionar execução para o procedimento em sí

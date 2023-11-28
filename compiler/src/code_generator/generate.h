@@ -4,11 +4,25 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <array>
+#include <vector>
 
-using namespace std;
+
+class Instruction {
+    public:
+        static std::vector<Instruction> instructions;
+        std::string label;
+        std::string instruction;
+        std::string attribute1;
+        std::string attribute2;
+        int flag;
+};
+
+
 
 std::string get_lpd_symbols(const std::string& token);
-void generate(string label, string instruction = "", string attribute1 = "", string attribute2 = "");
+void generate_file();
+void generate(std::string label, std::string instruction = "", std::string attribute1 = "", std::string attribute2 = "");
 
 
 #endif

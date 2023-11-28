@@ -1,15 +1,28 @@
-programa exemplo5;
-var n, k: inteiro;
-    f1, f2, f3: inteiro;
+programa test1;
+
+var c, a, b, v: inteiro;
+
+{proc 1}
+procedimento analisa1;
+
+var a, x: inteiro;
+       z: inteiro;
 inicio
-    n:=3;
-    f1:=5; 
-    f2:=5;
-    k:=1;
-    enquanto k<=n
-        faca inicio
-            f3:=f1+f2;
-            f2:=f2+f2;
-            k:=k+1
-        fim;
+  x := 5;
+  se x>1 entao
+      x:= 0;
+fim;
+
+procedimento analisa2;
+
+var a, x: inteiro;
+inicio
+  x := 5;
+  se x>1 entao
+      x:= 0;
+fim;
+
+inicio
+    analisa1;
+    analisa2;
 fim. 

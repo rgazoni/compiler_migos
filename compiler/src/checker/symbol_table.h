@@ -34,6 +34,7 @@ class Symbol_table{
     public:
 
     Symbol_table();
+    static int dalloc_var;
 
     void insert_record_variable(Record *record);
     bool is_variable_exists(const std::string& lexem);
@@ -48,6 +49,7 @@ class Symbol_table{
     bool search_variable_function_declaration(const std::string& lexem); 
     void print_table();
     int get_procedure_label(const std::string& lexem);
+    bool procedure_exists(const std::string& lexem);
     
 };
 

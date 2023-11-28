@@ -1,11 +1,19 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <unordered_map>
 #include <functional>
 #include <filesystem>
 
+#include <array>
+#include <string>
+#include <vector>
+
+#include "generate.h"
+
+
 using namespace std;
+
+std::vector<Instruction> Instruction::instructions = {};
 
 string handle_add_case() {
     return "ADD";
@@ -80,7 +88,7 @@ string get_lpd_symbols(const std::string& token) {
     }
 }
 
-void generate(string label, string instruction, string attribute1, string attribute2){
+void generate_file(string label, string instruction, string attribute1, string attribute2) {
     std::filesystem::path desktopPath = std::filesystem::current_path();
     std::string targetFolderName = "virtual_machine";
     std::filesystem::path targetFolderPath = desktopPath.parent_path() / targetFolderName;
@@ -133,4 +141,109 @@ void generate(string label, string instruction, string attribute1, string attrib
 
     outFile << "\n";
     outFile.close();
+}
+
+void generate(string label, string instruction, string attribute1, string attribute2){
+    // std::filesystem::path desktopPath = std::filesystem::current_path();
+    // std::string targetFolderName = "virtual_machine";
+    // std::filesystem::path targetFolderPath = desktopPath.parent_path() / targetFolderName;
+    // // std::filesystem::path outputPath = desktopPath / "virtual_machine";
+
+    // if (!std::filesystem::exists(targetFolderPath)) {
+    //     std::filesystem::create_directory(targetFolderPath);
+    // }
+
+    // std::filesystem::path filePath = targetFolderPath / "byte_code.obj";
+
+    // int spaces_count;
+
+    // //open file in append mode
+    // std::ofstream outFile(filePath, std::ios_base::app);
+
+    // if(!outFile.is_open()){
+    //     cerr << "Error opening file: " << filePath << endl;
+    //     return;
+    // }     
+
+    // outFile << label;
+
+    // spaces_count = (sizeof(label)/8) - label.length();
+    // for(int i=0 ; i<spaces_count+1 ; i++){
+    //     outFile << " ";
+    // }
+
+    // outFile << instruction;
+
+    // spaces_count = (sizeof(instruction)/4) - instruction.length();
+    // for(int i=0 ; i<spaces_count+1 ; i++){
+    //     outFile << " ";
+    // }
+
+    // outFile << attribute1;
+
+    // spaces_count = (sizeof(attribute1)/8) - attribute1.length();
+    // for(int i=0 ; i<spaces_count+1 ; i++){
+    //     outFile << " ";
+    // }
+
+    
+    // outFile << attribute2;
+
+    // spaces_count = (sizeof(attribute2)/8) - attribute2.length();
+    // for(int i=0 ; i<spaces_count+1 ; i++){
+    //     outFile << " ";
+    // }
+
+    // outFile << "\n";
+    // outFile.close();
+    Instruction command_line;
+    int line_count = 0;
+    int line = 0;
+    string aux, aux_count;
+
+    if (!(instruction == "HLT")){
+        command_line.label = label;
+        command_line.instruction = instruction;
+        command_line.attribute1 = attribute1;
+        command_line.attribute2 = attribute2;
+        command_line.flag = 0;
+        
+        Instruction::instructions.push_back(command_line);
+        return;
+    }
+
+    command_line.label = label;
+    command_line.instruction = instruction;
+    command_line.attribute1 = attribute1;
+    command_line.attribute2 = attribute2;
+    command_line.flag = 0;
+    Instruction::instructions.push_back(command_line);
+
+
+    vector<string> line_instruction;    
+    vector<Instruction> file_instructions = {};
+
+
+    for (auto& set : Instruction::instructions) {
+        line_count++;
+        if(set.instruction == "NULL"){
+            aux = set.label;
+            set.flag = 1;
+            set.label = to_string(line_count);
+
+            for (auto& set_aux : Instruction::instructions) {
+                if ((set_aux.flag != 1) && (set_aux.attribute1 == aux) && (set_aux.instruction == "JMP" || set_aux.instruction == "JMPF" || set_aux.instruction == "CALL")) {
+                    set_aux.flag = 1;
+                    set_aux.attribute1 = to_string(line_count);
+                }
+            }
+        }
+    }
+
+    for (Instruction i : Instruction::instructions) {
+        generate_file(i.label, i.instruction, i.attribute1, i.attribute2);
+        // cout << i.label << "   " << i.instruction << "   " << i.attribute1 << "   " << i.attribute2 << "   " << i.flag << endl;
+    }
+
+
 }

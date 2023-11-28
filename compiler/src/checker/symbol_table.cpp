@@ -11,6 +11,7 @@
 using namespace std;
 
 std::stack<Record> Symbol_table::stack;
+int Symbol_table::dalloc_var = 0;
 
 //DUVIDAS PARA O FREITAS
 //como identificar o tipo de função quando for inserida na tabela de simbolos
@@ -126,7 +127,7 @@ int Symbol_table::get_procedure_label(const std::string& lexem) {
 
     while(!auxStack.empty()){
         topRecord = auxStack.top();
-        if (topRecord.getType() == "SPROCEDIMENTO") {
+        if (topRecord.getType() == "SPROCEDIMENTO" && topRecord.getLexem() == lexem) {
             label = topRecord.getAddress();
             return label;
         }
@@ -229,6 +230,7 @@ void Symbol_table::pop_scope(){
     while(!stack.empty()){
         if(!stack.top().getScope()){
             stack.pop();
+            dalloc_var++;
         }else if(stack.top().getScope()){
            stack.top().setScope(false);
            break; 

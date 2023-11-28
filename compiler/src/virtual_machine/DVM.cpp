@@ -4,6 +4,7 @@
 #include <string>
 #include <stack>
 #include <vector>
+#include <fstream>
 
 
 
@@ -11,7 +12,8 @@ using namespace std;
 
 int DVM::S = -1;
 int DVM::PC = 0;
-std::vector<int> DVM::M;
+std::vector<int> DVM::M(1000);
+std::ifstream globalFile;
 
 bool isDigit(string s){
     bool isDigit = true;
@@ -43,8 +45,8 @@ void DVM::setPC(int newValue) {
 }
 
 void DVM::executeFromFile(const std::string& filename) {
-    std::ifstream file(filename);
-    if (!file.is_open()) {
+    globalFile.open(filename);
+    if (!globalFile.is_open()) {
         std::cerr << "Error opening file: " << filename << std::endl;
         return;
     }
@@ -52,18 +54,30 @@ void DVM::executeFromFile(const std::string& filename) {
     std::string line;
     std::string command = "";
 
-    while (std::getline(file, line)) {
+    while (std::getline(globalFile, line)) {
         std::istringstream iss(line);
         iss >> command;
         cout << "command: " << command << endl;
+        displayState();
 
         // std::cout << "command1: " << command << std::endl;
-        if(isDigit(command) || command == "NULL")
-            iss >> command;
+        // if()
+        //     iss >> command;
 
         // std::cout << "command2: " << command << std::endl;
+        if (isDigit(command)) {
+            string instruction;
+            cout << "UJJJJ" << endl;
 
-        if (command == "LDV") {
+            iss >> instruction;
+            if (instruction == "NULL") {
+                cout << "UJJJJ" << endl;
+                PC++;
+            }
+        } else if (command == "START") {
+            S = -1;
+            PC++;
+        } else if (command == "LDV") {
             string variable;
             if (iss >> variable) {
                 LDV(variable); // Convert character to index
@@ -102,13 +116,11 @@ void DVM::executeFromFile(const std::string& filename) {
         } else if (command == "CMAQ") {
             CMAQ();
         } else if (command == "JMP") {
-            PC--;
             std::string label;
             if (iss >> label) {
                 JMP(label);
             }
         } else if (command == "JMPF") {
-            PC--;
             std::string label;
             if (iss >> label) {
                 JMPF(label);
@@ -122,66 +134,100 @@ void DVM::executeFromFile(const std::string& filename) {
             string address;
             string var_count;
             iss >> address;
-            if(iss >> var_count)
+            if(iss >> var_count) {
                 ALLOC(address, var_count);
+            }    
+        } else if (command == "DALLOC") {
+            string address;
+            string var_count;
+            iss >> address;
+            if(iss >> var_count) {
+                DALLOC(address, var_count);
+            }    
+        } else if (command == "CALL") {
+            string address;
+            if (iss >> address) {
+                CALL(address);
+            }
+        } else if (command == "RETURN") {
+            RETURN();
+        } else if (command == "HLT") {
+            PC = 0;
+            return;
+        } else if (command == "RD") {
+            PC++;
+            S++;
+            // return;
+        } else if (command == "PRN") {
+            PC++;
+            S--;
+        } else {
+            PC++;
         }
-    
-        PC++;
-        displayState();
     }
 
-    file.close();
+    globalFile.close();
 }
 
 
 // Exibir estado atual
 void DVM::displayState() {
+    string a;
     std::cout << "Stack: ";
-    for (int i = 0; i < M.size() ; i++) {
+    for (int i = 0; i < 20 ; i++) {
         std::cout << M[i] << " | ";
     }
-    std::cout << "\n" << "PC: " << PC << "\n";
+    std::cout << "\n" << "PC: " << PC << " - S: " << S << "\n";
+    cin >> a;
 }
 
 // Carregar constante
 void DVM::LDC(string k) {
     S++;
     M[S] = stoi(k);
+    PC++;
 }
 
 // Carregar valor
 void DVM::LDV(string n) {
     S++;
     M[S] = M[stoi(n)];
+    cout << "M:: " << M[S] << endl;
+    PC++;
 }
 
 // Somar
 void DVM::ADD() {
     M[S - 1] += M[S];
     S--;
+    PC++;
 }
 
 // Subtrair
 void DVM::SUB() {
     M[S - 1] -= M[S];
     S--;
+    PC++;
 }
 
 // Multiplicar
 void DVM::MULT() {
     M[S - 1] *= M[S];
     S--;
+    PC++;
 }
 
 // Dividir
 void DVM::DIVI() {
     M[S - 1] /= M[S];
     S--;
+    PC++;
 }
 
 // Inverter sinal
 void DVM::INV() {
     M[S] = -M[S];
+    PC++;
 }
 
 // Conjunção
@@ -191,6 +237,7 @@ void DVM::AND() {
     else
         M[S - 1] = 0;
     S--;
+    PC++;
 }
 
 // Disjunção
@@ -200,11 +247,13 @@ void DVM::OR() {
     else
         M[S - 1] = 0;
     S--;
+    PC++;
 }
 
 // Negação
 void DVM::NEG() {
     M[S] = 1 - M[S];
+    PC++;
 }
 
 // Comparar menor
@@ -214,6 +263,7 @@ void DVM::CME() {
     else
         M[S - 1] = 0;
     S--;
+    PC++;
 }
 
 // Comparar maior
@@ -223,6 +273,7 @@ void DVM::CMA() {
     else
         M[S - 1] = 0;
     S--;
+    PC++;
 }
 
 // Comparar igual
@@ -232,6 +283,7 @@ void DVM::CEQ() {
     else
         M[S - 1] = 0;
     S--;
+    PC++;
 }
 
 // Comparar desigual
@@ -241,6 +293,7 @@ void DVM::CDIF() {
     else
         M[S - 1] = 0;
     S--;
+    PC++;
 }
 
 // Comparar menor ou igual
@@ -250,6 +303,7 @@ void DVM::CMEQ() {
     else
         M[S - 1] = 0;
     S--;
+    PC++;
 }
 
 // Comparar maior ou igual
@@ -259,46 +313,107 @@ void DVM::CMAQ() {
     else
         M[S - 1] = 0;
     S--;
+    PC++;
 }
 
 void DVM::JMP(string label) {
+    string line;
+
     PC = stoi(label);
+    globalFile.seekg(0);
+
+    for (int i=0; i < PC ; i++) {
+        if (!std::getline(globalFile, line)) {
+                // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
+            std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
+            return ; // Saia do programa com um código de erro
+        }
+    }
 }
 
 void DVM::JMPF(string label) {
+    string line;
+
     if (M[S] == 0) {
         PC = stoi(label);
+        globalFile.seekg(0);
+
+        for (int i=0; i < PC ; i++) {
+            if (!std::getline(globalFile, line)) {
+                    // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
+                std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
+                return ; // Saia do programa com um código de erro
+            }
+        }
+        // shift = (PC - 1) * averageLineLength;
+        // globalFile.seekg(shift, std::ios::beg); 
     } else {
         PC = PC + 1;
     }
-
     S--;
 }
 
 void DVM::STR(string address) {
     M[stoi(address)] = M[S];
-    M[S] = 0;
     S = S - 1;
+    PC++;
 }
 
 void DVM::ALLOC(string current_address, string var_amount) {
-    M.resize(stoi(current_address) + stoi(var_amount));
+    size_t start_index = stoi(current_address);
+    size_t amount = stoi(var_amount);
 
-    for(int i=0 ; i<=stoi(var_amount)-1 ; i++) {
-        //acessar tabela de tipos para colocar o respectivo endereço
+    for(int i=0 ; i<amount ; i++) {
         S++;
-        // cout << "s: " << S << " - index: " << stoi(current_address) + i << endl;
-        M[S] = M[stoi(current_address) + i];
+        M[S] = M[start_index + i];
     }
-    cout << "alloc stack: " << S << endl;
+    PC++;
 }
 
 void DVM::DALLOC(string current_address, string var_amount) {
     for(int i=stoi(var_amount)-1 ; i>=0 ; i--) {
-        //acessar tabela de tipos para colocar o respectivo endereço
         M[stoi(current_address) + i] = M[S];
         S--;
     }
-    cout << "dalloc stack: " << S << endl;
+    PC++;
+}
+
+void DVM::CALL(string address) {
+    string line;
+
+    S = S + 1;
+    M[S] = PC + 1;
+
+    PC = stoi(address);
+    globalFile.seekg(0);
+
+    cout << "TTT: " << M[S] << "  oo: " << S << endl;
+
+    for (int i=0; i < PC ; i++) {
+        if (!std::getline(globalFile, line)) {
+                // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
+            std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
+            return ; // Saia do programa com um código de erro
+        }
+    }
+}
+
+void DVM::RETURN() {
+    string line;
+
+    PC = M[S];
+    S = S - 1;
+
+    globalFile.seekg(0);
+
+    for (int i=0; i < PC ; i++) {
+        if (!std::getline(globalFile, line)) {
+            // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
+            std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
+            return ; // Saia do programa com um código de erro
+        }
+    }
 
 }
+
+

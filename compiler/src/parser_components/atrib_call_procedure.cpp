@@ -7,6 +7,7 @@
 #include "expression_builder.h"
 #include "generate.h"
 #include "symbol_table.h"
+#include <string>
 
 namespace Parser {
 
@@ -66,8 +67,13 @@ namespace Parser {
         Expr_builder expr_builder = Expr_builder();
         Token token = lexical.get_current_token();
         Symbol_table symbol_table;
+        int label;
 
         // cout << "ant3es: " << lexical.get_current_token().lexem << " - symbol: " << symbolToString(lexical.get_current_token().symbol) << endl;
+        label = symbol_table.get_procedure_label(lexical.get_current_token().lexem);
+        if(label != 0)
+            generate("", "CALL", to_string(label), "");
+        
         lexical.next_token();
         // cout << "esse pokemon: " << lexical.get_current_token().lexem << " - symbol: " << symbolToString(lexical.get_current_token().symbol) << endl;
 
@@ -82,6 +88,9 @@ namespace Parser {
             generate("", "STR", std::to_string(symbol_table.get_variable_address(token.lexem)), "");
         } else {
            //Chamada_procedimento();
+
+            
+
            Parser::procedure_caller_analyzer();
         }
     }
