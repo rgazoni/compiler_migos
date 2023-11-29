@@ -55,6 +55,7 @@ namespace Parser{
         // cout << "rrrrr: " << Address::getVarCount() - stoi(var_count) << endl;
         Address::setVarCount(Address::getVarCount() - stoi(var_count));
 
+        Symbol_table::dalloc_var = 0;
         generate("", "RETURN", "", "");
 
         // DESEMPILHA OU VOLTA NÍVEL
