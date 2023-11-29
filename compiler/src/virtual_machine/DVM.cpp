@@ -71,7 +71,7 @@ void DVM::executeFromFile(const std::string& filename) {
 
             iss >> instruction;
             if (instruction == "NULL") {
-                cout << "UJJJJ" << endl;
+                cout << "QQQQQ" << endl;
                 PC++;
             }
         } else if (command == "START") {
@@ -322,7 +322,7 @@ void DVM::JMP(string label) {
     PC = stoi(label);
     globalFile.seekg(0);
 
-    for (int i=0; i < PC ; i++) {
+    for (int i=0; i < PC-1 ; i++) {
         if (!std::getline(globalFile, line)) {
                 // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
             std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
@@ -338,7 +338,7 @@ void DVM::JMPF(string label) {
         PC = stoi(label);
         globalFile.seekg(0);
 
-        for (int i=0; i < PC ; i++) {
+        for (int i=0; i < PC-1 ; i++) {
             if (!std::getline(globalFile, line)) {
                     // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
                 std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
@@ -389,7 +389,7 @@ void DVM::CALL(string address) {
 
     cout << "TTT: " << M[S] << "  oo: " << S << endl;
 
-    for (int i=0; i < PC ; i++) {
+    for (int i=0; i < PC-1 ; i++) {
         if (!std::getline(globalFile, line)) {
                 // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
             std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
@@ -406,7 +406,7 @@ void DVM::RETURN() {
 
     globalFile.seekg(0);
 
-    for (int i=0; i < PC ; i++) {
+    for (int i=0; i < PC-1 ; i++) {
         if (!std::getline(globalFile, line)) {
             // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
             std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
