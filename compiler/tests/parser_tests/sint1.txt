@@ -1,28 +1,15 @@
-programa test1;
-
-var c, a, b, v: inteiro;
-
-{proc 1}
-procedimento analisa1;
-
-var a, x: inteiro;
-       z: inteiro;
-inicio
-  x := 5;
-  se x>1 entao
-      x:= 0;
-fim;
-
-procedimento analisa2;
-
-var a, x: inteiro;
-inicio
-  x := 5;
-  se x>1 entao
-      x:= 0;
-fim;
+programa exemplo6;
+  var x, y: inteiro;
+  procedimento p;
+    var z: inteiro;
+  inicio
+    z:= x; x:=x-1;
+    se z>1 entao p 
+    senao y:=y+1;
+  fim { p };
 
 inicio
-    analisa1;
-    analisa2;
+  x:=2;
+  y:=5;
+  p;
 fim. 

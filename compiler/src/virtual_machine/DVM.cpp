@@ -58,7 +58,6 @@ void DVM::executeFromFile(const std::string& filename) {
         std::istringstream iss(line);
         iss >> command;
         cout << "command: " << command << endl;
-        displayState();
 
         // std::cout << "command1: " << command << std::endl;
         // if()
@@ -164,6 +163,9 @@ void DVM::executeFromFile(const std::string& filename) {
         } else {
             PC++;
         }
+
+        displayState();
+
     }
 
     globalFile.close();

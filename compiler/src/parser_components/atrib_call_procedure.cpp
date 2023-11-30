@@ -67,22 +67,30 @@ namespace Parser {
         Expr_builder expr_builder = Expr_builder();
         Token token = lexical.get_current_token();
         Symbol_table symbol_table;
+        Symbols expr_symbol, var_symbol;
         int label;
-
-        // cout << "ant3es: " << lexical.get_current_token().lexem << " - symbol: " << symbolToString(lexical.get_current_token().symbol) << endl;
+        
         label = symbol_table.get_procedure_label(lexical.get_current_token().lexem);
         if(label != 0)
             generate("", "CALL", to_string(label), "");
-        
+
+        if(symbol_table.get_variable_type(lexical.get_current_token().lexem) == Symbols::SINTEIRO || symbol_table.get_variable_type(lexical.get_current_token().lexem) == Symbols::SBOOLEANO) {
+            var_symbol = symbol_table.get_variable_type(lexical.get_current_token().lexem);
+        }
+
+        token = lexical.get_current_token();
         lexical.next_token();
-        // cout << "esse pokemon: " << lexical.get_current_token().lexem << " - symbol: " << symbolToString(lexical.get_current_token().symbol) << endl;
 
         if (lexical.get_current_token().symbol == Symbols::SATRIBUICAO) {
             //Analisa_atribuicao();
             //buscar na tabela de simbolos
             Parser::assignment_analyzer();
-            expr_builder.infix_to_postfix();
-            // symbol_table.print_table();
+            expr_symbol = expr_builder.infix_to_postfix();
+
+            if(var_symbol != expr_symbol) {
+                std::cerr << "Expression error: Types are not matching" << std::endl;
+                exit(1);
+            }
 
             //buscar na tabela de simbolos para colocar o endereço no gera
             generate("", "STR", std::to_string(symbol_table.get_variable_address(token.lexem)), "");

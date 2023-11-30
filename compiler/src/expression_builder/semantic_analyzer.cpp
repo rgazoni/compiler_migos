@@ -9,56 +9,56 @@
 #include "Token.h"
 #include "symbols.h"
 
-const char* symbolToString(Symbols symbol) {
-    switch (symbol) {
-        case Symbols::SPROGRAMA: return "PROGRAMA";
-        case Symbols::SSE: return "SE";
-        case Symbols::SENTAO: return "ENTAO";
-        case Symbols::SSENAO: return "SENAO";
-        case Symbols::SENQUANTO: return "ENQUANTO";
-        case Symbols::SFACA: return "FACA";
-        case Symbols::SINICIO: return "INICIO";
-        case Symbols::SFIM: return "FIM";
-        case Symbols::SESCREVA: return "ESCREVA";
-        case Symbols::SLEIA: return "LEIA";
-        case Symbols::SVAR: return "VAR";
-        case Symbols::SINTEIRO: return "INTEIRO";
-        case Symbols::SBOOLEANO: return "BOOLEANO";
-        case Symbols::SVERDADEIRO: return "VERDADEIRO";
-        case Symbols::SFALSO: return "FALSO";
-        case Symbols::SPROCEDIMENTO: return "PROCEDIMENTO";
-        case Symbols::SFUNCAO: return "FUNCAO";
-        case Symbols::SDIV: return "DIV";
-        case Symbols::SE: return "E";
-        case Symbols::SOU: return "OU";
-        case Symbols::SNAO: return "NAO";
-        case Symbols::SIDENTIFICADOR: return "IDENTIFICADOR";
-        case Symbols::SNUMERO: return "NUMERO";
-        case Symbols::SMAIS: return "MAIS";
-        case Symbols::SMENOS: return "MENOS";
-        case Symbols::SMULT: return "MULT";
-        case Symbols::SUNARIOARITMETICO: return "UNARIOARITMETICO";
-        case Symbols::SUNARIOLOGICO: return "UNARIOLOGICO";
-        case Symbols::SDESCONHECIDO: return "DESCONHECIDO";
-        case Symbols::SMAIORIG: return "MAIORIG";
-        case Symbols::SMAIOR: return "MAIOR";
-        case Symbols::SMENORIG: return "MENORIG";
-        case Symbols::SMENOR: return "MENOR";
-        case Symbols::SDIF: return "DIF";
-        case Symbols::SIG: return "IG";
-        case Symbols::SPONTO_VIRGULA: return "PONTO_VIRGULA";
-        case Symbols::SVIRGULA: return "VIRGULA";
-        case Symbols::SABRE_PARENTESES: return "ABRE_PARENTESES";
-        case Symbols::SFECHA_PARENTESES: return "FECHA_PARENTESES";
-        case Symbols::SPONTO: return "PONTO";
-        case Symbols::SATRIBUICAO: return "ATRIBUICAO";
-        case Symbols::SDOISPONTOS: return "DOISPONTOS";
-        case Symbols::SERRO: return "ERRO";
-        case Symbols::EMPTY: return "EMPTY";
-        case Symbols::END_OF_FILE: return "END_OF_FILE";
-        default: return "UNKNOWN_SYMBOL";
-    }
-}
+// const char* symbolToString(Symbols symbol) {
+//     switch (symbol) {
+//         case Symbols::SPROGRAMA: return "SPROGRAMA";
+//         case Symbols::SSE: return "SSE";
+//         case Symbols::SENTAO: return "SENTAO";
+//         case Symbols::SSENAO: return "SSENAO";
+//         case Symbols::SENQUANTO: return "SENQUANTO";
+//         case Symbols::SFACA: return "SFACA";
+//         case Symbols::SINICIO: return "SINICIO";
+//         case Symbols::SFIM: return "SFIM";
+//         case Symbols::SESCREVA: return "SESCREVA";
+//         case Symbols::SLEIA: return "SLEIA";
+//         case Symbols::SVAR: return "SVAR";
+//         case Symbols::SINTEIRO: return "SINTEIRO";
+//         case Symbols::SBOOLEANO: return "SBOOLEANO";
+//         case Symbols::SVERDADEIRO: return "SVERDADEIRO";
+//         case Symbols::SFALSO: return "SFALSO";
+//         case Symbols::SPROCEDIMENTO: return "SPROCEDIMENTO";
+//         case Symbols::SFUNCAO: return "SFUNCAO";
+//         case Symbols::SDIV: return "SDIV";
+//         case Symbols::SE: return "SE";
+//         case Symbols::SOU: return "SOU";
+//         case Symbols::SNAO: return "SNAO";
+//         case Symbols::SIDENTIFICADOR: return "SIDENTIFICADOR";
+//         case Symbols::SNUMERO: return "SNUMERO";
+//         case Symbols::SMAIS: return "SMAIS";
+//         case Symbols::SMENOS: return "SMENOS";
+//         case Symbols::SMULT: return "SMULT";
+//         case Symbols::SUNARIOARITMETICO: return "SUNARIOARITMETICO";
+//         case Symbols::SUNARIOLOGICO: return "SUNARIOLOGICO";
+//         case Symbols::SDESCONHECIDO: return "SDESCONHECIDO";
+//         case Symbols::SMAIORIG: return "SMAIORIG";
+//         case Symbols::SMAIOR: return "SMAIOR";
+//         case Symbols::SMENORIG: return "SMENORIG";
+//         case Symbols::SMENOR: return "SMENOR";
+//         case Symbols::SDIF: return "SDIF";
+//         case Symbols::SIG: return "IG";
+//         case Symbols::SPONTO_VIRGULA: return "SPONTO_VIRGULA";
+//         case Symbols::SVIRGULA: return "SVIRGULA";
+//         case Symbols::SABRE_PARENTESES: return "SABRE_PARENTESES";
+//         case Symbols::SFECHA_PARENTESES: return "SFECHA_PARENTESES";
+//         case Symbols::SPONTO: return "PSONTO";
+//         case Symbols::SATRIBUICAO: return "SATRIBUICAO";
+//         case Symbols::SDOISPONTOS: return "SDOISPONTOS";
+//         case Symbols::SERRO: return "SERRO";
+//         case Symbols::EMPTY: return "SEMPTY";
+//         case Symbols::END_OF_FILE: return "SEND_OF_FILE";
+//         default: return "UNKNOWN_SYMBOL";
+//     }
+// }
 
 // std::ostream& operator<<(std::ostream& os, const Symbols token) {
 //     os << symbolToString(token);
