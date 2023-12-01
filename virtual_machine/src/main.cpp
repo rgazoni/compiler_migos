@@ -1,8 +1,9 @@
-#include "DVM.h"
+#include "ui/mainwindow.h"
+#include "ui/application.h"
+#include <gtkmm/application.h>
 
 int main(int argc, char *argv[]) {
-    DVM dvm = DVM();
-
-    dvm.executeFromFile("byte_code.obj");
-    return 0;
+    auto application = Application::create();
+    const int status = application->run(argc, argv);
+    return status;
 }

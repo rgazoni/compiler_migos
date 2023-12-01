@@ -6,7 +6,7 @@
 
 class Lexical {
 public:
-    void open_file(char *path);
+    void open_file(const char *path);
     void close_file();
     int get_execution_line();
     int get_execution_column();

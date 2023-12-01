@@ -10,14 +10,14 @@
 #include "label.h"
 #include "generate.h"
 #include "address.h"
-#include "DVM.h"
+// #include "DVM.h"
 #include "symbol_table.h"
+#include "parser.h"
 
-
-void parser(char *file_path){
+void parser(const char *file_path){
     Lexical lexical = Lexical();
     lexical.open_file(file_path);
-    DVM dvm = DVM();
+    // DVM dvm = DVM();
     Symbol_table symbol_table = Symbol_table();
     //Token* token;
     // rotulo := 1
@@ -60,41 +60,7 @@ void parser(char *file_path){
     generate("", "DALLOC", to_string(stoi(Address::getAddress()) - Address::getVarCount()), to_string(Address::getVarCount()));
     generate("", "HLT", "", "");
 
-    dvm.executeFromFile("byte_code.obj");
+    // dvm.executeFromFile("byte_code.obj");
     lexical.close_file();
-}
-
-
-int main(int argc, char *argv[]) {
-    Lexical lexical = Lexical();
-    Expr_builder expr_builder = Expr_builder();
-
-    bool is_file_provided = false;
-    char* file_path;
-
-    for(int i = 0 ; i < argc ; i++){
-        std::string arg = argv[i];
-
-        if(arg == "--dev"|| arg == "-D"){
-            //Call tests functions from dev_env directory
-            expression();
-        }
-
-        if((arg == "--file" || arg == "-f" ) && i+1 <= argc){
-            is_file_provided = true;
-            file_path = argv[i+1];
-        }
-    }
-
-    if(is_file_provided)
-        parser(file_path);
-    else
-        std::cout << "To run parser, a file must be provided with --file or -f." << std::endl;
-
-    // for(Expr_token token : expr_builder.expr_array){
-    //     std::cout << "lexem: " << token.lexem << std::endl;
-    // }
-
-    return 0;
 }
 

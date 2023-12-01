@@ -50,6 +50,8 @@ private:
     void STR(string variable);
     void ALLOC(string current_address, string var_amount);
     void DALLOC(string current_address, string var_amount);
+    void CALL(string address);
+    void RETURN();
 
     
 };
