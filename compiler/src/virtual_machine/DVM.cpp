@@ -154,12 +154,10 @@ void DVM::executeFromFile(const std::string& filename) {
             PC = 0;
             return;
         } else if (command == "RD") {
-            PC++;
-            S++;
+            RD();
             // return;
         } else if (command == "PRN") {
-            PC++;
-            S--;
+            PRN();
         } else {
             PC++;
         }
@@ -389,8 +387,6 @@ void DVM::CALL(string address) {
     PC = stoi(address);
     globalFile.seekg(0);
 
-    cout << "TTT: " << M[S] << "  oo: " << S << endl;
-
     for (int i=0; i < PC-1 ; i++) {
         if (!std::getline(globalFile, line)) {
                 // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
@@ -415,6 +411,23 @@ void DVM::RETURN() {
             return ; // Saia do programa com um código de erro
         }
     }
+
+}
+
+void DVM::RD() {
+    int input;
+    S++;
+    cout << "valor: ";
+    cin >> input;
+    M[S] = input;
+    PC++;
+}
+
+void DVM::PRN() {
+    int output = M[S];
+    cout << "\n\nimpresso: " << output << endl << endl;
+    PC++;
+    S--;
 
 }
 
