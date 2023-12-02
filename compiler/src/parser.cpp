@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <filesystem>
+
 #include "expression_builder.h"
 #include "../parser_components/parser_components.h"
 #include "error/Errors.h"
@@ -23,6 +26,28 @@ void parser(char *file_path){
     // rotulo := 1
     Label::setLabel(1);
     Address::setAddress(0);
+
+    std::filesystem::path desktopPath = std::filesystem::current_path();
+    std::string targetFolderName = "objs";
+    std::filesystem::path targetFolderPath = desktopPath.parent_path() / targetFolderName;
+    // std::filesystem::path outputPath = desktopPath / "virtual_machine";
+
+    if (!std::filesystem::exists(targetFolderPath)) {
+        std::filesystem::create_directory(targetFolderPath);
+    }
+
+    std::filesystem::path filePath = targetFolderPath / "byte_code.obj";
+
+    if (std::filesystem::exists(filePath)) {
+        std::ofstream clearFile(filePath, std::ios::out | std::ios::trunc);
+        if (clearFile.is_open()) {
+            clearFile.close();
+        } else {
+            std::cerr << "Error opening file for clearing: " << filePath << std::endl;
+        }
+    } 
+
+
     lexical.next_token();
 
     if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
