@@ -1,5 +1,5 @@
 #include "lexical_analyzer.h"
-#include "Symbols.h"
+#include "symbols.h"
 #include "./error/Errors.h"
 #include "generate.h"
 #include "symbol_table.h"
