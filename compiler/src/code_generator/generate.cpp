@@ -90,7 +90,7 @@ string get_lpd_symbols(const std::string& token) {
 
 void generate_file(string label, string instruction, string attribute1, string attribute2) {
     std::filesystem::path desktopPath = std::filesystem::current_path();
-    std::string targetFolderName = "virtual_machine";
+    std::string targetFolderName = "objs";
     std::filesystem::path targetFolderPath = desktopPath.parent_path() / targetFolderName;
     // std::filesystem::path outputPath = desktopPath / "virtual_machine";
 
@@ -144,58 +144,6 @@ void generate_file(string label, string instruction, string attribute1, string a
 }
 
 void generate(string label, string instruction, string attribute1, string attribute2){
-    // std::filesystem::path desktopPath = std::filesystem::current_path();
-    // std::string targetFolderName = "virtual_machine";
-    // std::filesystem::path targetFolderPath = desktopPath.parent_path() / targetFolderName;
-    // // std::filesystem::path outputPath = desktopPath / "virtual_machine";
-
-    // if (!std::filesystem::exists(targetFolderPath)) {
-    //     std::filesystem::create_directory(targetFolderPath);
-    // }
-
-    // std::filesystem::path filePath = targetFolderPath / "byte_code.obj";
-
-    // int spaces_count;
-
-    // //open file in append mode
-    // std::ofstream outFile(filePath, std::ios_base::app);
-
-    // if(!outFile.is_open()){
-    //     cerr << "Error opening file: " << filePath << endl;
-    //     return;
-    // }     
-
-    // outFile << label;
-
-    // spaces_count = (sizeof(label)/8) - label.length();
-    // for(int i=0 ; i<spaces_count+1 ; i++){
-    //     outFile << " ";
-    // }
-
-    // outFile << instruction;
-
-    // spaces_count = (sizeof(instruction)/4) - instruction.length();
-    // for(int i=0 ; i<spaces_count+1 ; i++){
-    //     outFile << " ";
-    // }
-
-    // outFile << attribute1;
-
-    // spaces_count = (sizeof(attribute1)/8) - attribute1.length();
-    // for(int i=0 ; i<spaces_count+1 ; i++){
-    //     outFile << " ";
-    // }
-
-    
-    // outFile << attribute2;
-
-    // spaces_count = (sizeof(attribute2)/8) - attribute2.length();
-    // for(int i=0 ; i<spaces_count+1 ; i++){
-    //     outFile << " ";
-    // }
-
-    // outFile << "\n";
-    // outFile.close();
     Instruction command_line;
     int line_count = 0;
     int line = 0;
