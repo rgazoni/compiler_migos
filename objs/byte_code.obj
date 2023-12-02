@@ -1,0 +1,33 @@
+     START              
+     ALLOC    0    2    
+     JMP      26        
+4    NULL               
+     ALLOC    2    1    
+     LDV      0         
+     STR      2         
+     LDV      0         
+     LDC      1         
+     SUB                
+     STR      0         
+     LDV      2         
+     LDC      1         
+     CMA                
+     JMPF     18        
+     CALL     4         
+     JMP      23        
+18   NULL               
+     LDV      1         
+     LDC      1         
+     ADD                
+     STR      1         
+23   NULL               
+     DALLOC   2    1    
+     RETURN             
+26   NULL               
+     LDC      2         
+     STR      0         
+     LDC      5         
+     STR      1         
+     CALL     4         
+     DALLOC   0    2    
+     HLT                
