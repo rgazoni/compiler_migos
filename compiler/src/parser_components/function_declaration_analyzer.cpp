@@ -5,6 +5,8 @@
 #include <fstream>
 #include <iostream>
 #include "symbol_table.h"
+#include "generate.h"
+#include "label.h"
 
 namespace Parser{
     void function_declaration_analyzer(){
@@ -13,9 +15,11 @@ namespace Parser{
         lexical.next_token();
         // nível := “L” (marca ou novo galho)
         if(lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR){
-            Record record(lexical.get_current_token().lexem, "", true, 0);
+            Record record(lexical.get_current_token().lexem, "", true, std::stoi(Label::getLabel()));
             symbol_table.insert_record_procedure(&record);
             
+            generate(Label::getLabel(), "NULL", "", "");
+            Label::incrementLabel();
             // pesquisa_declfunc_tabela(token.lexema)
             // se não encontrou
             // então início
@@ -48,7 +52,8 @@ namespace Parser{
             // erro
             raiseError(Error::EXPECTED_IDENTIFIER);
         }
-        //symbol_table.pop_scope();
+        generate("", "RETURNF", "", "");
+        symbol_table.pop_scope();
         // DESEMPILHA OU VOLTA NÍVEL
     }
 }

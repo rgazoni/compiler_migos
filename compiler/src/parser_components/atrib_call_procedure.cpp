@@ -79,18 +79,29 @@ namespace Parser {
         }
 
         token = lexical.get_current_token();
-        lexical.next_token();
+        
+        if(symbol_table.search_function(lexical.get_current_token().lexem)){
+            Token currenToken = lexical.get_current_token();
+            lexical.next_token();
+            if(lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA){
+                std::cout << "erro" << std::endl;
+                exit(1);
+            }
+        }
 
+        lexical.next_token();
+    
         if (lexical.get_current_token().symbol == Symbols::SATRIBUICAO) {
             //Analisa_atribuicao();
             //buscar na tabela de simbolos
+            lexical.next_token();
             Parser::assignment_analyzer();
             expr_symbol = expr_builder.infix_to_postfix();
 
-            if(var_symbol != expr_symbol) {
-                std::cerr << "Expression error: Types are not matching" << std::endl;
-                exit(1);
-            }
+            // if(var_symbol != expr_symbol) {
+            //     std::cerr << "Expression error: Types are not matching" << std::endl;
+            //     exit(1);
+            // }
 
             //buscar na tabela de simbolos para colocar o endereço no gera
             generate("", "STR", std::to_string(symbol_table.get_variable_address(token.lexem)), "");

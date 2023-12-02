@@ -137,6 +137,36 @@ int Symbol_table::get_procedure_label(const std::string& lexem) {
     return 0;
 }
 
+int Symbol_table::get_function_label(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+    int label;
+
+    while(!auxStack.empty()){
+        topRecord = auxStack.top();
+        if ((topRecord.getType() == "S_FUNCAO_INTEIRO" || topRecord.getType() == "S_FUNCAO_BOOLEANO") && topRecord.getLexem() == lexem) {
+            label = topRecord.getAddress();
+            return label;
+        }
+        auxStack.pop();
+    }
+    return 0;
+}
+
+
+bool Symbol_table::search_function(const std::string& lexem){
+    std::stack<Record> auxStack = stack;
+    while (!auxStack.empty()) {
+        Record topRecord = auxStack.top();
+        if ((topRecord.getType() == "S_FUNCAO_INTEIRO" || topRecord.getType() == "S_FUNCAO_BOOLEANO") && topRecord.getLexem() == lexem) {
+            std::cout << lexem << std::endl;
+            std::cout << topRecord.getType() << std::endl;
+            return true;
+        } 
+        auxStack.pop();
+    }
+    return false;
+}
 
 //coloca tipo na variavel
 void Symbol_table::update_variable_type(const std::string& lexem) {

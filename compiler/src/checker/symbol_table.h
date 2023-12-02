@@ -45,12 +45,11 @@ class Symbol_table{
     void update_function_type(const std::string& lexem);
     void pop_scope();
     bool search_identifier(const std::string& lexem);
-    int get_variable_address(const std::string& lexem);
-    bool search_variable_function_declaration(const std::string& lexem); 
+    int get_variable_address(const std::string& lexem); 
     void print_table();
     int get_procedure_label(const std::string& lexem);
-    bool procedure_exists(const std::string& lexem);
-    
+    int get_function_label(const std::string& lexem);
+    bool search_function(const std::string& lexem);
 };
 
 #endif

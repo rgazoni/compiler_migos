@@ -1,17 +1,20 @@
 programa exemplo6;
+ 
  var x, y: inteiro;
- procedimento p;
- var z: inteiro;
+ 
+ funcao p:inteiro;
+    var z: inteiro;
+    inicio
+        z:= x; 
+        
+    p := z;
+    fim { p };
+ 
  inicio
- z:= x; x:=x-1;
-se z>1 entao p 
- senao y:=1;
- y:=y*z
- fim { p };
- inicio
- leia(x);
- p; 
-escreva (y);
-escreva (x)
+    y := 2 + 7;
+    y := p;
+
+    p;
+    leia(x);
  fim.
  

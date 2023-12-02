@@ -37,9 +37,14 @@ namespace Parser {
             // } else if(find(expr_builder.boolean_variables.begin(), expr_builder.boolean_variables.end(), lexical.get_current_token().lexem) != expr_builder.boolean_variables.end()){
             //     expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, "SBOOLEANO"));
             // }
-
-            expr_builder.add_to_array(lexical.get_current_token(), symbol_table.get_variable_type(lexical.get_current_token().lexem), symbol_table.get_variable_address(lexical.get_current_token().lexem));
-            Parser::function_caller_analyzer();
+            //if(symbol_table.is_variable_exists(lexical.get_current_token().lexem)){
+                expr_builder.add_to_array(lexical.get_current_token(), symbol_table.get_variable_type(lexical.get_current_token().lexem), symbol_table.get_variable_address(lexical.get_current_token().lexem));
+            //}
+            //if(symbol_table.search_function(lexical.get_current_token().lexem)){
+                Parser::function_caller_analyzer();
+            //}  
+            lexical.next_token();
+            
         }else if(lexical.get_current_token().symbol == Symbols::SNUMERO){
             expr_builder.add_to_array(lexical.get_current_token(), Symbols::SINTEIRO);
             lexical.next_token();
