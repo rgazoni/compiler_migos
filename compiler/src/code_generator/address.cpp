@@ -4,7 +4,7 @@
 #include <sstream>
 
 int Address::current_available_address = 0;
-int Address::var_count = 0;
+int Address::var_count = 1;
 
 std::string Address::getAddress() {
     return std::to_string(current_available_address);

@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <vector>
 #include "symbol_table.h"
+#include "generate.h"
 
 using namespace std;
 
@@ -38,10 +39,16 @@ namespace Parser {
             //     expr_builder.add_to_array(Expr_token(lexical.get_current_token().lexem, "SBOOLEANO"));
             // }
             //if(symbol_table.is_variable_exists(lexical.get_current_token().lexem)){
+            int label = symbol_table.get_function_label(lexical.get_current_token().lexem);
+            if(label != 0){
+                expr_builder.add_to_array(lexical.get_current_token(), symbol_table.get_function_type(lexical.get_current_token().lexem), 0);
+                generate("", "CALL", to_string(label), "");
+            } else {
                 expr_builder.add_to_array(lexical.get_current_token(), symbol_table.get_variable_type(lexical.get_current_token().lexem), symbol_table.get_variable_address(lexical.get_current_token().lexem));
+            }
             //}
             //if(symbol_table.search_function(lexical.get_current_token().lexem)){
-                Parser::function_caller_analyzer();
+                // Parser::function_caller_analyzer();
             //}  
             lexical.next_token();
             

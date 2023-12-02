@@ -69,6 +69,7 @@ namespace Parser {
         Symbol_table symbol_table;
         Symbols expr_symbol, var_symbol;
         int label;
+        bool isFunction = false;
         
         label = symbol_table.get_procedure_label(lexical.get_current_token().lexem);
         if(label != 0)
@@ -78,16 +79,23 @@ namespace Parser {
             var_symbol = symbol_table.get_variable_type(lexical.get_current_token().lexem);
         }
 
+        if(symbol_table.get_function_scope(token.lexem) == 1) {
+            isFunction = true;
+        } else if(symbol_table.get_function_scope(token.lexem) == 0) {
+            cout << "Erro: funcao nao pode ser chamada sem atribui-la a uma variavel" << endl;
+            exit(1);
+        }
+
         token = lexical.get_current_token();
         
-        if(symbol_table.search_function(lexical.get_current_token().lexem)){
-            Token currenToken = lexical.get_current_token();
-            lexical.next_token();
-            if(lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA){
-                std::cout << "erro" << std::endl;
-                exit(1);
-            }
-        }
+        // if(symbol_table.search_function(lexical.get_current_token().lexem)){
+        //     Token currenToken = lexical.get_current_token();
+        //     lexical.next_token();
+        //     if(lexical.get_current_token().symbol == Symbols::SPONTO_VIRGULA){
+        //         std::cout << "erro" << std::endl;
+        //         exit(1);
+        //     }
+        // }
 
         lexical.next_token();
     
@@ -102,9 +110,12 @@ namespace Parser {
             //     std::cerr << "Expression error: Types are not matching" << std::endl;
             //     exit(1);
             // }
-
-            //buscar na tabela de simbolos para colocar o endereço no gera
-            generate("", "STR", std::to_string(symbol_table.get_variable_address(token.lexem)), "");
+            if(isFunction) {
+                generate("", "STR", "0", "");
+                generate("", "RETURN", "", "");
+            }
+            else
+                generate("", "STR", std::to_string(symbol_table.get_variable_address(token.lexem)), "");
         } else {
            //Chamada_procedimento();
 

@@ -92,7 +92,6 @@ Symbols Symbol_table::get_variable_type(const std::string& lexem) {
     return Symbols::SDESCONHECIDO;
 }
 
-
 int Symbol_table::get_variable_address(const std::string& lexem) {
     std::stack<Record> auxStack = stack; 
     Record topRecord = auxStack.top();
@@ -153,6 +152,57 @@ int Symbol_table::get_function_label(const std::string& lexem) {
     return 0;
 }
 
+int Symbol_table::get_function_scope(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+    int scope;
+
+    while(!auxStack.empty()){
+        topRecord = auxStack.top();
+        if ((topRecord.getType() == "S_FUNCAO_INTEIRO" || topRecord.getType() == "S_FUNCAO_BOOLEANO") && topRecord.getLexem() == lexem) {
+            if(topRecord.getScope() == true)
+                return 1;
+            else
+                return 0;
+        }
+
+        auxStack.pop();
+    }
+
+    return -1;
+}
+
+Symbols Symbol_table::get_function_type(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+
+    //  while(topRecord.getScope() == false){
+    //     topRecord = auxStack.top();
+    //     if (topRecord.getLexem() == lexem) {
+    //         if(topRecord.getType() == "S_FUNCAO_INTEIRO")
+    //             return Symbols::SINTEIRO;
+    //         if(topRecord.getType() == "S_FUNCAO_BOOLEANO")
+    //             return Symbols::SBOOLEANO;
+    //     }
+    //     auxStack.pop();
+    // }
+
+    while(!auxStack.empty()){
+        topRecord = auxStack.top();
+
+        if (topRecord.getLexem() == lexem) {
+            if(topRecord.getType() == "S_FUNCAO_INTEIRO"){
+                return Symbols::SINTEIRO;
+            }
+            if(topRecord.getType() == "S_FUNCAO_BOOLEANO"){
+                return Symbols::SBOOLEANO;
+            }
+        }
+        auxStack.pop();
+    }
+
+    return Symbols::SDESCONHECIDO;
+}
 
 bool Symbol_table::search_function(const std::string& lexem){
     std::stack<Record> auxStack = stack;

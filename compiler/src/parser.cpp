@@ -15,6 +15,7 @@
 #include "address.h"
 #include "DVM.h"
 #include "symbol_table.h"
+#include "address.h"
 
 
 void parser(char *file_path){
@@ -52,6 +53,9 @@ void parser(char *file_path){
 
     if (lexical.get_current_token().symbol == Symbols::SPROGRAMA) {
         generate("", "START", "", "");
+        generate("", "ALLOC", "0", "1");
+        Address::setAddress(stoi(Address::getAddress()) + 1);
+
         lexical.next_token();
         
         if (lexical.get_current_token().symbol == Symbols::SIDENTIFICADOR) {            
@@ -83,6 +87,7 @@ void parser(char *file_path){
     // symbol_table.print_table();
 
     generate("", "DALLOC", to_string(stoi(Address::getAddress()) - Address::getVarCount()), to_string(Address::getVarCount()));
+    // generate("", "DALLOC", "0", "1");
     generate("", "HLT", "", "");
 
     dvm.executeFromFile("byte_code.obj");

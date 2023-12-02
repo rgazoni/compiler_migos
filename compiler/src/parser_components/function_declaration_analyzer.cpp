@@ -7,6 +7,7 @@
 #include "symbol_table.h"
 #include "generate.h"
 #include "label.h"
+#include "address.h"
 
 namespace Parser{
     void function_declaration_analyzer(){
@@ -52,8 +53,18 @@ namespace Parser{
             // erro
             raiseError(Error::EXPECTED_IDENTIFIER);
         }
-        generate("", "RETURNF", "", "");
+        // generate("", "RETURNF", "", "");
         symbol_table.pop_scope();
+
+        string var_count = to_string(Symbol_table::dalloc_var);
+        int current_address = stoi(Address::getAddress()) - stoi(var_count);
+        generate("", "DALLOC", to_string(current_address), var_count);
+
+        Address::setAddress(stoi(Address::getAddress()) - stoi(var_count));
+        Address::setVarCount(Address::getVarCount() - stoi(var_count));
+
+        Symbol_table::dalloc_var = 0;
+        // generate("", "RETURN", "", "");
         // DESEMPILHA OU VOLTA NÍVEL
     }
 }
