@@ -1,6 +1,0 @@
-    START          
-    LDC 4
-    PRN             
-    LDC 7
-    PRN
-    HLT
