@@ -90,7 +90,6 @@ void parser(char *file_path){
     // generate("", "DALLOC", "0", "1");
     generate("", "HLT", "", "");
 
-    dvm.executeFromFile("byte_code.obj");
     lexical.close_file();
 }
 
