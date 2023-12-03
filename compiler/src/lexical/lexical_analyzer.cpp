@@ -13,6 +13,8 @@ char* Lexical::c = new char;
 std::ifstream Lexical::file;
 
 void Lexical::open_file(const char *path) {
+    Lexical::execution_line = 1;
+    Lexical::execution_column = 0;
     file.open(path);
     if (!file.is_open()) {
         raiseError(Error::COULD_NOT_OPEN_FILE);
