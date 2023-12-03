@@ -6,7 +6,6 @@
 #include <stack>
 #include <vector>
 #include <fstream>
-
 #include <chrono>
 #include <thread>
 #include <mutex>
@@ -203,7 +202,7 @@ void DVM::displayState() {
         std::cout << M[i] << " | ";
     }
     std::cout << "\n" << "PC: " << PC << " - S: " << S << "\n";
-    MainWindow::print_memory(M, S);
+    //MainWindow::print_memory(M, S);
 }
 
 // Carregar constante
@@ -451,6 +450,7 @@ void DVM::RD() {
         // Handle the exception
         std::cerr << "Exception during wait: " << e.what() << std::endl;
     }
+    DVM::isDataAvailable = false;
     std::cout << "Button was submitted and the value is: " << DVM::sharedData << std::endl;
 
     Application::win->INPUT_DATA = false;

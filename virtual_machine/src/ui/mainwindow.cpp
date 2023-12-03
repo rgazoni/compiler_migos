@@ -6,6 +6,7 @@
 #include "../virtual_machine/DVM.h"
 #include <mutex>
 #include <condition_variable>
+#include <chrono>
 
 Glib::RefPtr<Gio::ListStore<MainWindow::ModelCodeColumns>> MainWindow::m_CodeListStore = Gio::ListStore<MainWindow::ModelCodeColumns>::create();
 Glib::RefPtr<Gio::ListStore<MainWindow::ModelMemoryColumns>> MainWindow::m_MemoryListStore = Gio::ListStore<MainWindow::ModelMemoryColumns>::create();
@@ -144,7 +145,7 @@ MainWindow::MainWindow()
 //-------------------------- MEMORY_COLUMN_VIEW ---------------------------------------
 
   // // Create the List model - USED TO APPEND DATA
-  m_MemoryListStore = Gio::ListStore<ModelMemoryColumns>::create();
+  // m_MemoryListStore = Gio::ListStore<ModelMemoryColumns>::create();
 
   // Set list model and selection model.
   auto selection_modelm = Gtk::SingleSelection::create(m_MemoryListStore);
@@ -384,11 +385,11 @@ void MainWindow::on_setup_Code_ColumnView(std::string current_filepath)
 
 void MainWindow::print_memory(std::vector<int> M, int SP)
 {
-  m_MemoryListStore->remove_all();
+  // m_MemoryListStore->remove_all();
 
-  for(int i = 0; i < 15; i++){
-    m_MemoryListStore->append(ModelMemoryColumns::create(i, M[i]));
-  }
+  // for(int i = 0; i < 15; i++){
+  //   m_MemoryListStore->append(ModelMemoryColumns::create(i, M[i]));
+  // }
 }
 
 
@@ -405,15 +406,15 @@ void MainWindow::on_submit()
   }
   else
   {
-    std::lock_guard<std::mutex> lock(dataMutex);
     try {
+      std::lock_guard<std::mutex> lock(dataMutex);
       DVM::sharedData = std::stoi(Application::win->m_refTextBuffer_Input->get_text());
-      // Signal that data is available
       DVM::isDataAvailable = true;
-      m_refTextBuffer_Input->set_text("");
       Application::win->m_Input_Label.set_text("Input data");
       Application::win->m_Input_TextView.set_editable(false);
       DVM::dataReady.notify_one();
+      // Signal that data is available
+      m_refTextBuffer_Input->set_text("");
     } catch (const std::exception& e) {
       Application::win->m_Input_Label.set_text("Input data - Please INPUT A VALID NUMBER :)");
       m_refTextBuffer_Input->set_text("");
