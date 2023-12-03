@@ -1,10 +1,16 @@
-#include "mainwindow.h"
+#include "application.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "fileexplorer.h"
 #include "../virtual_machine/DVM.h"
+#include <mutex>
+#include <condition_variable>
 
 Glib::RefPtr<Gio::ListStore<MainWindow::ModelCodeColumns>> MainWindow::m_CodeListStore = Gio::ListStore<MainWindow::ModelCodeColumns>::create();
+Glib::RefPtr<Gio::ListStore<MainWindow::ModelMemoryColumns>> MainWindow::m_MemoryListStore = Gio::ListStore<MainWindow::ModelMemoryColumns>::create();
+
+std::string MainWindow::output_buffer = "";
 
 MainWindow::MainWindow()
 : Gtk::ApplicationWindow(),
@@ -21,7 +27,11 @@ MainWindow::MainWindow()
   m_Input_Label("Input Data"),
   m_InputSubmit_Button("Submit"),
   m_Output_Label("Output Data"),
-  m_Run_Button("Run Run Run")
+  m_Run_Button("Run Run Run"),
+  m_Dispatcher(),
+  m_DVM(),
+  m_DVMThread(nullptr),
+  INPUT_DATA(false)
 {
 
   set_title("Virtual Machine");
@@ -133,11 +143,8 @@ MainWindow::MainWindow()
 
 //-------------------------- MEMORY_COLUMN_VIEW ---------------------------------------
 
-  // Create the List model - USED TO APPEND DATA
+  // // Create the List model - USED TO APPEND DATA
   m_MemoryListStore = Gio::ListStore<ModelMemoryColumns>::create();
-  m_MemoryListStore->append(ModelMemoryColumns::create("1", "2"));
-  m_MemoryListStore->append(ModelMemoryColumns::create("30", ""));
-  m_MemoryListStore->append(ModelMemoryColumns::create("", ""));
 
   // Set list model and selection model.
   auto selection_modelm = Gtk::SingleSelection::create(m_MemoryListStore);
@@ -216,6 +223,9 @@ MainWindow::MainWindow()
   m_Output_TextView.set_editable(false);
   m_Output_TextView.set_cursor_visible(false);
 
+  m_refTextBuffer_Output = Gtk::TextBuffer::create();
+  m_Output_TextView.set_buffer(m_refTextBuffer_Output);
+
   m_Run_Button.set_margin_start(100);
   m_Run_Button.set_margin_top(30);
   m_Run_Button.set_size_request(400, 50);
@@ -223,6 +233,9 @@ MainWindow::MainWindow()
 
   m_Run_Button.signal_clicked().connect(sigc::mem_fun(*this,
             &MainWindow::on_button_run) );
+
+  // Connect the handler to the dispatcher.
+  m_Dispatcher.connect(sigc::mem_fun(*this, &MainWindow::finished_run));
 
 }
 
@@ -308,7 +321,7 @@ void MainWindow::on_bind_address(const Glib::RefPtr<Gtk::ListItem>& list_item)
   auto label = dynamic_cast<Gtk::Label*>(list_item->get_child());
   if (!label)
     return;
-  label->set_text(Glib::ustring::format(col->m_col_address));
+  label->set_text(Glib::ustring::sprintf("%d", col->m_col_address));
   label->set_halign(Gtk::Align::START);
 }
 
@@ -320,7 +333,7 @@ void MainWindow::on_bind_value(const Glib::RefPtr<Gtk::ListItem>& list_item)
   auto label = dynamic_cast<Gtk::Label*>(list_item->get_child());
   if (!label)
     return;
-  label->set_text(Glib::ustring::format(col->m_col_value));
+  label->set_text(Glib::ustring::sprintf("%d", col->m_col_value));
   label->set_halign(Gtk::Align::START);
 }
 
@@ -369,29 +382,89 @@ void MainWindow::on_setup_Code_ColumnView(std::string current_filepath)
   ReadFile.close();
 }
 
+void MainWindow::print_memory(std::vector<int> M, int SP)
+{
+  m_MemoryListStore->remove_all();
+
+  for(int i = 0; i < 15; i++){
+    m_MemoryListStore->append(ModelMemoryColumns::create(i, M[i]));
+  }
+}
+
+
 void MainWindow::on_submit()
 {
-  std::cout << m_refTextBuffer_Input->get_text() << std::endl;
-  m_refTextBuffer_Input->set_text("");
-  m_Input_TextView.set_editable(false);
+
+  if (!m_DVMThread)
+  {
+    std::cout << "Não temos uma operação em andamento para causar uma Submissão" << std::endl;
+  }
+  else if (!Application::win->INPUT_DATA)
+  {
+    std::cout << "Não está na hora de inputar um dado" << std::endl;
+  }
+  else
+  {
+    std::lock_guard<std::mutex> lock(dataMutex);
+    try {
+      DVM::sharedData = std::stoi(Application::win->m_refTextBuffer_Input->get_text());
+      // Signal that data is available
+      DVM::isDataAvailable = true;
+      m_refTextBuffer_Input->set_text("");
+      Application::win->m_Input_Label.set_text("Input data");
+      Application::win->m_Input_TextView.set_editable(false);
+      DVM::dataReady.notify_one();
+    } catch (const std::exception& e) {
+      Application::win->m_Input_Label.set_text("Input data - Please INPUT A VALID NUMBER :)");
+      m_refTextBuffer_Input->set_text("");
+    }
+  }
+  
 }
 
-void MainWindow::input_data()
+void MainWindow::input_data(std::string text, bool fieldEnabled)
 {
-  m_Input_TextView.set_editable(true);
+  Application::win->m_Input_Label.set_text(text);
+  Application::win->m_Input_TextView.set_editable(fieldEnabled);
 }
 
-void MainWindow::output_data()
+void MainWindow::output_data(int data)
 {
-  // m_Output_Frame.get
-  // Maybe needs to have a static string to keep old outputs as they came in
+  MainWindow::output_buffer += std::to_string(data) + "\n";
+  Application::win->m_refTextBuffer_Output->set_text(MainWindow::output_buffer);
 }
 
 void MainWindow::on_button_run()
 {
-  if(FileExplorer::current_filepath != ""){
-    DVM dvm = DVM();
-    dvm.executeFromFile(FileExplorer::current_filepath);
-    std::cout << "Success" << std::endl;
+  if (m_DVMThread)
+  {
+    std::cout << "Can't start a DVM thread while another one is running." << std::endl;
   }
+  else
+  {
+    if(FileExplorer::current_filepath != ""){
+      // Start a new worker thread.
+      std::cout << "Initializing a new worker thread." << std::endl;
+      m_DVMThread = new std::thread(
+        [this]
+        {
+          m_DVM.executeFromFile(FileExplorer::current_filepath);
+          std::cout << "Success" << std::endl;
+          std::cout << "Finished application current path state " << FileExplorer::current_filepath << std::endl;
+      });
+    }
   }
+}
+
+void MainWindow::notify()
+{
+  std::cout << "Emited signal dispatcher" << std::endl;
+  m_Dispatcher.emit();
+}
+
+void MainWindow::finished_run(){
+  if (m_DVMThread->joinable())
+    m_DVMThread->join();
+  delete m_DVMThread;
+  m_DVMThread = nullptr;
+}

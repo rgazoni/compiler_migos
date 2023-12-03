@@ -2,6 +2,9 @@
 #define GTKMM_MAINWINDOW_H
 
 #include <gtkmm.h>
+#include "../virtual_machine/DVM.h"
+
+class DVM;
 
 class MainWindow : public Gtk::ApplicationWindow
 {
@@ -11,10 +14,14 @@ public:
 
   Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer;
 
-  //Inteface Functions
-  void input_data();
-  void output_data();
   static void on_setup_Code_ColumnView(std::string current_filepath);
+  static void print_memory(std::vector<int> M, int SP);
+  static std::string output_buffer;
+
+  void input_data(std::string text, bool fieldEnabled);
+  bool INPUT_DATA;
+  void notify();
+  static void output_data(int data);
 
 protected:
 
@@ -32,7 +39,7 @@ protected:
   Gtk::Frame m_Output_Frame;
   Gtk::TextView m_Input_TextView, m_Output_TextView;
   Gtk::ScrolledWindow m_Input_ScrolledWindow;
-  Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer_Input;
+  Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer_Input, m_refTextBuffer_Output;
   Gtk::Button m_InputSubmit_Button;
   Gtk::Button m_Run_Button;
 
@@ -67,24 +74,24 @@ protected:
   class ModelMemoryColumns : public Glib::Object
   {
   public:
-    Glib::ustring m_col_address, m_col_value;
+    int m_col_address, m_col_value;
 
-    static Glib::RefPtr<ModelMemoryColumns> create(const Glib::ustring& col_address,
-      const Glib::ustring& col_value)
+    static Glib::RefPtr<ModelMemoryColumns> create(int col_address,
+      int col_value)
     {
       return Glib::make_refptr_for_instance<ModelMemoryColumns>(
         new ModelMemoryColumns(col_address, col_value));
     }
 
   protected:
-    ModelMemoryColumns(const Glib::ustring& col_address, const Glib::ustring& col_value)
+    ModelMemoryColumns(int col_address, int col_value)
     : m_col_address(col_address), m_col_value(col_value)
     {}
   }; // ModelMemoryColumns
 
-  public:
+public:
   static Glib::RefPtr<Gio::ListStore<ModelCodeColumns>> m_CodeListStore;
-  Glib::RefPtr<Gio::ListStore<ModelMemoryColumns>> m_MemoryListStore;
+  static Glib::RefPtr<Gio::ListStore<ModelMemoryColumns>> m_MemoryListStore;
 
   //Code Machine Column view methods
   void on_setup_label(const Glib::RefPtr<Gtk::ListItem>& list_item, Gtk::Align halign);
@@ -95,6 +102,13 @@ protected:
   void on_bind_secondattr(const Glib::RefPtr<Gtk::ListItem>& list_item);
   void on_bind_address(const Glib::RefPtr<Gtk::ListItem>& list_item);
   void on_bind_value(const Glib::RefPtr<Gtk::ListItem>& list_item);
+
+private:
+  Glib::Dispatcher m_Dispatcher;
+  DVM m_DVM;
+  std::thread* m_DVMThread;
+  std::mutex dataMutex;
+  void finished_run();
 
 };
 

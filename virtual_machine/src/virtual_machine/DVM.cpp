@@ -1,4 +1,5 @@
 #include "DVM.h"
+#include "../ui/application.h"
 #include <iostream>
 #include <cctype>
 #include <string>
@@ -6,14 +7,29 @@
 #include <vector>
 #include <fstream>
 
-
+#include <chrono>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
 using namespace std;
+
+bool DVM::isDataAvailable = false;
+int DVM::sharedData = 0;
+std::condition_variable DVM::dataReady;
 
 int DVM::S = -1;
 int DVM::PC = 0;
 std::vector<int> DVM::M(1000);
-std::ifstream globalFile;
+std::ifstream* globalFile;
+
+DVM::DVM()
+{
+}
+
+DVM::~DVM() 
+{
+}
 
 bool isDigit(string s){
     bool isDigit = true;
@@ -44,17 +60,29 @@ void DVM::setPC(int newValue) {
     PC = newValue;
 }
 
+void DVM::initialize_variables() {
+    DVM::S = -1;
+    DVM::PC = 0;
+}
+
 void DVM::executeFromFile(const std::string& filename) {
-    globalFile.open(filename);
-    if (!globalFile.is_open()) {
+
+    std::ifstream newFile;
+    globalFile = &newFile;
+
+    globalFile->open(filename);
+    if (!globalFile->is_open()) {
         std::cerr << "Error opening file: " << filename << std::endl;
         return;
     }
+    std::cout << "Executing " << filename << std::endl;
+    initialize_variables();
 
     std::string line;
     std::string command = "";
 
-    while (std::getline(globalFile, line)) {
+    while (std::getline(*globalFile, line)) {
+        std::cout << line << std::endl;
         std::istringstream iss(line);
         iss >> command;
         cout << "command: " << command << endl;
@@ -66,11 +94,9 @@ void DVM::executeFromFile(const std::string& filename) {
         // std::cout << "command2: " << command << std::endl;
         if (isDigit(command)) {
             string instruction;
-            cout << "UJJJJ" << endl;
 
             iss >> instruction;
             if (instruction == "NULL") {
-                cout << "QQQQQ" << endl;
                 PC++;
             }
         } else if (command == "START") {
@@ -152,14 +178,12 @@ void DVM::executeFromFile(const std::string& filename) {
             RETURN();
         } else if (command == "HLT") {
             PC = 0;
+            Application::win->notify();
             return;
         } else if (command == "RD") {
-            PC++;
-            S++;
-            // return;
+            RD();
         } else if (command == "PRN") {
-            PC++;
-            S--;
+            PRN();
         } else {
             PC++;
         }
@@ -168,7 +192,7 @@ void DVM::executeFromFile(const std::string& filename) {
 
     }
 
-    globalFile.close();
+    globalFile->close();
 }
 
 
@@ -180,7 +204,7 @@ void DVM::displayState() {
         std::cout << M[i] << " | ";
     }
     std::cout << "\n" << "PC: " << PC << " - S: " << S << "\n";
-    // cin >> a;
+    MainWindow::print_memory(M, S);
 }
 
 // Carregar constante
@@ -322,10 +346,10 @@ void DVM::JMP(string label) {
     string line;
 
     PC = stoi(label);
-    globalFile.seekg(0);
+    globalFile->seekg(0);
 
     for (int i=0; i < PC-1 ; i++) {
-        if (!std::getline(globalFile, line)) {
+        if (!std::getline(*globalFile, line)) {
                 // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
             std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
             return ; // Saia do programa com um código de erro
@@ -338,17 +362,17 @@ void DVM::JMPF(string label) {
 
     if (M[S] == 0) {
         PC = stoi(label);
-        globalFile.seekg(0);
+        globalFile->seekg(0);
 
         for (int i=0; i < PC-1 ; i++) {
-            if (!std::getline(globalFile, line)) {
+            if (!std::getline(*globalFile, line)) {
                     // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
                 std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
                 return ; // Saia do programa com um código de erro
             }
         }
         // shift = (PC - 1) * averageLineLength;
-        // globalFile.seekg(shift, std::ios::beg); 
+        // globalFile->seekg(shift, std::ios::beg); 
     } else {
         PC = PC + 1;
     }
@@ -387,12 +411,12 @@ void DVM::CALL(string address) {
     M[S] = PC + 1;
 
     PC = stoi(address);
-    globalFile.seekg(0);
+    globalFile->seekg(0);
 
     cout << "TTT: " << M[S] << "  oo: " << S << endl;
 
     for (int i=0; i < PC-1 ; i++) {
-        if (!std::getline(globalFile, line)) {
+        if (!std::getline(*globalFile, line)) {
                 // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
             std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
             return ; // Saia do programa com um código de erro
@@ -406,10 +430,10 @@ void DVM::RETURN() {
     PC = M[S];
     S = S - 1;
 
-    globalFile.seekg(0);
+    globalFile->seekg(0);
 
     for (int i=0; i < PC-1 ; i++) {
-        if (!std::getline(globalFile, line)) {
+        if (!std::getline(*globalFile, line)) {
             // Se atingirmos o final do arquivo antes de encontrar a linha desejada, saia
             std::cerr << "Erro: Não foi possível encontrar a linha desejada." << std::endl;
             return ; // Saia do programa com um código de erro
@@ -418,4 +442,30 @@ void DVM::RETURN() {
 
 }
 
+void DVM::RD() {
 
+    // Chamar CTA para usuário inputar o dado
+    Application::win->input_data("Input data - Please write a number", true);
+    Application::win->INPUT_DATA = true;
+    // Esperar até que o dado esteja pronto
+    try {
+        std::unique_lock<std::mutex> lock(dataMutex);
+        DVM::dataReady.wait(lock, []{ return DVM::isDataAvailable; });
+    } catch (const std::exception& e) {
+        // Handle the exception
+        std::cerr << "Exception during wait: " << e.what() << std::endl;
+    }
+    std::cout << "Button was submitted and the value is: " << DVM::sharedData << std::endl;
+
+    Application::win->INPUT_DATA = false;
+
+    S = S + 1;
+    M[S] = DVM::sharedData;
+    PC++;
+}
+
+void DVM::PRN() {
+    MainWindow::output_data(M[S]);
+    S = S - 1;
+    PC++;
+}
