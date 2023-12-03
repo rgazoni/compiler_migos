@@ -66,8 +66,10 @@ ExampleWindow::ExampleWindow()
   m_Errors_Label.set_margin_bottom(10);
   m_Errors_Label.set_margin_start(3);
 
-  m_ErrorBox.append(m_Errors_Frame);
-  m_Errors_Frame.set_size_request(850, 80);
+  m_ErrorBox.append(m_Errors_TV);
+  m_Errors_TV.set_size_request(850, 80);
+  m_Errors_TV.set_editable(false);
+  m_Errors_TV.set_cursor_visible(false);
 
 //-----------------------------------------------------------------------------
 
@@ -78,7 +80,7 @@ ExampleWindow::ExampleWindow()
 
   // Compile Button Configuration
   m_ButtonBox.append(m_Button_Compile);
-  m_ButtonBox.append(m_Compile_Frame);
+  m_ButtonBox.append(m_Compile_TV);
   m_ButtonBox.set_margin(5);
   m_ButtonBox.set_valign(Gtk::Align::CENTER);
   m_ButtonBox.set_halign(Gtk::Align::CENTER);
@@ -88,8 +90,12 @@ ExampleWindow::ExampleWindow()
   m_Button_Compile.set_size_request(250, 15);
   m_Button_Compile.set_hexpand(false);
 
-  m_Compile_Frame.set_margin_top(10);
-  m_Compile_Frame.set_size_request(250, 35);
+  m_Compile_TV.set_margin_top(10);
+  m_Compile_TV.set_size_request(250, 35);
+  m_Compile_TV.set_editable(false);
+  m_Compile_TV.set_cursor_visible(false);
+  m_Compile_TV.set_halign(Gtk::Align::CENTER);
+  m_Compile_TV.set_valign(Gtk::Align::CENTER);
 
 //-----------------------------------------------------------------------------
 
@@ -103,6 +109,8 @@ ExampleWindow::ExampleWindow()
   fill_buffers();
 
   m_TextView.set_buffer(m_refTextBuffer);
+  m_Errors_TV.set_buffer(m_refErrorsBuffer);
+  m_Compile_TV.set_buffer(m_refCompileBuffer);
 
   Glib::signal_timeout().connect(sigc::mem_fun(*this, &ExampleWindow::setLnCol), 10);
 }
@@ -111,7 +119,10 @@ void ExampleWindow::fill_buffers()
 {
   m_refTextBuffer = Gtk::TextBuffer::create();
   m_refTextBuffer->set_text("");
-
+  m_refErrorsBuffer = Gtk::TextBuffer::create();
+  m_refErrorsBuffer->set_text("");
+  m_refCompileBuffer = Gtk::TextBuffer::create();
+  m_refCompileBuffer->set_text("");
 }
 
 ExampleWindow::~ExampleWindow()
@@ -128,9 +139,21 @@ bool ExampleWindow::setLnCol()
 
 void ExampleWindow::on_button_compile()
 {
-  if(FileExplorer::current_filepath != "")
+  if(FileExplorer::current_filepath != "") {
+    m_refErrorsBuffer->get_text() = "";
     parser(FileExplorer::current_filepath.c_str());
-  std::cout << "Success" << std::endl;
+
+    if(m_refErrorsBuffer->get_text() != ""){
+      m_refCompileBuffer->set_text("Failed!");
+      std::cout << "Failed" << std::endl;
+    } else {
+      m_refCompileBuffer->set_text("Success!");
+      std::cout << "Success" << std::endl;
+    }
+  }
+}
+
+
   // else {
   //   std::string text = Application::win->m_refTextBuffer->get_text();
   //   // Get the current working directory
@@ -152,7 +175,7 @@ void ExampleWindow::on_button_compile()
   //   } else {
   //       std::cerr << "Error opening file: " << currentFilePath << std::endl;
   //   }
-  }
+
 
   // // Append the file name to the current working directory
   // std::filesystem::path currentFilePath = currentPath / "tmp/temporary.txt";

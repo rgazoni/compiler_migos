@@ -1,4 +1,4 @@
-programa exemplo6;
+programa | exemplo6;
   var x, y: inteiro;
   procedimento p;
     var z: inteiro;

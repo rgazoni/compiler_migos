@@ -9,7 +9,8 @@ public:
   ExampleWindow();
   virtual ~ExampleWindow();
 
-  Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer;
+  Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer, m_refErrorsBuffer, m_refCompileBuffer;
+
 
 protected:
 
@@ -28,7 +29,7 @@ protected:
   Gtk::Box m_BottomContainer;
 
   Gtk::Box m_ErrorBox;
-  Gtk::Frame m_Errors_Frame;
+  Gtk::TextView m_Errors_TV;
   Gtk::Label m_Errors_Label;
   Gtk::TextView m_Errors_Output;
   Gtk::ScrolledWindow m_ErrorsScrolledWindow;
@@ -38,7 +39,7 @@ protected:
 
   Gtk::Box m_ButtonBox;
   Gtk::Button m_Button_Compile;
-  Gtk::Frame m_Compile_Frame;
+  Gtk::TextView m_Compile_TV;
 };
 
 #endif //GTKMM_EXAMPLEWINDOW_H
