@@ -1,32 +1,38 @@
-programa media;
+{soma os 4 primeiros numeros}
+programa procAninhado;
 
-var soma,n_alunos:inteiro;
+var   a0,b0,c0:inteiro;
 
-procedimento pega_nota;
-var contador,soma_parcial:inteiro;
+procedimento uno;
+var soma:inteiro;
 
-funcao nota:inteiro;
-var entrada:inteiro;
+       procedimento duno;
+       var a2,b2,c2:inteiro;
+       
+               procedimento trino;
+               inicio
+                  leia(a2);
+                  leia(b2);
+                  leia(c2) ;
+               fim;
+    
+        inicio
+             trino;
+             soma:=a2+b2+c2;
+        fim;
+
 inicio
- leia(entrada);
- nota:=entrada;
+    leia(a0);
+    duno;
+    b0:= a0 + soma;
 fim;
 
 inicio
- leia(n_alunos);
- contador := n_alunos;
-soma_parcial := 0; 
-enquanto contador>0
- faca
- inicio
-   soma_parcial := soma_parcial + nota;
-   contador := contador - 1;
- fim;
- soma := soma_parcial;
-fim;
 
-inicio
- pega_nota;
- soma := soma div n_alunos;
- escreva(soma);
+uno;
+escreva(b0);
+
 fim.
+     
+    
+           

@@ -57,7 +57,7 @@ void DVM::executeFromFile(const std::string& filename) {
     while (std::getline(globalFile, line)) {
         std::istringstream iss(line);
         iss >> command;
-        cout << "command: " << command << endl;
+        // cout << "command: " << command << endl;
 
         // std::cout << "command1: " << command << std::endl;
         // if()
@@ -160,7 +160,7 @@ void DVM::executeFromFile(const std::string& filename) {
             PC++;
         }
 
-        displayState();
+        // displayState();
 
     }
 

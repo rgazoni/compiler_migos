@@ -309,8 +309,14 @@ void Symbol_table::update_function_type(const std::string& lexem){
 void Symbol_table::pop_scope(){
     while(!stack.empty()){
         if(!stack.top().getScope()){
-            stack.pop();
-            dalloc_var++;
+            if(stack.top().getType() == "S_FUNCAO_INTEIRO" || stack.top().getType() == "S_FUNCAO_BOOLEANO" || stack.top().getType() == "SPROCEDIMENTO") {
+                stack.pop();
+
+            } else{
+                stack.pop();
+                dalloc_var++;
+            }
+
         }else if(stack.top().getScope()){
            stack.top().setScope(false);
            break; 
