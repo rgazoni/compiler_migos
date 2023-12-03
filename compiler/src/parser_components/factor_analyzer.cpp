@@ -42,7 +42,6 @@ namespace Parser {
             int label = symbol_table.get_function_label(lexical.get_current_token().lexem);
             if(label != 0){
                 expr_builder.add_to_array(lexical.get_current_token(), symbol_table.get_function_type(lexical.get_current_token().lexem), 0);
-                generate("", "CALL", to_string(label), "");
             } else {
                 expr_builder.add_to_array(lexical.get_current_token(), symbol_table.get_variable_type(lexical.get_current_token().lexem), symbol_table.get_variable_address(lexical.get_current_token().lexem));
             }

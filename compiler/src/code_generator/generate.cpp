@@ -63,6 +63,10 @@ string handle_greater_equal_case() {
     return "CMAQ";
 }
 
+string handle_negation_case() {
+    return "NEG";
+}
+
 string get_lpd_symbols(const std::string& token) {
     std::unordered_map<std::string, std::function<std::string()>> cases = {
         {"+", handle_add_case},
@@ -76,7 +80,8 @@ string get_lpd_symbols(const std::string& token) {
         {"=", handle_equal_case},
         {"!=", handle_not_equal_case},
         {"<=", handle_less_equal_case},
-        {">=", handle_greater_equal_case}
+        {">=", handle_greater_equal_case},
+        {"nao", handle_negation_case}
         // Add more cases as needed
     };
 

@@ -112,7 +112,6 @@ namespace Parser {
             // }
             if(isFunction) {
                 generate("", "STR", "0", "");
-                generate("", "RETURN", "", "");
             }
             else
                 generate("", "STR", std::to_string(symbol_table.get_variable_address(token.lexem)), "");

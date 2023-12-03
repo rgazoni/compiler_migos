@@ -205,6 +205,7 @@ int Expr_builder::precedence(string lexem, int position) {
 Symbols Expr_builder::infix_to_postfix() {
     std::stack<Expr_token> stack;
     std::vector<Expr_token> postfix;
+    Symbol_table symbol_table;
 
     for (int i = 0; i < expr_array.size(); i++) { 
         if (isOperand(expr_array[i].lexem)) {
@@ -254,9 +255,16 @@ Symbols Expr_builder::infix_to_postfix() {
     if (resultado == Symbols::SINTEIRO || resultado == Symbols::SBOOLEANO){ 
         for(Expr_token token : expr_array){
             if (isOperator(token.lexem)){
-                command = get_lpd_symbols(token.lexem);
-                generate("", command, "", "");
+                if (token.symbol == Symbols::SUNARIOARITMETICO && token.lexem == "-") {
+                    command = "INV";
+                    generate("", command, "", "");
+                } else if (token.symbol == Symbols::SUNARIOARITMETICO && token.lexem == "+") {
 
+                } else {
+                    command = get_lpd_symbols(token.lexem);
+                    generate("", command, "", "");
+                }
+                
             } else if(isdigit(token.lexem[0])){
                 command = "LDC";
                 attribute1 = token.lexem;
@@ -272,9 +280,13 @@ Symbols Expr_builder::infix_to_postfix() {
                 attribute1 = "0";
                 generate("", command, attribute1, "");
 
+            } else if(token.address == 0) {
+                int label = symbol_table.get_function_label(token.lexem);
+                generate("", "CALL", to_string(label), "");
+                command = "LDV";
+                generate("", command, to_string(token.address), "");
             } else {
                 command = "LDV";
-                // attribute1 = to_string(token.address);
                 generate("", command, to_string(token.address), "");
             }
         }

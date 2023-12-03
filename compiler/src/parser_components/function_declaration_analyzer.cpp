@@ -63,6 +63,9 @@ namespace Parser{
         Address::setAddress(stoi(Address::getAddress()) - stoi(var_count));
         Address::setVarCount(Address::getVarCount() - stoi(var_count));
 
+        generate("", "RETURN", "", "");
+
+
         Symbol_table::dalloc_var = 0;
         // generate("", "RETURN", "", "");
         // DESEMPILHA OU VOLTA NÍVEL

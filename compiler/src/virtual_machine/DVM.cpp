@@ -66,11 +66,9 @@ void DVM::executeFromFile(const std::string& filename) {
         // std::cout << "command2: " << command << std::endl;
         if (isDigit(command)) {
             string instruction;
-            cout << "UJJJJ" << endl;
 
             iss >> instruction;
             if (instruction == "NULL") {
-                cout << "QQQQQ" << endl;
                 PC++;
             }
         } else if (command == "START") {
@@ -174,7 +172,7 @@ void DVM::executeFromFile(const std::string& filename) {
 void DVM::displayState() {
     string a;
     std::cout << "Stack: ";
-    for (int i = 0; i < 20 ; i++) {
+    for (int i = 0; i < 15 ; i++) {
         std::cout << M[i] << " | ";
     }
     std::cout << "\n" << "PC: " << PC << " - S: " << S << "\n";
@@ -192,7 +190,6 @@ void DVM::LDC(string k) {
 void DVM::LDV(string n) {
     S++;
     M[S] = M[stoi(n)];
-    cout << "M:: " << M[S] << endl;
     PC++;
 }
 
@@ -425,7 +422,7 @@ void DVM::RD() {
 
 void DVM::PRN() {
     int output = M[S];
-    cout << "\n\nimpresso: " << output << endl << endl;
+    cout << "\nimpresso: " << output << endl;
     PC++;
     S--;
 
