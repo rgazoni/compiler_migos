@@ -92,7 +92,6 @@ Symbols Symbol_table::get_variable_type(const std::string& lexem) {
     return Symbols::SDESCONHECIDO;
 }
 
-
 int Symbol_table::get_variable_address(const std::string& lexem) {
     std::stack<Record> auxStack = stack; 
     Record topRecord = auxStack.top();
@@ -137,6 +136,87 @@ int Symbol_table::get_procedure_label(const std::string& lexem) {
     return 0;
 }
 
+int Symbol_table::get_function_label(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+    int label;
+
+    while(!auxStack.empty()){
+        topRecord = auxStack.top();
+        if ((topRecord.getType() == "S_FUNCAO_INTEIRO" || topRecord.getType() == "S_FUNCAO_BOOLEANO") && topRecord.getLexem() == lexem) {
+            label = topRecord.getAddress();
+            return label;
+        }
+        auxStack.pop();
+    }
+    return 0;
+}
+
+int Symbol_table::get_function_scope(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+    int scope;
+
+    while(!auxStack.empty()){
+        topRecord = auxStack.top();
+        if ((topRecord.getType() == "S_FUNCAO_INTEIRO" || topRecord.getType() == "S_FUNCAO_BOOLEANO") && topRecord.getLexem() == lexem) {
+            if(topRecord.getScope() == true)
+                return 1;
+            else
+                return 0;
+        }
+
+        auxStack.pop();
+    }
+
+    return -1;
+}
+
+Symbols Symbol_table::get_function_type(const std::string& lexem) {
+    std::stack<Record> auxStack = stack; 
+    Record topRecord = auxStack.top();
+
+    //  while(topRecord.getScope() == false){
+    //     topRecord = auxStack.top();
+    //     if (topRecord.getLexem() == lexem) {
+    //         if(topRecord.getType() == "S_FUNCAO_INTEIRO")
+    //             return Symbols::SINTEIRO;
+    //         if(topRecord.getType() == "S_FUNCAO_BOOLEANO")
+    //             return Symbols::SBOOLEANO;
+    //     }
+    //     auxStack.pop();
+    // }
+
+    while(!auxStack.empty()){
+        topRecord = auxStack.top();
+
+        if (topRecord.getLexem() == lexem) {
+            if(topRecord.getType() == "S_FUNCAO_INTEIRO"){
+                return Symbols::SINTEIRO;
+            }
+            if(topRecord.getType() == "S_FUNCAO_BOOLEANO"){
+                return Symbols::SBOOLEANO;
+            }
+        }
+        auxStack.pop();
+    }
+
+    return Symbols::SDESCONHECIDO;
+}
+
+bool Symbol_table::search_function(const std::string& lexem){
+    std::stack<Record> auxStack = stack;
+    while (!auxStack.empty()) {
+        Record topRecord = auxStack.top();
+        if ((topRecord.getType() == "S_FUNCAO_INTEIRO" || topRecord.getType() == "S_FUNCAO_BOOLEANO") && topRecord.getLexem() == lexem) {
+            std::cout << lexem << std::endl;
+            std::cout << topRecord.getType() << std::endl;
+            return true;
+        } 
+        auxStack.pop();
+    }
+    return false;
+}
 
 //coloca tipo na variavel
 void Symbol_table::update_variable_type(const std::string& lexem) {
@@ -229,8 +309,14 @@ void Symbol_table::update_function_type(const std::string& lexem){
 void Symbol_table::pop_scope(){
     while(!stack.empty()){
         if(!stack.top().getScope()){
-            stack.pop();
-            dalloc_var++;
+            if(stack.top().getType() == "S_FUNCAO_INTEIRO" || stack.top().getType() == "S_FUNCAO_BOOLEANO" || stack.top().getType() == "SPROCEDIMENTO") {
+                stack.pop();
+
+            } else{
+                stack.pop();
+                dalloc_var++;
+            }
+
         }else if(stack.top().getScope()){
            stack.top().setScope(false);
            break; 

@@ -85,7 +85,7 @@ void DVM::executeFromFile(const std::string& filename) {
         std::cout << line << std::endl;
         std::istringstream iss(line);
         iss >> command;
-        cout << "command: " << command << endl;
+        // cout << "command: " << command << endl;
 
         // std::cout << "command1: " << command << std::endl;
         // if()
@@ -198,7 +198,6 @@ void DVM::executeFromFile(const std::string& filename) {
 
 // Exibir estado atual
 void DVM::displayState() {
-    string a;
     std::cout << "Stack: ";
     for (int i = 0; i < 20 ; i++) {
         std::cout << M[i] << " | ";
@@ -218,7 +217,6 @@ void DVM::LDC(string k) {
 void DVM::LDV(string n) {
     S++;
     M[S] = M[stoi(n)];
-    cout << "M:: " << M[S] << endl;
     PC++;
 }
 
@@ -412,8 +410,6 @@ void DVM::CALL(string address) {
 
     PC = stoi(address);
     globalFile->seekg(0);
-
-    cout << "TTT: " << M[S] << "  oo: " << S << endl;
 
     for (int i=0; i < PC-1 ; i++) {
         if (!std::getline(*globalFile, line)) {
