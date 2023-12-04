@@ -15,31 +15,32 @@ public:
   Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer;
 
   static void on_setup_Code_ColumnView(std::string current_filepath);
-  static void print_memory(std::vector<int> M, int SP);
-  static std::string output_buffer;
+  void print_memory(std::vector<int> M, int SP);
+  std::string output_buffer;
+  static std::string mem_output_buffer;
 
   void input_data(std::string text, bool fieldEnabled);
   bool INPUT_DATA;
   void notify();
-  static void output_data(int data);
+  void output_data(int data);
 
 protected:
 
   //Child widgets:
-  Gtk::Box m_VBox;
+  Gtk::Box m_VBox, m_MemInpBox;
   Gtk::Box m_BottomContainer, m_TopContainer;
 
   Gtk::Box m_CodeBox, m_MemoryBox;
-  Gtk::ScrolledWindow m_CodeScrolledWindow, m_MemoryScrolledWindow;
+  Gtk::ScrolledWindow m_CodeScrolledWindow, m_MemoryScrolledWindow, m_OutputScrolledWindow;
   Gtk::Label m_CodeMachine_Label, m_Memory_Label;
   Gtk::ColumnView m_CodeColumnView, m_MemoryColumnView;
 
   Gtk::Box m_IOdata, m_InputBox, m_InputRequestBox, m_OutputBox;
   Gtk::Label m_Input_Label, m_Output_Label;
   Gtk::Frame m_Output_Frame;
-  Gtk::TextView m_Input_TextView, m_Output_TextView;
+  Gtk::TextView m_Input_TextView, m_Output_TextView, m_Memory_TextView;
   Gtk::ScrolledWindow m_Input_ScrolledWindow;
-  Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer_Input, m_refTextBuffer_Output;
+  Glib::RefPtr<Gtk::TextBuffer> m_refTextBuffer_Input, m_refTextBuffer_Output, m_refTextBuffer_Mem;
   Gtk::Button m_InputSubmit_Button;
   Gtk::Button m_Run_Button;
 

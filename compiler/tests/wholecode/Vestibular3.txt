@@ -1,0 +1,20 @@
+{ imprime 15 }
+programa funcaorec;
+var b:inteiro;
+
+funcao f1:inteiro;
+inicio
+ se b > 0
+   entao inicio
+         b:= b - 1;
+         f1:=b;
+         b:=f1; fim
+   senao
+         f1:=15;
+fim;
+
+inicio
+ b:= 3;
+ b:= f1;
+ escreva(b);
+fim.

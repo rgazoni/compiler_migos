@@ -1,0 +1,20 @@
+{imprime 5}
+programa testefuncao;
+
+var a,b:inteiro;
+
+funcao soma:inteiro;
+inicio
+ b:=1;
+ soma:=b;
+fim;
+
+inicio
+ a:=0;
+ enquanto a <  5
+ faca
+ inicio
+ a:= a + soma;
+ fim; 
+ escreva(a);
+fim.

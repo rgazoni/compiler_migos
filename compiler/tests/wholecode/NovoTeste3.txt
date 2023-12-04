@@ -1,0 +1,31 @@
+programa media;
+
+var soma,n_alunos:inteiro;
+procedimento pega_nota;
+var contador,soma_parcial:inteiro;
+
+funcao nota:inteiro;
+var entrada:inteiro;
+inicio
+ leia(entrada);
+ nota:=entrada;
+fim;
+
+inicio
+ leia(n_alunos);
+ contador := n_alunos;
+soma_parcial := 0; 
+enquanto contador>0
+ faca
+ inicio
+   soma_parcial := soma_parcial + nota;
+   contador := contador - 1;
+ fim;
+ soma := soma_parcial;
+fim;
+
+inicio
+ pega_nota;
+ soma := soma div n_alunos;
+ escreva(soma);
+fim.

@@ -1,0 +1,34 @@
+programa Marcelo1;
+
+var a,x,y,z:inteiro;
+
+procedimento leitura;
+inicio
+  leia(a);
+  leia(x);
+  leia(y);
+fim;
+
+procedimento soma;
+inicio
+   z:= x+y;
+fim;
+
+procedimento sub;
+inicio
+  z:=x-y;
+fim;
+
+procedimento escolha;
+inicio
+  se a = 1
+    entao soma
+  senao sub;
+  escreva(z);
+fim;
+
+inicio
+  leitura;
+  escolha;
+fim.
+

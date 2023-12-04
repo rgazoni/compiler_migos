@@ -1,0 +1,26 @@
+{imprime 25}
+programa Marcelo2;
+
+var x,y,z:inteiro;
+
+procedimento jota;
+inicio
+  y:=12;
+  z:=13;
+fim;
+
+funcao jeca:inteiro;
+inicio
+ jeca:= y+z;
+fim;
+
+procedimento jica;
+inicio
+ escreva(x);
+fim;
+
+inicio 
+ jota;
+ x := jeca;
+ jica;
+fim.

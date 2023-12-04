@@ -1,0 +1,28 @@
+{ fatorial }
+programa Vestibular4;
+
+procedimento proc;
+var x:inteiro;
+
+funcao fat:inteiro;
+var w:inteiro;
+inicio
+ se x = 1
+  entao fat:=1 
+  senao 
+    inicio
+       w := x;
+        x := x - 1;
+        fat:= w * fat;
+     fim;
+fim;
+
+inicio
+ leia(x);
+ x:= fat;
+ escreva(x);
+fim;
+
+inicio
+ proc;
+fim.

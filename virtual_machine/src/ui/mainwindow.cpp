@@ -11,7 +11,8 @@
 Glib::RefPtr<Gio::ListStore<MainWindow::ModelCodeColumns>> MainWindow::m_CodeListStore = Gio::ListStore<MainWindow::ModelCodeColumns>::create();
 Glib::RefPtr<Gio::ListStore<MainWindow::ModelMemoryColumns>> MainWindow::m_MemoryListStore = Gio::ListStore<MainWindow::ModelMemoryColumns>::create();
 
-std::string MainWindow::output_buffer = "";
+// std::string MainWindow::output_buffer = "";
+std::string MainWindow::mem_output_buffer = "";
 
 MainWindow::MainWindow()
 : Gtk::ApplicationWindow(),
@@ -20,7 +21,8 @@ MainWindow::MainWindow()
   m_CodeBox(Gtk::Orientation::VERTICAL),
   m_CodeMachine_Label("Code Machine"),
   m_MemoryBox(Gtk::Orientation::VERTICAL),
-  m_Memory_Label("Memory"),
+  m_MemInpBox(Gtk::Orientation::HORIZONTAL),
+  m_Memory_Label("Memory  ADDRESS / CONTENT"),
   m_IOdata(Gtk::Orientation::VERTICAL),
   m_InputBox(Gtk::Orientation::VERTICAL),
   m_InputRequestBox(Gtk::Orientation::HORIZONTAL),
@@ -32,7 +34,8 @@ MainWindow::MainWindow()
   m_Dispatcher(),
   m_DVM(),
   m_DVMThread(nullptr),
-  INPUT_DATA(false)
+  INPUT_DATA(false),
+  output_buffer("")
 {
 
   set_title("Virtual Machine");
@@ -125,7 +128,8 @@ MainWindow::MainWindow()
 
 //------------------ ColumnView Memory Implementation -------------------------
 
-  m_TopContainer.append(m_MemoryBox);
+  m_TopContainer.append(m_MemInpBox);
+  m_MemInpBox.append(m_MemoryBox);
 
   m_Memory_Label.set_halign(Gtk::Align::START);
   m_Memory_Label.set_margin_bottom(10);
@@ -133,55 +137,29 @@ MainWindow::MainWindow()
 
   // - ColumnView w/ scrolled window implementation
   // Add the ColumnView, inside a ScrolledWindow, with the button underneath:
-  m_MemoryScrolledWindow.set_child(m_MemoryColumnView);
+  m_MemoryScrolledWindow.set_child(m_Memory_TextView);
   //Only show the scrollbars when they are necessary:
   m_MemoryScrolledWindow.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
   m_MemoryScrolledWindow.set_expand();
 
-
   m_MemoryBox.append(m_Memory_Label);
   m_MemoryBox.append(m_MemoryScrolledWindow);
 
-//-------------------------- MEMORY_COLUMN_VIEW ---------------------------------------
+  m_MemInpBox.append(m_OutputBox);
 
-  // // Create the List model - USED TO APPEND DATA
-  // m_MemoryListStore = Gio::ListStore<ModelMemoryColumns>::create();
 
-  // Set list model and selection model.
-  auto selection_modelm = Gtk::SingleSelection::create(m_MemoryListStore);
-  selection_modelm->set_autoselect(false);
-  selection_modelm->set_can_unselect(true);
-  m_MemoryColumnView.set_model(selection_modelm);
-  m_MemoryColumnView.add_css_class("data-table"); // high density table
+  m_Memory_TextView.set_size_request(200, 550);
+  m_Memory_TextView.set_editable(false);
+  m_Memory_TextView.set_cursor_visible(false);
 
-  m_MemoryColumnView.set_reorderable(false);
-
-  // Address column
-  auto factorym = Gtk::SignalListItemFactory::create();
-  factorym->signal_setup().connect(sigc::bind(sigc::mem_fun(*this,
-    &MainWindow::on_setup_label), Gtk::Align::END));
-  factorym->signal_bind().connect(
-    sigc::mem_fun(*this, &MainWindow::on_bind_address));
-  auto columnm = Gtk::ColumnViewColumn::create("Address", factorym);
-  m_MemoryColumnView.append_column(columnm);
-
-  // Value column
-  factorym = Gtk::SignalListItemFactory::create();
-  factorym->signal_setup().connect(sigc::bind(sigc::mem_fun(*this,
-    &MainWindow::on_setup_label), Gtk::Align::START));
-  factorym->signal_bind().connect(
-    sigc::mem_fun(*this, &MainWindow::on_bind_value));
-  columnm = Gtk::ColumnViewColumn::create("Value", factorym);
-  columnm->set_expand();
-  m_MemoryColumnView.append_column(columnm);
-
-//-----------------------------------------------------------------
+  m_refTextBuffer_Mem = Gtk::TextBuffer::create();
+  m_Memory_TextView.set_buffer(m_refTextBuffer_Mem);
 
 //------------------ I/O Implementation -------------------------
 
   m_BottomContainer.append(m_IOdata);
   m_IOdata.append(m_InputBox);
-  m_IOdata.append(m_OutputBox);
+  // m_IOdata.append(m_OutputBox);
 
   m_IOdata.set_margin_top(30);
   m_IOdata.set_margin_bottom(30);
@@ -196,7 +174,8 @@ MainWindow::MainWindow()
   m_InputRequestBox.set_spacing(25);
 
   m_OutputBox.append(m_Output_Label);
-  m_OutputBox.append(m_Output_TextView);
+  m_OutputBox.append(m_OutputScrolledWindow);
+  m_OutputBox.set_margin_start(30);
 
   m_Input_Label.set_halign(Gtk::Align::START);
   m_Input_Label.set_margin_bottom(10);
@@ -220,7 +199,10 @@ MainWindow::MainWindow()
   m_Output_Label.set_margin_bottom(10);
   m_Output_Label.set_margin_start(3);
 
-  m_Output_TextView.set_size_request(522, 100);
+  m_OutputScrolledWindow.set_child(m_Output_TextView);
+  m_OutputScrolledWindow.set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
+  m_OutputScrolledWindow.set_expand();
+
   m_Output_TextView.set_editable(false);
   m_Output_TextView.set_cursor_visible(false);
 
@@ -314,30 +296,6 @@ void MainWindow::on_bind_secondattr(const Glib::RefPtr<Gtk::ListItem>& list_item
   label->set_halign(Gtk::Align::START);
 }
 
-void MainWindow::on_bind_address(const Glib::RefPtr<Gtk::ListItem>& list_item)
-{
-  auto col = std::dynamic_pointer_cast<ModelMemoryColumns>(list_item->get_item());
-  if (!col)
-    return;
-  auto label = dynamic_cast<Gtk::Label*>(list_item->get_child());
-  if (!label)
-    return;
-  label->set_text(Glib::ustring::sprintf("%d", col->m_col_address));
-  label->set_halign(Gtk::Align::START);
-}
-
-void MainWindow::on_bind_value(const Glib::RefPtr<Gtk::ListItem>& list_item)
-{
-  auto col = std::dynamic_pointer_cast<ModelMemoryColumns>(list_item->get_item());
-  if (!col)
-    return;
-  auto label = dynamic_cast<Gtk::Label*>(list_item->get_child());
-  if (!label)
-    return;
-  label->set_text(Glib::ustring::sprintf("%d", col->m_col_value));
-  label->set_halign(Gtk::Align::START);
-}
-
 void MainWindow::on_setup_Code_ColumnView(std::string current_filepath)
 {
   std::ifstream ReadFile(current_filepath);
@@ -385,11 +343,10 @@ void MainWindow::on_setup_Code_ColumnView(std::string current_filepath)
 
 void MainWindow::print_memory(std::vector<int> M, int SP)
 {
-  // m_MemoryListStore->remove_all();
-
-  // for(int i = 0; i < 15; i++){
-  //   m_MemoryListStore->append(ModelMemoryColumns::create(i, M[i]));
-  // }
+  for(int i = 0; i < 100; i++){
+    MainWindow::mem_output_buffer += std::to_string(i) + "\t\t" + std::to_string(M[i]) + "\n";
+  }
+  m_refTextBuffer_Mem->set_text(MainWindow::mem_output_buffer);
 }
 
 
@@ -431,8 +388,9 @@ void MainWindow::input_data(std::string text, bool fieldEnabled)
 
 void MainWindow::output_data(int data)
 {
-  MainWindow::output_buffer += std::to_string(data) + "\n";
-  Application::win->m_refTextBuffer_Output->set_text(MainWindow::output_buffer);
+  std::cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\t" << data << std::endl;
+  output_buffer += std::to_string(data) + "  ";
+  Application::win->m_refTextBuffer_Output->set_text(output_buffer);
 }
 
 void MainWindow::on_button_run()

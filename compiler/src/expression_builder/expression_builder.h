@@ -2,10 +2,6 @@
 #define expression_builder_h
 
 #include <string>
-<<<<<<< HEAD
-=======
-
->>>>>>> function
 #include <vector>
 #include "Expr_token.h"
 #include "Token.h"

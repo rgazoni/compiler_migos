@@ -16,6 +16,7 @@ using namespace std;
 bool DVM::isDataAvailable = false;
 int DVM::sharedData = 0;
 std::condition_variable DVM::dataReady;
+int counter = 1;
 
 int DVM::S = -1;
 int DVM::PC = 0;
@@ -178,6 +179,7 @@ void DVM::executeFromFile(const std::string& filename) {
         } else if (command == "HLT") {
             PC = 0;
             Application::win->notify();
+            Application::win->print_memory(M, S);
             return;
         } else if (command == "RD") {
             RD();
@@ -202,7 +204,6 @@ void DVM::displayState() {
         std::cout << M[i] << " | ";
     }
     std::cout << "\n" << "PC: " << PC << " - S: " << S << "\n";
-    //MainWindow::print_memory(M, S);
 }
 
 // Carregar constante
@@ -439,8 +440,9 @@ void DVM::RETURN() {
 
 void DVM::RD() {
 
+    std::string formattedString = "Input data " + std::to_string(counter++) + " - Please write a number";
     // Chamar CTA para usuário inputar o dado
-    Application::win->input_data("Input data - Please write a number", true);
+    Application::win->input_data(formattedString, true);
     Application::win->INPUT_DATA = true;
     // Esperar até que o dado esteja pronto
     try {
@@ -461,7 +463,7 @@ void DVM::RD() {
 }
 
 void DVM::PRN() {
-    MainWindow::output_data(M[S]);
+    Application::win->output_data(M[S]);
     S = S - 1;
     PC++;
 }
