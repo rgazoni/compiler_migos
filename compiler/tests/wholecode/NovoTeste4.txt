@@ -1,0 +1,36 @@
+{soma os 4 primeiros numeros}
+programa procAninhado;
+
+var   a0,b0,c0:inteiro;
+
+procedimento uno;
+var soma:inteiro;
+
+       procedimento duno;
+       var a2,b2,c2:inteiro;
+       
+               procedimento trino;
+               inicio
+                  leia(a2);
+                  leia(b2);
+                  leia(c2) ;
+               fim;
+    
+        inicio
+             trino;
+             soma:=a2+b2+c2;
+        fim;
+
+inicio
+    leia(a0);
+    duno;
+    b0:= a0 + soma;
+fim;
+
+inicio
+
+uno;
+escreva(b0);
+
+fim.
+     

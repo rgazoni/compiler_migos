@@ -1,0 +1,48 @@
+programa exemplo;
+var total, totaldesc: inteiro;
+
+	procedimento calculasal;
+	var horastrab, valorhora, nrofaltas: inteiro;
+
+		funcao desconto: booleano;
+		var inss, ir: inteiro;
+
+		inicio
+			leia(inss);
+                                                escreva(inss); 
+			leia(ir);
+			se (inss+ir)>100
+                                                                entao 
+                                                                inicio
+                                                                     desconto := verdadeiro;
+                                                                     
+                                                                fim
+				senao desconto := falso;
+			totaldesc := inss+ir;
+                                                escreva(totaldesc);
+		fim;
+
+	inicio
+		leia(nrofaltas);
+		leia(horastrab);
+		leia(valorhora);
+
+		se desconto
+			entao escreva(valorhora) 
+			senao totaldesc := 0;
+		total := horastrab*valorhora-totaldesc;
+	fim;
+
+inicio
+calculasal;
+se total > 1500
+	entao escreva(total)
+	senao se total >totaldesc
+	entao
+	inicio
+		total := 1000;
+		escreva(total);
+	fim
+                senao escreva(total);
+fim.
+

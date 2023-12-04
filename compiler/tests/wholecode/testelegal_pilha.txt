@@ -1,0 +1,22 @@
+{imprime o valor fatorial do numero}
+programa fatorial;
+var x:inteiro;
+
+funcao fat:inteiro;
+var w:inteiro;
+inicio
+ se x = 1
+  entao fat:=1 
+  senao 
+    inicio
+       w := x;
+        x := x - 1;
+        fat:= w +1;
+     fim;
+fim;
+
+inicio
+ leia(x);
+ x:= fat;
+ escreva(x);
+fim. 

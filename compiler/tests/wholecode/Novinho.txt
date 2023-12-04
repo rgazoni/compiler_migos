@@ -1,0 +1,91 @@
+{ 2 digitos depois 0 pra +, 1 pra -, 2 pra * e 3 pra divi }
+
+programa tiziani;
+var a,b,c:inteiro;
+    d,f:booleano;
+
+{/////////////////////////////////////////////////////////////////////////////////////////////}
+procedimento analisa;
+
+
+funcao maior:booleano;
+inicio
+ se a > b
+ entao maior:= verdadeiro ou (falso e nao falso) ou (nao nao verdadeiro e nao falso)
+ senao maior:= falso e (nao verdadeiro ou falso e nao nao verdadeiro);
+fim;
+
+
+procedimento leitura;
+inicio
+ leia(a);
+ leia(b);
+fim;
+
+
+inicio
+ leitura;
+ se maior
+ entao escreva(a)
+ senao analisa
+fim;
+{///////////////////////////////////////////////////////////////////////////////////////////////}
+
+
+{///////////////////////////////////////////////////////////////////////////////////////////////}
+procedimento Operacoes;
+var o,contador:inteiro;
+
+funcao soma:inteiro;
+inicio
+ soma:= a+b;
+fim;
+
+funcao sub:inteiro;
+inicio
+ sub:= a-b;
+fim;
+
+funcao mult:inteiro;
+inicio
+ mult:= a*b;
+fim;
+
+funcao divi:inteiro;
+inicio
+ divi:= a div b;
+fim;
+
+inicio
+ leia(o);
+ contador:=0;
+ se o=0 
+ entao  o:=soma
+ senao
+ inicio
+    se o=1 
+    entao o:=sub
+    senao
+    inicio
+        se o=2
+        entao o:=mult
+        senao 
+        inicio
+           se o=3
+           entao o:=divi
+           senao 
+           inicio
+              Operacoes;
+              contador:= contador+1;
+           fim;
+        fim;
+    fim;
+ fim;
+ se contador=0 entao escreva(o);
+fim; 
+{///////////////////////////////////////////////////////////////////////////////////////////////}
+
+inicio
+ analisa;
+ Operacoes;
+fim.

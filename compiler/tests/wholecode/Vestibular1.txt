@@ -1,0 +1,43 @@
+{ imprime 2  4  6  8  }
+programa Vestibular1;
+
+var x:inteiro;
+
+procedimento teste1;
+var x,y:inteiro;
+inicio 
+ x:=1;
+ y:= x+x;
+ escreva(y);
+fim;
+
+procedimento teste2;
+var x,y:inteiro;
+inicio 
+ x:=2;
+ y:= x+x;
+ escreva(y);
+fim;
+
+procedimento teste3;
+var x,y:inteiro;
+inicio 
+ x:=3;
+ y:= x+x;
+ escreva(y);
+fim;
+
+procedimento teste4;
+var x,y:inteiro;
+inicio 
+ x:=4;
+ y:= x+x;
+ escreva(y);
+fim;
+
+inicio
+ teste1;
+ teste2;
+ teste3;
+ teste4;
+fim.

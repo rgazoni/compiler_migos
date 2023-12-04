@@ -1,0 +1,19 @@
+{imprime 15  11  15}
+programa teste;
+var x,a,b,c,z,j,m:inteiro;
+inicio
+ x:= 1;
+ a:= 2;
+ b:= 3;
+ c:= 7;
+ z:= 1;
+ j:= 0;
+ m:= 0;
+ j := x+a*c;
+ escreva(j);
+ m := b+c+z;
+ escreva(m);
+ se j > m
+ entao escreva(j)
+ senao escreva(m);
+fim.

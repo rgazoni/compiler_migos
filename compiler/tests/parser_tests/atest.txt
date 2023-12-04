@@ -1,0 +1,12 @@
+{Teste 1 - OK}
+programa test1;
+
+var a,b,c: inteiro;
+    d,f: booleano;
+
+inicio
+    a := 2;
+    b := 4+(-2); 
+fim.
+
+{fim}   

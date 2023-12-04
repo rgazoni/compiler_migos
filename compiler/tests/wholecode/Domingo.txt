@@ -1,0 +1,22 @@
+{numero 4 imprime 4 3 2 1}
+programa testefuncao;
+var a,x:inteiro;
+    b: booleano;
+
+funcao recursiva:inteiro;
+var ret: inteiro;
+inicio
+ se a > 0 entao 
+ inicio
+  escreva(a);
+  a:= a-1;
+  ret:= recursiva;
+ fim;
+ recursiva:= ret;
+fim;
+
+inicio
+ leia(a);
+ x:= recursiva;
+fim.
+
