@@ -8,8 +8,8 @@
 - parser.h<br>
 
 #### Checker
-- symbol_table.cpp<br>
-- symbol_table.h<br>
+- symbol_table.cpp: Contém as classes Symbol_table e Record que possuem métodos de inserção, remoção e busca de funções, procedimentos e variáveis  
+- symbol_table.h: Contém os atributos e protótipos dos métodos que serão usados pelas classes Symbol_table e Record
 
 #### Code Generator
 - address.cpp: variáveis globais que são usadas para alocar e desalocar espaço na memória<br>
