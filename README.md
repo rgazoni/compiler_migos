@@ -12,12 +12,12 @@
 - symbol_table.h<br>
 
 #### Code Generator
-- address.cpp<br>
-- address.h<br>
-- generate.cpp<br>
-- generate.h<br>
-- label.cpp<br>
-- label.h<br>
+- address.cpp: variáveis globais que são usadas para alocar e desalocar espaço na memória<br>
+- address.h: cabeçalho de address.cpp que permite as variáveis sejam usadas em outros arquivos<br>
+- generate.cpp: gera o código de máquina (assembly) e faz um pós processamento que muda os valores dos rótulos para as linhas atuais<br>
+- generate.h: cabeçalho de generate.cpp que permite as variáveis e funções sejam usadas em outros arquivos<br>
+- label.cpp: variável global que recebe os rótulos<br>
+- label.h: cabeçalho de label.cpp que permite as variáveis e funções sejam usadas em outros arquivos<br>
 
 #### Dev Environment
 - tests.cpp<br>
