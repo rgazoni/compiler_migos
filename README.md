@@ -3,21 +3,21 @@
 ## Compiler
 
 ### SRC
-main.cpp<br>
-parser.cpp<br>
-parser.h<br>
+- main.cpp<br>
+- parser.cpp<br>
+- parser.h<br>
 
 #### Checker
-symbol_table.cpp<br>
-symbol_table.h<br>
+- symbol_table.cpp<br>
+- symbol_table.h<br>
 
 #### Code Generator
-address.cpp<br>
-address.h<br>
-generate.cpp<br>
-generate.h<br>
-label.cpp<br>
-label.h<br>
+- address.cpp<br>
+- address.h<br>
+- generate.cpp<br>
+- generate.h<br>
+- label.cpp<br>
+- label.h<br>
 
 #### Dev Environment
 tests.cpp<br>
