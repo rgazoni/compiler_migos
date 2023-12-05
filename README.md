@@ -65,10 +65,10 @@ types_table.h<br>
 - write_analyzer.cpp: Algoritmo para análise do comando "escreva"<br>
 
 #### Token
-- Token.cpp<br>
-- Token.h<br>
-- symbols.cpp<br>
-- symbols.h<br>
+- Token.cpp: token que é montado pelo léxico<br>
+- Token.h: cabeçalho do Token.cpp<br>
+- symbols.cpp: todos os símbolos definidos para a linguagem<br>
+- symbols.h: cabeçalho de symbols.cpp<br>
 
 #### UI
 - application.cpp<br>
