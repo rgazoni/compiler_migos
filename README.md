@@ -20,12 +20,12 @@
 - label.h: cabeçalho de label.cpp que permite as variáveis e funções sejam usadas em outros arquivos<br>
 
 #### Dev Environment
-- tests.cpp<br>
-- tests.h<br>
+- tests.cpp: ambiente de testes controlados<br>
+- tests.h: cabeçalho do ambiente de testes<br>
 
 #### Error
-- Errors.cpp<br>
-- Errors.h<br>
+- Errors.cpp: todos os erros léxicos, sintáticos e semânticos<br>
+- Errors.h: cabeçalho de Erros.cpp<br>
 
 
 #### Expression Builder
