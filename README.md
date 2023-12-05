@@ -1,4 +1,4 @@
-# Tree project structure
+# Tree Project Structure
 
 ## Compiler
 
