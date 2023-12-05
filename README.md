@@ -71,28 +71,28 @@
 - symbols.h: cabeçalho de symbols.cpp<br>
 
 #### UI
-- application.cpp<br>
-- application.h<br>
-- fileexplorer.cpp<br>
-- fileexplorer.h<br>
-- mainwindow.cpp<br>
-- mainwindow.h<br>
+- application.cpp: interface do código que irá gerar o arquivo em assembly<br>
+- application.h: cabeçalho que possui a classe "aplicação", que irá lidar com a interface do gerador de código<br>
+- fileexplorer.cpp: busca em arquivos para que possamos abrir um arquivo desejado<br>
+- fileexplorer.h: cabeçalho que lida com sinais para que a busca de arquivos seja implementada<br>
+- mainwindow.cpp: interface que aparecerá para o usuário<br>
+- mainwindow.h: cabeçalho que permite o funcionamento da interface<br>
 
 
 ## Virtual Machine
-- CMakeLists.txt  -> <br>
+- CMakeLists.txt: make especial que permite o funcionamento do gtkmm<br>
 
 ### SRC
-- main.cpp<br>
+- main.cpp: chama a aplicação (nesse caso, será chamada a interface que rodará o código)<br>
 
 #### UI
-- application.cpp<br>
-- application.h<br>
-- fileexplorer.cpp<br>
-- fileexplorer.h<br>
-- mainwindow.cpp<br>
-- mainwindow.h<br>
+- application.cpp: interface do código que executará o assembly<br>
+- application.h: cabeçalho que possui a classe "aplicação", que irá lidar com a interface executor de código<br>
+- fileexplorer.cpp: busca em arquivos para que possamos abrir um arquivo desejado<br>
+- fileexplorer.h: cabeçalho que lida com sinais para que a busca de arquivos seja implementada<br>
+- mainwindow.cpp: interface que aparecerá para o usuário<br>
+- mainwindow.h: cabeçalho que permite o funcionamento da interface<br>
 
 #### Virtual Machine
-- DVM.cpp<br>
-- DVM.h<br>
+- DVM.cpp: código da maquina virtual didática que lerá e executará, instrução a instrução, o código assembly<br>
+- DVM.h: cabeçalho que possui declaração de funções usadas na VM<br>
