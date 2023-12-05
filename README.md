@@ -25,7 +25,7 @@
 
 #### Error
 - Errors.cpp: todos os erros léxicos, sintáticos e semânticos<br>
-- Errors.h: cabeçalho de Erros.cpp<br>
+- Errors.h: cabeçalho de Errors.cpp<br>
 
 
 #### Expression Builder
