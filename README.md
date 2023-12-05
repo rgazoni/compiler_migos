@@ -67,32 +67,32 @@ lexical_analyzer.h<br>
 #### Token
 - Token.cpp<br>
 - Token.h<br>
-symbols.cpp<br>
-symbols.h<br>
+- symbols.cpp<br>
+- symbols.h<br>
 
 #### UI
-application.cpp<br>
-application.h<br>
-fileexplorer.cpp<br>
-fileexplorer.h<br>
-mainwindow.cpp<br>
-mainwindow.h<br>
+- application.cpp<br>
+- application.h<br>
+- fileexplorer.cpp<br>
+- fileexplorer.h<br>
+- mainwindow.cpp<br>
+- mainwindow.h<br>
 
 
 ## Virtual Machine
-CMakeLists.txt  -> <br>
+- CMakeLists.txt  -> <br>
 
 ### SRC
-main.cpp<br>
+- main.cpp<br>
 
 #### UI
-application.cpp<br>
-application.h<br>
-fileexplorer.cpp<br>
-fileexplorer.h<br>
-mainwindow.cpp<br>
-mainwindow.h<br>
+- application.cpp<br>
+- application.h<br>
+- fileexplorer.cpp<br>
+- fileexplorer.h<br>
+- mainwindow.cpp<br>
+- mainwindow.h<br>
 
 #### Virtual Machine
-DVM.cpp<br>
-DVM.h<br>
+- DVM.cpp<br>
+- DVM.h<br>
