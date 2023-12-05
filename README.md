@@ -41,28 +41,28 @@ lexical_analyzer.cpp<br>
 lexical_analyzer.h<br>
 
 #### Parser Components  (Contém o Sintático)
-- assignment_analyzer.cpp<br>
-- atrib_call_procedure.cpp<br>
-- command_analyzer.cpp<br>
-- conditional_analyzer.cpp<br>
-- et_variable_analyzer.cpp<br>
-- expression_analyzer.cpp<br>
-- factor_analyzer.cpp<br>
-- function_caller_analyzer.cpp<br>
-- function_declaration_analyzer.cpp<br>
-- parser_components.h<br>
-- procedure_caller_analyzer.cpp<br>
-- procedure_declaration_analyser.cpp<br>
-- read_analyzer.cpp<br>
-- simple_command_analyzer.cpp<br>
-- simple_expression_analyzer.cpp<br>
-- snippet_analyzer.cpp<br>
-- subroutine_analyzer.cpp<br>
-- term_analyzer.cpp<br>
-- type_analyzer.cpp<br>
-- variables_analyzer.cpp<br>
-- while_analyzer.cpp<br>
-- write_analyzer.cpp<br>
+- assignment_analyzer.cpp: Contém o algoritmo para análise de atribuição<br> 
+- atrib_call_procedure.cpp: Analise de chamada de procedimento<br>
+- command_analyzer.cpp: Analisa comando utilizado<br>
+- conditional_analyzer.cpp: Analise de comandos condicionais (Se, enquanto)<br>
+- et_variable_analyzer.cpp: Analisa a parte de declaração de variavéis do programa<br>
+- expression_analyzer.cpp: Analise de expressões em certos comandos<br>
+- factor_analyzer.cpp: Analisa fator (Função, Procedimento, Variavél)<br>
+- function_caller_analyzer.cpp: Analise de chamada de função<br>
+- function_declaration_analyzer: Analise de declaração de funçãocpp<br>
+- parser_components.h: Header file para reutilização de elementos do código pelo parser_components.cpp<br>
+- procedure_caller_analyzer.cpp: Analise de chamada de procedimento<br>
+- procedure_declaration_analyser.cpp: Analise de declaração de procedimento<br>
+- read_analyzer.cpp: Analise do comando "leia"<br>
+- simple_command_analyzer.cpp: Analise de comandos simples ("se","enquanto")<br>
+- simple_expression_analyzer.cpp: Analise de expressões simples<br>
+- snippet_analyzer.cpp: Algoritmo para análise de bloco de código<br>
+- subroutine_analyzer.cpp: Analise de subrotinas do programa<br>
+- term_analyzer.cpp: Analise de termo<br>
+- type_analyzer.cpp: Analise de tipo (Inteiro ou Booleano)<br>
+- variables_analyzer.cpp: Análise de variavéis do programa<br>
+- while_analyzer.cpp: Algoritmo para análise do comando "quanto"<br>
+- write_analyzer.cpp: Algoritmo para análise do comando "escreva"<br>
 
 #### Token
 - Token.cpp<br>
