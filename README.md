@@ -37,8 +37,8 @@ semantic_analyzer.h: cabeçalho do expression_builder.cpp que permite a análise
 types_table.h<br>
 
 #### Lexical
-- lexical_analyzer.cpp<br>
-- lexical_analyzer.h<br>
+- lexical_analyzer.cpp: Contém análise léxica so programa (Identificação de comentários, pontuação, sinais lógicos e aritméticos...)<br>
+- lexical_analyzer.h: Header file (cabeçalho) para reutilização de variavéis, funções... em outros arquivos.<br>
 
 #### Parser Components  (Contém o Sintático)
 - assignment_analyzer.cpp: Contém o algoritmo para análise de atribuição<br> 
