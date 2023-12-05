@@ -3,9 +3,9 @@
 ## Compiler
 
 ### SRC
-- main.cpp<br>
-- parser.cpp<br>
-- parser.h<br>
+- main.cpp: chama a interface<br>
+- parser.cpp: realiza a análise sintática e gera o código (todas as funções de parser_components são usadas aqui)<br>
+- parser.h: cabeçalho do parser.cpp<br>
 
 #### Checker
 - symbol_table.cpp: Contém as classes Symbol_table e Record que possuem métodos de inserção, remoção e busca de funções, procedimentos e variáveis  
