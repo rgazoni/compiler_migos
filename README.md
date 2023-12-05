@@ -29,11 +29,11 @@
 
 
 #### Expression Builder
-Expr_token.h<br>
-expression_builder.cpp<br>
-expression_builder.h<br>
-semantic_analyzer.cpp<br>
-semantic_analyzer.h<br>
+Expr_token.h: cabeçalho de Expr_token.cpp que permite o uso do token criado (campos: lexema, endereço e símbolo)<br>
+expression_builder.cpp: realiza a conversão de infixa para pós-fixa<br>
+expression_builder.h: cabeçalho do expression_builder.cpp que permite montar e converter expressão em outros arquivos<br>
+semantic_analyzer.cpp: realiza a análise semântica da expressão convertida<br>
+semantic_analyzer.h: cabeçalho do expression_builder.cpp que permite a análise semantica<br>
 types_table.h<br>
 
 #### Lexical
