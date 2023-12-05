@@ -1,85 +1,98 @@
 # Tree project structure
 
-compiler_migos
-├── compiler
-│   └── src
-│       ├── checker
-│       │   ├── symbol_table.cpp
-│       │   └── symbol_table.h
-│       ├── code_generator
-│       │   ├── address.cpp
-│       │   ├── address.h
-│       │   ├── generate.cpp
-│       │   ├── generate.h
-│       │   ├── label.cpp
-│       │   └── label.h
-│       ├── dev_env
-│       │   ├── tests.cpp
-│       │   └── tests.h
-│       ├── error
-│       │   ├── Errors.cpp
-│       │   └── Errors.h
-│       ├── expression_builder
-│       │   ├── Expr_token.h
-│       │   ├── expression_builder.cpp
-│       │   ├── expression_builder.h
-│       │   ├── semantic_analyzer.cpp
-│       │   ├── semantic_analyzer.h
-│       │   └── types_table.h
-│       ├── lexical
-│       │   ├── lexical_analyzer.cpp
-│       │   └── lexical_analyzer.h
-│       ├── main.cpp
-│       ├── parser.cpp
-│       ├── parser.h
-│       ├── parser_components
-│       │   ├── assignment_analyzer.cpp
-│       │   ├── atrib_call_procedure.cpp
-│       │   ├── command_analyzer.cpp
-│       │   ├── conditional_analyzer.cpp
-│       │   ├── et_variable_analyzer.cpp
-│       │   ├── expression_analyzer.cpp
-│       │   ├── factor_analyzer.cpp
-│       │   ├── function_caller_analyzer.cpp
-│       │   ├── function_declaration_analyzer.cpp
-│       │   ├── parser_components.h
-│       │   ├── procedure_caller_analyzer.cpp
-│       │   ├── procedure_declaration_analyser.cpp
-│       │   ├── read_analyzer.cpp
-│       │   ├── simple_command_analyzer.cpp
-│       │   ├── simple_expression_analyzer.cpp
-│       │   ├── snippet_analyzer.cpp
-│       │   ├── subroutine_analyzer.cpp
-│       │   ├── term_analyzer.cpp
-│       │   ├── type_analyzer.cpp
-│       │   ├── variables_analyzer.cpp
-│       │   ├── while_analyzer.cpp
-│       │   └── write_analyzer.cpp
-│       ├── token
-│       │   ├── Token.cpp
-│       │   ├── Token.h
-│       │   ├── symbols.cpp
-│       │   └── symbols.h
-│       └── ui
-│           ├── application.cpp
-│           ├── application.h
-│           ├── fileexplorer.cpp
-│           ├── fileexplorer.h
-│           ├── mainwindow.cpp
-│           └── mainwindow.h
-└── virtual_machine
-    ├── CMakeLists.txt
-    ├── src
-    │   ├── main.cpp
-    │   ├── ui
-    │   │   ├── application.cpp
-    │   │   ├── application.h
-    │   │   ├── fileexplorer.cpp
-    │   │   ├── fileexplorer.h
-    │   │   ├── mainwindow.cpp
-    │   │   └── mainwindow.h
-    │   └── virtual_machine
-    │       ├── DVM.cpp
-    │       └── DVM.h
-    └── target
-        └── VM
+## Compiler
+
+### SRC
+main.cpp<br>
+parser.cpp<br>
+parser.h<br>
+
+#### Checker
+symbol_table.cpp<br>
+symbol_table.h<br>
+
+#### Code Generator
+address.cpp<br>
+address.h<br>
+generate.cpp<br>
+generate.h<br>
+label.cpp<br>
+label.h<br>
+
+#### Dev Environment
+tests.cpp<br>
+tests.h<br>
+
+#### Error
+Errors.cpp<br>
+Errors.h<br>
+
+
+#### Expression Builder
+Expr_token.h<br>
+expression_builder.cpp<br>
+expression_builder.h<br>
+semantic_analyzer.cpp<br>
+semantic_analyzer.h<br>
+types_table.h<br>
+
+#### Lexical
+lexical_analyzer.cpp<br>
+lexical_analyzer.h<br>
+
+#### Parser Components
+assignment_analyzer.cpp<br>
+atrib_call_procedure.cpp<br>
+command_analyzer.cpp<br>
+conditional_analyzer.cpp<br>
+et_variable_analyzer.cpp<br>
+expression_analyzer.cpp<br>
+factor_analyzer.cpp<br>
+function_caller_analyzer.cpp<br>
+function_declaration_analyzer.cpp<br>
+parser_components.h<br>
+procedure_caller_analyzer.cpp<br>
+procedure_declaration_analyser.cpp<br>
+read_analyzer.cpp<br>
+simple_command_analyzer.cpp<br>
+simple_expression_analyzer.cpp<br>
+snippet_analyzer.cpp<br>
+subroutine_analyzer.cpp<br>
+term_analyzer.cpp<br>
+type_analyzer.cpp<br>
+variables_analyzer.cpp<br>
+while_analyzer.cpp<br>
+write_analyzer.cpp<br>
+
+#### Token
+Token.cpp<br>
+Token.h<br>
+symbols.cpp<br>
+symbols.h<br>
+
+#### UI
+application.cpp<br>
+application.h<br>
+fileexplorer.cpp<br>
+fileexplorer.h<br>
+mainwindow.cpp<br>
+mainwindow.h<br>
+
+
+## Virtual Machine
+CMakeLists.txt  -> <br>
+
+### SRC
+main.cpp<br>
+
+#### UI
+application.cpp<br>
+application.h<br>
+fileexplorer.cpp<br>
+fileexplorer.h<br>
+mainwindow.cpp<br>
+mainwindow.h<br>
+
+#### Virtual Machine
+DVM.cpp<br>
+DVM.h<br>
